@@ -42,6 +42,7 @@ Este arquivo é a entrada oficial para decisões de produto, design e engenharia
 ## Templates
 
 - [Template de ADR](./adr/0000-template.md)
+- [Template de inventário de fonte](./templates/inventario-fonte-template.md)
 - [Template de especificação de regra](./templates/regra-executavel-template.md)
 
 ## Artefatos planejados
