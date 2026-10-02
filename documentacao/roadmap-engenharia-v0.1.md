@@ -1,6 +1,6 @@
 # Roadmap de Engenharia v0.1
 
-**Status:** plano de execução atual  
+**Status:** aprovado<br>
 **Data:** 1º de outubro de 2026  
 **Horizonte:** descoberta de regras até primeiro corte executável
 
@@ -115,17 +115,16 @@ Construir um corpus mínimo e rastreável para modelar a primeira mecânica exec
 - sucessos e falhas;
 - críticos;
 - Crítico Sangrento;
-- Falha Bestial;
-- reroll com Força de Vontade.
+- Falha Bestial.
 
 ### Entregas
 
 - inventário de fontes;
 - glossário inicial;
 - regras estruturadas pelo template;
-- matriz regra → fonte → exemplo → teste;
+- catálogo regra → fonte → cenário → teste;
 - dúvidas e conflitos registrados;
-- decisão jurídica sobre o que pode entrar no Git.
+- classificação de direitos e uso sobre o que pode entrar no Git.
 
 ### Critério de saída
 
@@ -133,6 +132,10 @@ Construir um corpus mínimo e rastreável para modelar a primeira mecânica exec
 - exceções conhecidas estão registradas;
 - exemplos podem virar testes determinísticos;
 - nenhuma regra depende apenas de interpretação informal.
+
+### Estado
+
+**Fase iniciada; extração aguardando corpus autorizado.** A área de trabalho, o inventário, o glossário, o catálogo e o checklist foram criados. O Gate A aguarda a inclusão local e o inventário das fontes em `fontes-privadas/`.
 
 ---
 
@@ -157,10 +160,10 @@ Media
 ### Decisões prioritárias
 
 - Character canônico versus estado por Crônica;
-- Membership e papéis;
+- Participação do Usuário, papéis e Vínculo de Personagem;
 - propriedade e edição de ficha;
-- sessão, cena e log;
-- Roll como evento imutável;
+- sessão, cena, Resultado de Rolagem, Evento de Sessão, Feed da Mesa e Trilha de Auditoria;
+- identidade e imutabilidade de cada tentativa de rolagem e sua representação como Evento de Sessão;
 - edição e versionamento de regra;
 - proveniência de conteúdo.
 
@@ -198,7 +201,8 @@ Media
 - cada operação do corte vertical possui ator autorizado;
 - dados proibidos são filtrados antes da recuperação;
 - entradas e saídas do Rules Engine estão definidas;
-- reroll, idempotência e auditoria possuem comportamento conhecido.
+- idempotência e auditoria do primeiro corte possuem comportamento conhecido;
+- reroll está explicitamente adiado e não bloqueia a primeira fatia.
 
 ---
 
@@ -227,7 +231,7 @@ Media
 6. estratégia de realtime;
 7. separação entre conteúdo e regra;
 8. versionamento por edição;
-9. log de atividade;
+9. persistência de Eventos de Sessão e entrega no Feed da Mesa;
 10. armazenamento de assets.
 
 ### Critério de saída
@@ -282,19 +286,21 @@ Autenticar
 → Abrir ficha
 → Montar rolagem
 → Resolver regra
-→ Registrar resultado no log da Mesa
+→ Persistir o evento de rolagem
+→ Exibir o resultado no Feed da Mesa
 ```
 
 ### Entregas funcionais
 
 - autenticação mínima;
 - personagem de teste;
-- Crônica e Membership de teste;
+- Crônica, Participação do Usuário e Vínculo de Personagem de teste;
 - ficha mínima;
 - Roll Builder;
 - Fome;
 - Rules Engine determinístico;
-- log persistido;
+- Evento de Sessão persistido;
+- resultado projetado no Feed da Mesa;
 - visualização por Jogador e Narrador;
 - tratamento de erro e reconexão essencial.
 
@@ -313,7 +319,7 @@ Autenticar
 - fluxo completo executável;
 - resultados reproduzíveis;
 - autorização validada no backend;
-- log não duplica submissões;
+- submissões repetidas não duplicam Eventos de Sessão;
 - falhas críticas são observáveis;
 - documentação corresponde ao comportamento.
 
@@ -332,13 +338,14 @@ Autenticar
 
 ### Próximos cortes candidatos
 
-1. criação guiada;
-2. Scene Beats e mudança de cena;
-3. NPCs On Deck;
-4. Biblioteca contextual;
-5. Cidade e locais;
-6. Coterie e relações;
-7. SIRE.
+1. reroll com Força de Vontade;
+2. criação guiada;
+3. Scene Beats e mudança de cena;
+4. NPCs On Deck;
+5. Biblioteca contextual;
+6. Cidade e locais;
+7. Coterie e relações;
+8. SIRE.
 
 ---
 
@@ -373,7 +380,7 @@ Não usar versão `1.0.0` antes de existir produto jogável e política de compa
 | Regras interpretadas incorretamente | alto | proveniência, exemplos e revisão |
 | Vazamento de segredos da Crônica | alto | autorização antes da recuperação |
 | Conteúdo sem licença | alto | corpus privado fora do Git e revisão jurídica |
-| UI bonita sem fluxo sustentável | médio/alto | IA antes de novas telas finais |
+| UI bonita sem fluxo sustentável | médio/alto | arquitetura da informação antes de novas telas finais |
 | Acoplamento de regra à UI | alto | domínio e Rules Engine independentes |
 | Realtime complexo prematuramente | médio | validar necessidade no primeiro corte |
 | Microsserviços prematuros | médio/alto | monólito modular inicial |

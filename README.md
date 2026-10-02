@@ -12,8 +12,8 @@ Ainda não existe uma aplicação implementada. As decisões de produto, experi�
 
 - personagem como centro da experiência do jogador;
 - papel de Jogador ou Narrador associado à Crônica, não à conta;
-- progressive disclosure;
-- zero duplicate work;
+- mostrar complexidade somente quando ela for necessária;
+- evitar trabalho duplicado e múltiplas fontes de verdade;
 - Mesa persistente e centrada na cena;
 - separação entre Biblioteca, Rules Engine e SIRE;
 - IA opcional e sem responsabilidade por proteger segredos;
@@ -40,7 +40,8 @@ Autenticar
 → Abrir ficha
 → Montar rolagem
 → Resolver regra
-→ Registrar resultado no log da Mesa
+→ Persistir o evento de rolagem
+→ Exibir o resultado no Feed da Mesa
 ```
 
 Após essa descoberta serão produzidos:
@@ -62,7 +63,7 @@ O repositório registra:
 - proveniência;
 - análises;
 - modelos;
-- regras estruturadas quando juridicamente permitido;
+- regras estruturadas quando a classificação de direitos e uso permitir;
 - links para fontes públicas.
 
 O conteúdo original privado deve permanecer fora do versionamento até a definição da política de licenciamento.

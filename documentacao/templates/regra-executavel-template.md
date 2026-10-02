@@ -1,14 +1,19 @@
-# RULE-0000 — Nome da regra
+# RULE-AREA-000 — Nome da regra
 
-**Estado:** identificada  
+Substituir `AREA` por um código curto e estável da capacidade, como `ROLL`, `HUNGER` ou `WILL`.
+
+**Maturidade:** candidata<br>
+**Implementação:** não iniciada<br>
 **Edição:** V5  
-**Categoria:** teste | Fome | crítico | reroll | dano | outra  
+**RuleSetId:**<br>
+**Categoria:** parada | Fome | dificuldade | resultado | crítico | reroll | dano | composição | outra<br>
 **Responsável pela revisão:**
 
 ## 1. Proveniência
 
 | Campo | Valor |
 |---|---|
+| ID da fonte (`source_id`) | SRC-0000 |
 | Obra | |
 | Versão ou impressão | |
 | Idioma | |
@@ -74,35 +79,44 @@ entrada
 - interação com outra regra;
 - precedência entre fontes.
 
-## 9. Exemplos
+## 9. Cenários determinísticos
 
-### Caminho normal
+Cada cenário fornece as faces ao avaliador. A geração aleatória não faz parte da verificação da regra.
 
-**Dado:** contexto  
-**Quando:** ação  
-**Então:** resultado
+### RULE-AREA-000-T01 — Caminho normal
 
-### Limite inferior
+| Campo | Valor |
+|---|---|
+| Estado anterior | |
+| RuleSetId | |
+| Dados normais | quantidade |
+| Dados de Fome | quantidade |
+| Faces fornecidas | separar normais e Fome |
+| Dificuldade | |
+| Ação avaliada | |
+| Resultado mecânico esperado | |
+| Custo aplicado | nenhum ou valor explícito |
+| Próximas ações permitidas | |
+| Decisão reservada ao Narrador | nenhuma ou decisão explícita |
 
-**Dado:** contexto  
-**Quando:** ação  
-**Então:** resultado
+Cobertura mínima:
 
-### Exceção
-
-**Dado:** contexto  
-**Quando:** ação  
-**Então:** resultado
+- caminho normal;
+- limite inferior ou superior relevante;
+- entrada inválida ou comportamento não permitido;
+- interação crítica com outra regra, quando aplicável.
 
 ## 10. Casos de teste candidatos
 
-| ID | Cenário | Entrada | Resultado esperado |
-|---|---|---|---|
-| RULE-0000-T01 | caminho normal | | |
+| ID do cenário | Teste futuro | Estado |
+|---|---|---|
+| RULE-AREA-000-T01 | nome do teste automatizado | conceitual |
 
 ## 11. Dúvidas
 
 - dúvida a confirmar na fonte ou errata.
+
+Se a dúvida puder alterar comportamento, teste ou escopo, registrar um `AMB-*` no [Registro de Ambiguidades](../descoberta-regras/registro-ambiguidades-v0.1.md) e referenciar o ID aqui.
 
 ## 12. Dependências
 

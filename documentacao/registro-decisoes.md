@@ -1,5 +1,8 @@
 # Registro de Decisões
 
+**Status:** consolidado<br>
+**Data de revisão:** 2 de outubro de 2026
+
 Índice resumido das decisões vigentes e propostas. ADRs futuros fornecerão contexto, alternativas e consequências para decisões arquiteturais de alto impacto.
 
 ## Estados
@@ -23,11 +26,17 @@
 | DEC-009 | A primeira versão não será um VTT tático. | Aceita | Product Foundation v0.2 |
 | DEC-010 | Cada tela possui uma voz dominante. | Aceita | Art System v0.2 |
 | DEC-011 | A direção “Boa noite, Marcus” está aprovada como calibração. | Aceita | Visual Calibration v0.1 |
-| DEC-012 | O primeiro corte vertical termina em uma rolagem registrada no log. | Proposta | Product Architecture v0.1 |
+| DEC-012 | O primeiro corte vertical persiste um Evento de Sessão e projeta o resultado autorizado no Feed da Mesa. | Aceita | Product Architecture v0.1 |
 | DEC-013 | A arquitetura inicial será avaliada como monólito modular. | Proposta | Product Architecture v0.1 |
 | DEC-014 | O Domain Model será precedido por descoberta mínima das regras. | Aceita | Rules Discovery Plan v0.1 |
 | DEC-015 | Livros e fontes privadas ficam fora do Git por padrão. | Aceita | Rules Discovery Plan v0.1 |
 | DEC-016 | Toda regra executável terá edição e proveniência. | Aceita | Product Foundation v0.2 |
+| DEC-017 | Clareza para humanos prevalece sobre esperteza técnica. | Aceita | Padrões de Qualidade de Engenharia v0.1 |
+| DEC-018 | Nenhuma regra candidata será implementada antes de fonte, revisão e casos rastreáveis. | Aceita | Área de Trabalho de Rules Discovery v0.1 |
+| DEC-019 | Participação do Usuário e Vínculo de Personagem são relações distintas. | Aceita | Product Architecture v0.1 |
+| DEC-020 | Resultado de Rolagem, Evento de Sessão, Feed da Mesa e Trilha de Auditoria são conceitos distintos. | Aceita | Product Architecture v0.1 |
+| DEC-021 | Cada tentativa de rolagem confirmada é imutável e persistida antes da apresentação; reroll futuro cria uma tentativa vinculada. | Aceita | Product Architecture v0.1 |
+| DEC-022 | Chat é a capacidade de entrada de mensagens; Feed da Mesa é a linha do tempo unificada autorizada. | Aceita | Product Architecture v0.1 |
 
 ## Pendências que exigirão ADR
 

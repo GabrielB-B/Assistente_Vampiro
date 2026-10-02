@@ -28,6 +28,13 @@ livros/
 fontes-privadas/
 documentacao/fontes-originais/
 documentacao/corpus-privado/
+*.pdf
+*.epub
+*.mobi
+*.azw
+*.azw3
+*.cbz
+*.cbr
 
 # Assets externos usados apenas para estudo local
 documentacao/referencias-visuais/externas/

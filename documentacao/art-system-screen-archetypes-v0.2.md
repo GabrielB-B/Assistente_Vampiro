@@ -2,7 +2,8 @@
 
 ## Sistema de Direção de Arte Aplicada à Interface
 
-**Status:** proposta revisada para validação  
+**Status:** proposta<br>
+**Estado:** revisado para validação<br>
 **Fase:** Direção de Arte → Sistema Visual → Arquitetura de Interface  
 **Substitui, após aprovação:** Art System & Screen Archetypes v0.1
 
@@ -797,7 +798,7 @@ Ficha
 Cidade / Crônica
 ```
 
-A arquitetura final dependerá posteriormente da IA e dos fluxos.
+A arquitetura final dependerá posteriormente da arquitetura da informação e dos fluxos.
 
 ### Arte
 
@@ -999,8 +1000,8 @@ Conduzir a sessão.
 
 ### Camadas secundárias
 
-- chat;
-- roll log;
+- Chat como entrada de mensagens;
+- Feed da Mesa como linha do tempo unificada;
 - personagem;
 - NPC;
 - regras;

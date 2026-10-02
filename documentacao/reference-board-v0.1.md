@@ -2,7 +2,7 @@
 
 ## Referências humanas, editoriais e de produto
 
-**Status:** consolidado para orientar explorações visuais  
+**Status:** consolidado<br>
 **Data:** 30 de setembro de 2026  
 **Fase:** Direção de Arte → Calibração Visual  
 **Uso:** referência de decisões, não biblioteca de assets

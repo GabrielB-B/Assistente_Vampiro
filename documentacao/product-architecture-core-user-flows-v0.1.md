@@ -1,9 +1,10 @@
 # Product Architecture & Core User Flows v0.1
 
-**Status:** proposta estrutural para validação  
+**Status:** aprovado<br>
+**Uso:** base da arquitetura do produto<br>
 **Data:** 1º de outubro de 2026  
 **Fase:** Arquitetura de Produto e Fluxos Principais  
-**Próximo documento:** Domain Model v0.1
+**Próxima fase:** Rules & Content Discovery v0.1
 
 **Documentos-base:**
 
@@ -82,7 +83,8 @@ Sessão / Mesa, quando ativa
 | Usuário | Pessoa autenticada na plataforma. |
 | Personagem | Identidade jogável pertencente ao usuário e independente de Crônica. |
 | Crônica | Contexto compartilhado de campanha. |
-| Participação | Relação entre usuário/personagem e Crônica, contendo papel e permissões. |
+| Participação na Crônica | Relação entre Usuário e Crônica, contendo papel e permissões. |
+| Vínculo de Personagem | Relação que representa a presença de um Personagem em uma Crônica. |
 | Jogador | Papel exercido dentro de uma Crônica. |
 | Narrador | Papel exercido dentro de uma Crônica. |
 | Coterie | Grupo ficcional e mecânico de personagens dentro de uma Crônica. |
@@ -91,10 +93,19 @@ Sessão / Mesa, quando ativa
 | Biblioteca | Conteúdo editorial que explica regras e lore. |
 | Rules Engine | Sistema determinístico que executa e valida mecânicas. |
 | SIRE | Intérprete opcional de conteúdo e contexto autorizado. |
+| Resultado de Rolagem | Saída mecânica produzida pelo Rules Engine. |
+| Evento de Sessão | Ocorrência persistida de uma ação confirmada durante a sessão. |
+| Chat | Capacidade de enviar mensagens autorizadas durante a sessão. |
+| Feed da Mesa | Linha do tempo que projeta aos participantes mensagens, resultados e materiais autorizados. |
+| Trilha de Auditoria | Registro operacional ou de segurança, separado da experiência narrativa. |
 
 ### Regra terminológica
 
-`Jogador` e `Narrador` não são tipos permanentes de conta. São papéis associados a uma Participação em determinada Crônica.
+`Jogador` e `Narrador` não são tipos permanentes de conta. São papéis associados à Participação do Usuário em determinada Crônica.
+
+A presença de um Personagem nessa Crônica é representada separadamente por um Vínculo de Personagem. O Domain Model deverá definir quais dados permanecem no Personagem canônico e quais pertencem exclusivamente ao vínculo.
+
+O Chat é uma capacidade de entrada. O Feed da Mesa é a projeção unificada na qual mensagens e outros eventos autorizados são apresentados.
 
 ---
 
@@ -201,7 +212,7 @@ Escopo:
 Escopo:
 
 - cena atual;
-- chat e log;
+- chat e Feed da Mesa;
 - rolagens;
 - personagem em jogo;
 - NPCs em uso;
@@ -419,12 +430,14 @@ Ausência de Crônica é um estado válido, não um erro ou onboarding incomplet
 ```mermaid
 flowchart TD
     ENTRY[Boa noite] --> CHOOSE[Escolher Crônica]
-    CHOOSE --> MEMBERSHIPS[Listar participações e convites]
-    MEMBERSHIPS --> SELECT_CHRONICLE[Selecionar Crônica]
-    SELECT_CHRONICLE --> SELECT_ROLE{Participação válida?}
+    CHOOSE --> PARTICIPATIONS[Listar participações e convites]
+    PARTICIPATIONS --> SELECT_CHRONICLE[Selecionar Crônica]
+    SELECT_CHRONICLE --> SELECT_ROLE{Participação do usuário válida?}
     SELECT_ROLE -- Não --> ERROR[Explicar bloqueio ou convite]
-    SELECT_ROLE -- Sim --> BIND{Personagem já vinculado?}
-    BIND -- Não --> REQUEST_BIND[Vincular personagem]
+    SELECT_ROLE -- Sim --> BIND_AUTH{Participação autoriza o vínculo?}
+    BIND_AUTH -- Não --> ERROR
+    BIND_AUTH -- Sim --> BIND{Vínculo de Personagem já existe?}
+    BIND -- Não --> REQUEST_BIND[Criar Vínculo de Personagem]
     REQUEST_BIND --> VALIDATE[Validar regras da Crônica]
     VALIDATE --> CHRONICLE_ENTRY[Entrada da Crônica]
     BIND -- Sim --> CHRONICLE_ENTRY
@@ -455,18 +468,20 @@ flowchart LR
     ACTION -->|Consultar ficha| QUICK[Quick Sheet]
     ACTION -->|Consultar regra| RULE[Regra em camada]
     ACTION -->|Ver handout| HANDOUT[Handout]
-    ROLL --> LOG[Resultado no log]
+    ROLL --> RESULT[Resultado de Rolagem]
+    RESULT --> EVENT[Persistir Evento de Sessão]
+    EVENT --> FEED[Projetar no Feed da Mesa]
     QUICK --> SCENE
     RULE --> SCENE
     HANDOUT --> SCENE
-    LOG --> SCENE
+    FEED --> SCENE
 ```
 
 ### Elementos persistentes
 
 - cena atual;
 - identificação do personagem;
-- acesso ao chat/log;
+- acesso ao chat e ao Feed da Mesa;
 - entrada para rolagem;
 - indicação de estado de conexão.
 
@@ -484,7 +499,7 @@ flowchart LR
 - reconexão não pode duplicar rolagens;
 - ações pendentes devem indicar seu estado;
 - usuário reconectado deve retornar à cena atual;
-- log é a referência para eventos confirmados.
+- o Evento de Sessão persistido é a referência para ações confirmadas.
 
 ---
 
@@ -568,29 +583,36 @@ Permite:
 
 ```mermaid
 flowchart TD
-    START[Iniciar rolagem] --> SOURCE{Origem}
-    SOURCE -->|Traço| TRAIT[Selecionar segundo traço]
-    SOURCE -->|Ação rápida| TEMPLATE[Carregar configuração]
-    SOURCE -->|Teste especial| SPECIAL[Carregar regra específica]
+    START[Iniciar rolagem] --> ORIGIN{Origem}
+    ORIGIN -->|Traço| TRAIT[Selecionar segundo traço]
+    ORIGIN -->|Ação rápida| TEMPLATE[Carregar configuração]
+    ORIGIN -->|Teste especial| SPECIAL[Carregar regra específica]
     TRAIT --> MOD[Aplicar especialidade e modificadores]
     TEMPLATE --> MOD
     SPECIAL --> MOD
     MOD --> PREVIEW[Exibir pool final e Fome]
     PREVIEW --> CONFIRM[Confirmar rolagem]
     CONFIRM --> ENGINE[Rules Engine resolve]
-    ENGINE --> RESULT[Exibir resultado interpretado]
+    ENGINE --> EVENT[Persistir tentativa imutável]
+    EVENT --> RESULT[Exibir resultado interpretado]
     RESULT --> REROLL{Reroll permitido?}
     REROLL -- Sim --> CONFIRM_REROLL[Confirmar uso de Força de Vontade]
-    CONFIRM_REROLL --> ENGINE
-    REROLL -- Não --> LOG[Registrar no log]
+    CONFIRM_REROLL --> LINK[Referenciar tentativa anterior]
+    LINK --> ENGINE
+    REROLL -- Não --> FEED[Projetar resultado autorizado no Feed da Mesa]
 ```
+
+Cada tentativa confirmada deve ser persistida antes de ser apresentada. Um reroll futuro cria outra tentativa, referencia a anterior e nunca apaga ou sobrescreve o histórico.
+
+O ramo de reroll é apenas uma hipótese para um incremento posterior. Elegibilidade, custo, dados permitidos, limite de repetições e condição de encerramento dependem da fonte normativa e não estão aprovados para implementação.
 
 ### Regra de responsabilidade
 
 - interface coleta intenção;
 - Rules Engine resolve a mecânica;
 - animação representa o resultado;
-- log registra o evento confirmado.
+- Evento de Sessão registra cada tentativa confirmada antes de sua apresentação;
+- Feed da Mesa apresenta a projeção autorizada aos participantes.
 
 ---
 
@@ -762,7 +784,9 @@ Montar rolagem
   ↓
 Resolver regra
   ↓
-Publicar resultado no log da Mesa
+Persistir evento de rolagem
+  ↓
+Exibir resultado no Feed da Mesa
 ```
 
 ### Incluído
@@ -773,15 +797,17 @@ Publicar resultado no log da Mesa
 - Atributos e Habilidades necessários ao teste;
 - Fome;
 - Roll Builder;
-- resolução de sucessos;
+- resolução completa do teste básico, incluindo as classificações de resultado confirmadas pelo corpus;
 - resultado textual;
-- log persistido;
+- tentativa de rolagem imutável persistida antes da apresentação;
+- resultado exibido no Feed da Mesa;
 - uma Crônica e uma sessão de teste;
 - permissões mínimas entre Jogador e Narrador.
 
 ### Excluído deste corte
 
 - criação completa de personagem;
+- reroll com Força de Vontade;
 - dados 3D finais;
 - mapa;
 - relações;
@@ -798,9 +824,9 @@ Publicar resultado no log da Mesa
 Ele valida cedo:
 
 - autenticação e autorização;
-- relação User–Character–Chronicle;
+- Participação do Usuário e Vínculo de Personagem na Crônica;
 - Rules Engine;
-- realtime ou atualização de log;
+- realtime ou atualização do Feed da Mesa;
 - persistência;
 - retorno contextual;
 - fronteira entre interface e regra.
@@ -933,13 +959,15 @@ Mudanças de schema e conteúdo precisam ser versionadas. Alterações relevante
 1. Seleção de personagem sucede autenticação.
 2. Personagem pode existir sem Crônica.
 3. “Boa noite” é a entrada do contexto do personagem.
-4. Papel pertence à Participação na Crônica.
-5. Mesa é contexto persistente durante a sessão.
-6. Consultas rápidas abrem em camadas.
-7. Biblioteca, Rules Engine e SIRE são responsabilidades distintas.
-8. Permissões fazem parte da arquitetura do produto.
-9. O primeiro corte vertical termina com uma rolagem persistida no log.
-10. O primeiro sistema deve favorecer monólito modular, não distribuição prematura.
+4. Papel e permissões pertencem à Participação do Usuário na Crônica.
+5. A presença de um Personagem em uma Crônica pertence a um Vínculo de Personagem separado.
+6. Mesa é contexto persistente durante a sessão.
+7. Consultas rápidas abrem em camadas.
+8. Biblioteca, Rules Engine e SIRE são responsabilidades distintas.
+9. Permissões fazem parte da arquitetura do produto.
+10. O primeiro corte vertical termina com um Evento de Sessão persistido e sua projeção no Feed da Mesa.
+11. Cada tentativa de rolagem confirmada é imutável e persistida antes de ser apresentada.
+12. O primeiro sistema deve favorecer monólito modular, não distribuição prematura.
 
 ---
 
@@ -951,11 +979,23 @@ Mudanças de schema e conteúdo precisam ser versionadas. Alterações relevante
 - haverá snapshot ou variação por Crônica?
 - como ocorre saída de uma Crônica?
 
-### Participação
+### Participação do Usuário
 
 - usuário pode possuir mais de um papel na mesma Crônica?
 - Narrador também pode controlar um personagem jogador?
-- convite é enviado para usuário, personagem ou ambos?
+- convite é enviado para qual identidade do usuário?
+
+### Vínculo de Personagem
+
+- quem pode solicitar e quem pode aprovar um vínculo?
+- todo vínculo precisa referenciar uma Participação do Usuário válida?
+- quantos vínculos uma Participação pode operar?
+- qual vínculo está autorizado a agir em uma sessão?
+- como representar um Personagem controlado pelo Narrador?
+- quais dados permanecem no Personagem canônico?
+- quais dados pertencem somente à Crônica?
+- dano, progressão e histórico são compartilhados ou isolados por vínculo?
+- como ocorre a troca ou remoção de um Personagem da Crônica?
 
 ### Propriedade e edição
 
@@ -993,7 +1033,11 @@ A arquitetura técnica poderá ser formalizada quando existirem:
 
 ## 27. Próximos documentos
 
-### 1. Domain Model v0.1
+### 1. Rules & Content Discovery Report v0.1
+
+Confirmar o corpus, especificar o primeiro fluxo de rolagem e registrar implicações para o domínio.
+
+### 2. Domain Model v0.1
 
 Definir:
 
@@ -1005,19 +1049,21 @@ Definir:
 - eventos de domínio;
 - fronteiras entre módulos.
 
-### 2. Permissions & Visibility Matrix v0.1
+### 3. Permissions & Visibility Matrix v0.1
 
 Definir acesso por papel, recurso, propriedade e estado de publicação.
 
-### 3. Rules Engine Scope v0.1
+### 4. Rules Engine Scope v0.1
 
 Definir a primeira mecânica executável e seus contratos.
 
-### 4. Architecture v0.1
+O Domain Model, a matriz mínima de permissões e o escopo mínimo do Rules Engine serão refinados de forma iterativa. Nenhum deles deve avançar isoladamente quando uma descoberta alterar os demais.
+
+### 5. Architecture v0.1
 
 Definir contexto, containers, módulos, persistência, realtime, segurança e implantação.
 
-### 5. ADRs iniciais
+### 6. ADRs iniciais
 
 Registrar decisões irreversíveis ou de alto impacto com contexto e alternativas.
 

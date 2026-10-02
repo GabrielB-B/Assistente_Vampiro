@@ -2,10 +2,11 @@
 
 Duplicar uma seção para cada livro, errata, suplemento ou documento utilizado na descoberta.
 
-## SOURCE-0000 — Título oficial
+## SRC-0000 — Título oficial
 
 | Campo | Valor |
 |---|---|
+| ID da fonte (`source_id`) | SRC-0000 |
 | Título oficial | |
 | Tipo | livro básico, suplemento, errata, SRD ou outro |
 | Edição | V5, V20 ou outra |
@@ -14,7 +15,7 @@ Duplicar uma seção para cada livro, errata, suplemento ou documento utilizado 
 | Idioma | |
 | ISBN ou identificador | |
 | Data da publicação | |
-| Forma de aquisição | |
+| Acesso legítimo confirmado | sim, não ou revisar |
 | Local privado do arquivo | não registrar segredo ou caminho pessoal no Git |
 | Responsável pela revisão | |
 
@@ -41,8 +42,8 @@ Na dúvida, classificar o conteúdo original como privado e mantê-lo fora do Gi
 
 ## Regras candidatas
 
-- RULE-0000 — nome;
-- RULE-0001 — nome.
+- RULE-AREA-000 — nome;
+- RULE-AREA-001 — nome.
 
 ## Termos de glossário candidatos
 

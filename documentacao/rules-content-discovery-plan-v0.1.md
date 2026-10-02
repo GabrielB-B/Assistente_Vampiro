@@ -1,6 +1,7 @@
 # Rules & Content Discovery Plan v0.1
 
-**Status:** próxima fase recomendada  
+**Status:** aprovado<br>
+**Estado da fase:** iniciada; extração aguardando corpus autorizado<br>
 **Data:** 1º de outubro de 2026  
 **Edição inicial:** V5, sujeita à confirmação do corpus
 
@@ -29,11 +30,15 @@ Já pode ser modelada a partir dos documentos internos:
 - User;
 - Character;
 - Chronicle;
-- Membership;
+- Participação do Usuário;
+- Vínculo de Personagem;
 - Session;
 - Scene;
 - Permission;
-- Activity Log.
+- Resultado de Rolagem;
+- Evento de Sessão;
+- Feed da Mesa;
+- Trilha de Auditoria.
 
 ### Trilha B — Game Rules
 
@@ -47,8 +52,9 @@ Exige leitura de fontes autoritativas:
 - Roll Result;
 - Critical;
 - Messy Critical;
-- Bestial Failure;
-- Willpower Reroll.
+- Bestial Failure.
+
+`Willpower Reroll` pertence ao incremento seguinte e não bloqueia a primeira fatia.
 
 ### Trilha C — Knowledge e Lore
 
@@ -78,10 +84,10 @@ Selecionar somente trechos necessários para responder:
 4. como críticos são identificados e contabilizados?
 5. o que caracteriza Crítico Sangrento?
 6. o que caracteriza Falha Bestial?
-7. quando Força de Vontade permite reroll?
-8. quais dados podem ou não ser rerrolados?
-9. quem define modificadores e dificuldade?
-10. quais decisões permanecem com o Narrador?
+7. quem define modificadores e dificuldade?
+8. quais decisões permanecem com o Narrador?
+
+Para o incremento seguinte, ampliar o corpus somente o necessário para confirmar elegibilidade, custo, limites e encerramento do reroll com Força de Vontade.
 
 ---
 
@@ -115,7 +121,7 @@ Para cada obra, registrar:
 | versão | impressão, errata ou revisão |
 | idioma | idioma da fonte |
 | publicador | responsável pela publicação |
-| aquisição | origem legal do exemplar |
+| acesso legítimo | confirmação de que a equipe pode consultar o exemplar |
 | uso permitido | privado, citação, implementação ou distribuição |
 | escopo | capítulos relevantes |
 | prioridade | primeiro corte ou futuro |
@@ -145,26 +151,35 @@ flowchart LR
 - IA pode auxiliar extração, nunca aprovar regra sozinha;
 - regra executável precisa de exemplos e testes.
 
+Fontes integrais protegidas e extrações extensas não serão enviadas a serviços externos de IA sem avaliação explícita de licença, privacidade, retenção e autorização. Na ausência dessa avaliação, a assistência externa fica restrita a metadados públicos, paráfrases sanitizadas e estruturas produzidas pela equipe.
+
 ---
 
 ## 7. Estados de uma regra
 
+Maturidade da especificação:
+
 | Estado | Significado |
 |---|---|
-| identificada | regra localizada na fonte |
-| extraída | estrutura inicial registrada |
-| interpretada | entradas, saídas e exceções descritas |
-| revisada | conferida contra a fonte |
-| especificada | pronta para testes |
-| implementada | presente no Rules Engine |
-| verificada | testes e revisão concluídos |
-| substituída | nova edição ou errata assumiu precedência |
+| candidata | comportamento necessário, ainda não confirmado |
+| especificada | entradas, saídas, invariantes e casos registrados |
+| revisada | conferida por uma pessoa contra fonte e errata |
+| aprovada | pronta para planejamento de implementação |
+| substituída | outra versão ou decisão assumiu precedência |
+
+Estado de implementação:
+
+| Estado | Significado |
+|---|---|
+| não iniciada | ainda não existe no Rules Engine |
+| implementada | comportamento presente no código |
+| verificada | implementação passou pelos testes e revisão definidos |
 
 ---
 
-## 8. Matriz de rastreabilidade
+## 8. Catálogo de rastreabilidade
 
-Toda regra implementada deverá permitir o caminho:
+Toda regra normativa implementada deverá permitir o caminho:
 
 ```text
 Comportamento no sistema
@@ -174,7 +189,16 @@ Comportamento no sistema
 → fonte, edição, capítulo e página
 ```
 
-Não implementar mecânica sem rastreabilidade mínima.
+Todo requisito interno implementado deverá permitir o caminho:
+
+```text
+Comportamento no sistema
+→ teste automatizado
+→ critério de aceitação
+→ decisão de produto aceita
+```
+
+Não implementar mecânica ou requisito sem a rastreabilidade correspondente.
 
 ---
 
@@ -217,7 +241,7 @@ Uma especificação está pronta quando:
 
 ---
 
-## 11. Questões jurídicas
+## 11. Direitos e uso
 
 Antes de qualquer conteúdo entrar no produto ou no GitHub, classificar:
 
@@ -237,7 +261,7 @@ Na ausência de autorização clara, manter o material original fora do reposit�
 1. inventário de fontes;
 2. glossário v0.1;
 3. conjunto mínimo de especificações;
-4. matriz de rastreabilidade;
+4. catálogo de rastreabilidade;
 5. lista de ambiguidades;
 6. cenários de teste;
 7. Rules & Content Discovery Report v0.1;
@@ -245,11 +269,11 @@ Na ausência de autorização clara, manter o material original fora do reposit�
 
 ---
 
-## 13. Definition of Done
+## 13. Critérios de conclusão da fase
 
 A fase termina quando:
 
-- o primeiro fluxo de rolagem está completamente explicado;
+- o teste básico, sem reroll, está completamente explicado e classifica todos os resultados previstos no recorte;
 - as regras possuem proveniência;
 - as exceções relevantes foram identificadas;
 - os exemplos principais viraram cenários de teste;

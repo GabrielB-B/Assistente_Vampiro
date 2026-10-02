@@ -1,7 +1,8 @@
 # Visual Identity & Design Direction v0.1  
 **Reference Board & Art Principles**
 
-**Status:** consolidado para revisão  
+**Status:** proposta<br>
+**Estado:** consolidado para revisão<br>
 **Fase:** identidade visual e direção de arte  
 **Objetivo:** registrar, de forma profissional, a direção visual aprovada para o produto antes da definição final de paleta, tipografia, design tokens, componentes e wireframes.
 

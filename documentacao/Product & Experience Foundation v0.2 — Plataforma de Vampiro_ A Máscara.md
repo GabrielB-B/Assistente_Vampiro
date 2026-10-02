@@ -1,6 +1,7 @@
 # Product & Experience Foundation v0.2
 
-**Status:** consolidado para referência  
+**Status:** consolidado<br>
+**Uso:** referência de produto<br>
 **Fase:** descoberta e definição de produto  
 **Objetivo:** registrar a visão, princípios, experiências, funcionalidades, limites, referências e decisões aprovadas antes da identidade visual, wireframes e arquitetura técnica.
 
@@ -292,9 +293,14 @@ O usuário pode:
 
 O vínculo com Chronicle é opcional.
 
-Conceitualmente:
+Conceitualmente, existem duas relações distintas:
 
-**User → Character → Chronicle Membership**
+```text
+Usuário → Participação na Crônica → Crônica
+Personagem → Vínculo de Personagem → Crônica
+```
+
+O Vínculo representa a presença do Personagem na Crônica. A localização do estado compartilhado ou específico será definida no Domain Model.
 
 ---
 
@@ -629,7 +635,7 @@ Elementos principais:
 - nome/local;
 - texto da cena;
 - Scene Beats do Narrador;
-- chat/log;
+- chat e Feed da Mesa;
 - rolagens;
 - acesso contextual a fichas e NPCs.
 
@@ -1496,9 +1502,9 @@ Clock avançado:
 
 ---
 
-# 64. Chronicle Activity Log
+# 64. Eventos de Sessão e Feed da Mesa
 
-Registrar eventos estruturados.
+Registrar Eventos de Sessão estruturados e projetar no Feed da Mesa somente o que cada participante puder ver.
 
 Exemplos:
 
@@ -1512,12 +1518,14 @@ Exemplos:
 - Character Updated;
 - Note Created.
 
-Esse log pode alimentar:
+Os eventos persistidos podem alimentar:
 
 - timeline;
 - histórico;
 - resumo;
-- IA futura.
+- IA futura, quando houver autorização.
+
+A Trilha de Auditoria operacional é separada desses eventos e não integra a experiência narrativa.
 
 ---
 
@@ -1949,7 +1957,7 @@ Referências:
 - Hunger;
 - ações rápidas;
 - dados 3D;
-- log/chat.
+- Evento de Sessão, Chat e Feed da Mesa.
 
 ## Crônica
 

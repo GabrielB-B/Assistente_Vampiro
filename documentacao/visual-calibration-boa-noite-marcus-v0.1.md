@@ -1,6 +1,7 @@
 # Visual Calibration — Boa noite, Marcus v0.1
 
-**Status:** aprovado como direção de experiência  
+**Status:** aprovado<br>
+**Uso:** direção de experiência<br>
 **Data de aprovação:** 30 de setembro de 2026  
 **Tipo:** calibração visual, não especificação final de interface  
 **Arquétipo:** Immersive Entry / Hero  
@@ -23,6 +24,20 @@
 Arquivo:
 
 `referencias-visuais/boa-noite-marcus-visual-calibration-v01.png`
+
+### 1.1 Proveniência e estado de uso
+
+| Campo | Registro |
+|---|---|
+| origem | variante gerada para este projeto a partir da imagem-conceito fornecida pelo responsável durante a conversa de calibração |
+| referência direta | imagem-conceito usada na conversa; o arquivo original não integra este repositório |
+| ferramenta | serviço de edição e geração de imagens da OpenAI; versão do modelo não registrada |
+| base criativa | imagem-conceito, briefing, decisões visuais e revisão conduzidos pelo responsável do projeto |
+| função atual | protótipo interno e referência de direção, não asset final de produção |
+| reprodução de terceiro | não registrada como reprodução licenciada de uma obra específica |
+| publicação ou uso comercial | pendente de revisão dos termos aplicáveis e de eventuais direitos de terceiros |
+
+Antes de uma divulgação pública, o projeto deverá preservar o registro de geração disponível, confirmar o direito de uso pretendido e substituir o asset se essa confirmação não for suficiente.
 
 ---
 
