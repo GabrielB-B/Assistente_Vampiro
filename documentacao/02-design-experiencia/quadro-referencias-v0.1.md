@@ -351,7 +351,7 @@ Evitar na entrada e na Mesa narrativa:
 
 A primeira aplicação deste board é:
 
-- [Visual Calibration — Boa noite, Marcus v0.1](./visual-calibration-boa-noite-marcus-v0.1.md)
+- [Visual Calibration — Boa noite, Marcus v0.1](./calibracoes/boa-noite-marcus-v0.1.md)
 
 Ela valida:
 

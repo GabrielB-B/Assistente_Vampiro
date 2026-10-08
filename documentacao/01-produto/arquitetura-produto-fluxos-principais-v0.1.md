@@ -3,8 +3,9 @@
 **Status:** aprovado<br>
 **Uso:** base da arquitetura do produto<br>
 **Data:** 1º de outubro de 2026  
+**Última revisão de coerência:** 7 de outubro de 2026<br>
 **Fase:** Arquitetura de Produto e Fluxos Principais  
-**Próxima fase:** Rules & Content Discovery v0.1
+**Continuidade atual:** Architecture v0.1, matriz de permissões e escopo do Rules Engine
 
 **Documentos-base:**
 
@@ -103,7 +104,7 @@ Sessão / Mesa, quando ativa
 
 `Jogador` e `Narrador` não são tipos permanentes de conta. São papéis associados à Participação do Usuário em determinada Crônica.
 
-A presença de um Personagem nessa Crônica é representada separadamente por um Vínculo de Personagem. O Domain Model deverá definir quais dados permanecem no Personagem canônico e quais pertencem exclusivamente ao vínculo.
+A presença de um Personagem nessa Crônica é representada separadamente por um Vínculo de Personagem. O Modelo de Domínio v0.1 mantém ficha e progressão no Personagem canônico; o vínculo guarda autorização, estado, Coterie, apelidos e anotações exclusivas da Crônica.
 
 O Chat é uma capacidade de entrada. O Feed da Mesa é a projeção unificada na qual mensagens e outros eventos autorizados são apresentados.
 
@@ -443,14 +444,21 @@ flowchart TD
     BIND -- Sim --> CHRONICLE_ENTRY
 ```
 
-### Decisões pendentes
+### Decisões consolidadas e pendências seguintes
 
-- um personagem pode estar em múltiplas Crônicas simultaneamente?
-- vínculo reutiliza o mesmo estado ou cria uma projeção por Crônica?
-- Narrador pode criar personagens para jogadores?
-- troca de personagem dentro da mesma Crônica é permitida?
+O Modelo de Domínio v0.1 consolidou que:
 
-Essas decisões precisam ser fechadas no Domain Model v0.1.
+- um Personagem possui no máximo um Vínculo ativo;
+- reutilizar o mesmo conceito em outra Crônica exige uma cópia explícita;
+- ficha e progressão permanecem no Personagem canônico;
+- o Vínculo guarda somente o contexto pertencente à Crônica.
+
+A matriz de permissões e a política de produto ainda precisam definir:
+
+- se o Narrador pode criar um Personagem para outra Conta;
+- em quais condições um Vínculo pode ser liberado e substituído dentro da mesma Crônica.
+
+Essas duas pendências devem ser resolvidas antes de implementar o fluxo.
 
 ---
 
@@ -469,7 +477,8 @@ flowchart LR
     ACTION -->|Consultar regra| RULE[Regra em camada]
     ACTION -->|Ver handout| HANDOUT[Handout]
     ROLL --> RESULT[Resultado de Rolagem]
-    RESULT --> EVENT[Persistir Evento de Sessão]
+    RESULT --> ATTEMPT[Persistir RollAttempt]
+    ATTEMPT --> EVENT[Criar SessionEvent correspondente]
     EVENT --> FEED[Projetar no Feed da Mesa]
     QUICK --> SCENE
     RULE --> SCENE
@@ -499,7 +508,8 @@ flowchart LR
 - reconexão não pode duplicar rolagens;
 - ações pendentes devem indicar seu estado;
 - usuário reconectado deve retornar à cena atual;
-- o Evento de Sessão persistido é a referência para ações confirmadas.
+- o `RollAttempt` é o registro mecânico durável da tentativa;
+- o `SessionEvent` referencia a tentativa e representa a ocorrência autorizada no Feed.
 
 ---
 
@@ -590,7 +600,7 @@ flowchart TD
     TRAIT --> MOD[Aplicar especialidade e modificadores]
     TEMPLATE --> MOD
     SPECIAL --> MOD
-    MOD --> PREVIEW[Exibir pool final e Fome]
+    MOD --> PREVIEW[Exibir parada final e Fome]
     PREVIEW --> CONFIRM[Confirmar rolagem]
     CONFIRM --> ENGINE[Rules Engine resolve]
     ENGINE --> EVENT[Persistir tentativa imutável]
@@ -611,7 +621,8 @@ O ramo de reroll é apenas uma hipótese para um incremento posterior. Elegibili
 - interface coleta intenção;
 - Rules Engine resolve a mecânica;
 - animação representa o resultado;
-- Evento de Sessão registra cada tentativa confirmada antes de sua apresentação;
+- `RollAttempt` registra cada tentativa confirmada e imutável;
+- Evento de Sessão referencia a tentativa já persistida;
 - Feed da Mesa apresenta a projeção autorizada aos participantes.
 
 ---
@@ -767,9 +778,9 @@ As rotas abaixo são conceituais e não constituem contrato técnico final.
 
 ---
 
-## 20. Corte vertical recomendado para a primeira versão
+## 20. Vertical Slice 01 — alpha técnica
 
-### Vertical Slice 01 — núcleo jogável
+Este corte é o núcleo executável usado para validar a arquitetura. Ele antecede o MVP de playtest e não deve ser apresentado como primeira versão utilizável por uma mesa real.
 
 ```text
 Autenticar
@@ -784,7 +795,9 @@ Montar rolagem
   ↓
 Resolver regra
   ↓
-Persistir evento de rolagem
+Persistir RollAttempt
+  ↓
+Criar SessionEvent correspondente
   ↓
 Exibir resultado no Feed da Mesa
 ```
@@ -800,6 +813,7 @@ Exibir resultado no Feed da Mesa
 - resolução completa do teste básico, incluindo as classificações de resultado confirmadas pelo corpus;
 - resultado textual;
 - tentativa de rolagem imutável persistida antes da apresentação;
+- Evento de Sessão separado que referencia a tentativa;
 - resultado exibido no Feed da Mesa;
 - uma Crônica e uma sessão de teste;
 - permissões mínimas entre Jogador e Narrador.
@@ -835,7 +849,7 @@ Ele valida cedo:
 
 ## 21. Sequência de incrementos
 
-### Incremento 1 — núcleo jogável
+### Incremento 1 — alpha técnica
 
 Vertical Slice 01.
 
@@ -971,63 +985,49 @@ Mudanças de schema e conteúdo precisam ser versionadas. Alterações relevante
 
 ---
 
-## 25. Questões que bloqueiam o Domain Model final
+## 25. Continuidade após o Modelo de Domínio v0.1
 
-### Personagem e Crônica
+O Modelo de Domínio v0.1 encerrou as decisões estruturais abaixo:
 
-- o mesmo Character pode manter estado compartilhado entre Crônicas?
-- haverá snapshot ou variação por Crônica?
-- como ocorre saída de uma Crônica?
+- um Personagem possui no máximo um Vínculo ativo na v0.1;
+- outra Crônica exige cópia explícita, preservando a origem;
+- Participação e Vínculo de Personagem são relações diferentes;
+- uma pessoa pode acumular papéis quando a Crônica permitir explicitamente;
+- dano, progressão e histórico pertencem ao Personagem vinculado, sem compartilhamento silencioso entre campanhas;
+- Sessão possui ciclo de vida formal e, no primeiro corte, no máximo uma Cena ativa;
+- edição concorrente usa versão otimista, sem “última gravação vence”;
+- tentativas e eventos confirmados preservam histórico imutável.
 
-### Participação do Usuário
+Permanecem para documentos seguintes:
 
-- usuário pode possuir mais de um papel na mesma Crônica?
-- Narrador também pode controlar um personagem jogador?
-- convite é enviado para qual identidade do usuário?
+### Permissões e visibilidade
 
-### Vínculo de Personagem
+- quem solicita, aprova, libera ou rejeita um Vínculo;
+- quando o Narrador pode controlar ou editar um Personagem;
+- quais alterações exigem aceite do proprietário;
+- visibilidade de rolagens privadas, secretas ou atrasadas;
+- convite, suspensão e saída de Participação.
 
-- quem pode solicitar e quem pode aprovar um vínculo?
-- todo vínculo precisa referenciar uma Participação do Usuário válida?
-- quantos vínculos uma Participação pode operar?
-- qual vínculo está autorizado a agir em uma sessão?
-- como representar um Personagem controlado pelo Narrador?
-- quais dados permanecem no Personagem canônico?
-- quais dados pertencem somente à Crônica?
-- dano, progressão e histórico são compartilhados ou isolados por vínculo?
-- como ocorre a troca ou remoção de um Personagem da Crônica?
+### Conteúdo e operação
 
-### Propriedade e edição
-
-- quais alterações do Narrador exigem aceite do jogador?
-- quais mudanças geram histórico obrigatório?
-- como resolver edição concorrente?
-
-### Sessão
-
-- sessão possui início e encerramento formais?
-- existe apenas uma cena ativa?
-- rolagens podem ser privadas, secretas ou atrasadas?
-
-### Conteúdo
-
-- qual conteúdo estará juridicamente disponível na primeira versão?
-- quais estados de revisão e tradução entram no MVP?
+- conteúdo juridicamente disponível no primeiro playtest;
+- estados editoriais aceitos na interface;
+- semântica de reconexão, ordenação e recuperação do Feed;
+- política de retenção e exclusão.
 
 ---
 
 ## 26. Definition of Ready para Architecture v0.1
 
-A arquitetura técnica poderá ser formalizada quando existirem:
-
-- aprovação dos fluxos principais;
-- decisão sobre Character em múltiplas Crônicas;
-- matriz inicial de papéis e permissões;
-- escopo fechado do Vertical Slice 01;
-- Domain Model v0.1;
-- regras mínimas de rolagem selecionadas;
-- requisitos de realtime definidos;
-- política inicial de conteúdo e licenciamento.
+- [x] fluxos principais aprovados;
+- [x] decisão sobre Personagem em múltiplas Crônicas;
+- [x] Modelo de Domínio v0.1 aprovado;
+- [x] regras mínimas de rolagem selecionadas e fontes identificadas;
+- [ ] stack tecnológica escolhida;
+- [ ] matriz inicial de papéis, permissões e visibilidade;
+- [ ] escopo do Vertical Slice 01 confirmado;
+- [ ] semântica mínima de realtime e reconexão definida;
+- [ ] política inicial de conteúdo e licenciamento registrada.
 
 ---
 
@@ -1035,19 +1035,11 @@ A arquitetura técnica poderá ser formalizada quando existirem:
 
 ### 1. Rules & Content Discovery Report v0.1
 
-Confirmar o corpus, especificar o primeiro fluxo de rolagem e registrar implicações para o domínio.
+Corpus e linha normativa concluídos. A especificação executável do primeiro fluxo permanece em andamento.
 
 ### 2. Domain Model v0.1
 
-Definir:
-
-- entidades;
-- value objects;
-- agregados;
-- invariantes;
-- ownership;
-- eventos de domínio;
-- fronteiras entre módulos.
+Aprovado em 6 de outubro de 2026. Evoluções relevantes exigem atualização do registro de decisões.
 
 ### 3. Permissions & Visibility Matrix v0.1
 

@@ -74,6 +74,6 @@ Ao estruturar uma regra, registrar sempre a proveniência sem copiar mais texto 
 
 Decisões de alto impacto devem utilizar o template em:
 
-`documentacao/adr/0000-template.md`
+`documentacao/00-governanca/adr/0000-template.md`
 
 Não reescrever silenciosamente uma decisão aceita. Criar novo ADR que a substitua.

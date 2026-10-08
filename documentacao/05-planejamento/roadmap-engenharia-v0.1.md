@@ -2,6 +2,7 @@
 
 **Status:** aprovado<br>
 **Data:** 1º de outubro de 2026  
+**Última revisão:** 8 de outubro de 2026<br>
 **Horizonte:** descoberta de regras até primeiro corte executável
 
 ---
@@ -66,8 +67,10 @@ flowchart LR
     F0[Fase 0\nGovernança] --> F1[Fase 1\nRules Discovery]
     F1 --> F2[Fase 2\nDomain Model]
     F2 --> F3[Fase 3\nPermissions e Rules Scope]
-    F3 --> F4[Fase 4\nArchitecture e ADRs]
-    F4 --> F5[Fase 5\nEngineering Foundation]
+    F2 --> F4[Fase 4\nArchitecture e ADRs]
+    F3 --> G[Gate de arquitetura]
+    F4 --> G
+    G --> F5[Fase 5\nEngineering Foundation]
     F5 --> F6[Fase 6\nVertical Slice 01]
     F6 --> F7[Fase 7\nValidação e evolução]
 ```
@@ -114,7 +117,7 @@ Construir um corpus mínimo e rastreável para modelar a primeira mecânica exec
 - Fome;
 - sucessos e falhas;
 - críticos;
-- Crítico Sangrento;
+- Crítico Bestial;
 - Falha Bestial.
 
 ### Entregas
@@ -135,7 +138,7 @@ Construir um corpus mínimo e rastreável para modelar a primeira mecânica exec
 
 ### Estado
 
-**Fase iniciada; extração aguardando corpus autorizado.** A área de trabalho, o inventário, o glossário, o catálogo e o checklist foram criados. O Gate A aguarda a inclusão local e o inventário das fontes em `fontes-privadas/`.
+**Corpus inicial ingerido; especificações em elaboração.** Livro Básico, Companion e Players Guide foram identificados, extraídos e auditados em `fontes-privadas/`. A linha normativa dos três livros foi registrada. O Gate A foi satisfeito; a aprovação humana das regras executáveis continua obrigatória antes da implementação.
 
 ---
 
@@ -163,7 +166,7 @@ Media
 - Participação do Usuário, papéis e Vínculo de Personagem;
 - propriedade e edição de ficha;
 - sessão, cena, Resultado de Rolagem, Evento de Sessão, Feed da Mesa e Trilha de Auditoria;
-- identidade e imutabilidade de cada tentativa de rolagem e sua representação como Evento de Sessão;
+- identidade e imutabilidade de cada `RollAttempt` e sua referência por um Evento de Sessão separado;
 - edição e versionamento de regra;
 - proveniência de conteúdo.
 
@@ -182,6 +185,10 @@ Media
 - invariantes possuem responsável claro;
 - fronteiras entre conteúdo e regra são explícitas;
 - termos ambíguos foram eliminados ou registrados.
+
+### Estado
+
+**Concluída.** O Modelo de Domínio v0.1 foi aprovado em 6 de outubro de 2026. Evoluções permanecem versionadas e sujeitas ao Registro de Decisões.
 
 ---
 
@@ -204,6 +211,10 @@ Media
 - idempotência e auditoria do primeiro corte possuem comportamento conhecido;
 - reroll está explicitamente adiado e não bloqueia a primeira fatia.
 
+### Estado
+
+**Em andamento.** A matriz de permissões e a primeira regra executável evoluem em paralelo à prova técnica de persistência, sem iniciar código de produção.
+
 ---
 
 ## 8. Fase 4 — Architecture v0.1 e ADRs
@@ -221,18 +232,14 @@ Media
 - implantação inicial;
 - ADRs das decisões relevantes.
 
-### ADRs mínimos previstos
+### ADRs do gate atual
 
-1. escolha do estilo arquitetural;
-2. stack web;
-3. persistência relacional;
-4. autenticação;
-5. autorização por recurso;
-6. estratégia de realtime;
-7. separação entre conteúdo e regra;
-8. versionamento por edição;
-9. persistência de Eventos de Sessão e entrega no Feed da Mesa;
-10. armazenamento de assets.
+1. ADR-0001 — stack web e monorepo TypeScript: **aceita**;
+2. ADR-0002 — persistência, eventos e realtime confiável: **aceita**;
+3. ADR-0003 — identidade controlada no alpha: **aceita**;
+4. ADR-0004 — biblioteca de acesso a dados: **após a prova técnica**.
+
+Autenticação real, storage, IA e decomposição só recebem ADR quando entrarem num corte aprovado. Não serão criadas decisões ornamentais para tecnologia ainda não usada.
 
 ### Critério de saída
 
@@ -240,6 +247,10 @@ Media
 - dependências externas possuem justificativa;
 - segurança e operação foram consideradas;
 - a arquitetura suporta o corte vertical sem antecipar o produto inteiro.
+
+### Estado
+
+**Em revisão.** A stack foi aceita, os três primeiros ADRs foram registrados e a Architecture v0.1 foi produzida. A aprovação final depende da matriz de permissões, da primeira regra executável e da prova de persistência com ADR-0004.
 
 ---
 
@@ -439,9 +450,9 @@ As referências orientam o raciocínio. Elas não substituem decisões baseadas 
 
 ## 16. Próxima ação concreta
 
-1. adicionar localmente as fontes permitidas, fora do Git;
-2. preencher o inventário de fontes;
-3. selecionar as seções do primeiro recorte;
-4. produzir especificações de regras usando o template;
-5. transformar exemplos em cenários de teste;
-6. elaborar o Domain Model v0.1 com base nas evidências.
+1. executar a prova de persistência com Kysely, Drizzle e Prisma em código descartável;
+2. registrar o resultado no ADR-0004;
+3. concluir Permissions & Visibility Matrix, `RULE-ROLL-001` a `RULE-ROLLFLOW-001` e Rules Engine Scope;
+4. revisar e aprovar a Architecture v0.1;
+5. criar o esqueleto executável e o CI somente após esse gate;
+6. implementar e validar o alpha técnico antes do MVP de playtest.

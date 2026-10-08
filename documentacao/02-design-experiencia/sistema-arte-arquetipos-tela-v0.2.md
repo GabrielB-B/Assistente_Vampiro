@@ -4,6 +4,7 @@
 
 **Status:** proposta<br>
 **Estado:** revisado para validação<br>
+**Última revisão de coerência:** 7 de outubro de 2026<br>
 **Fase:** Direção de Arte → Sistema Visual → Arquitetura de Interface  
 **Substitui, após aprovação:** Art System & Screen Archetypes v0.1
 
@@ -1613,7 +1614,7 @@ Uma peça deve ser revista se parecer:
 
 ## 37. Visual Calibration versus Final UI
 
-O próximo estudo **Boa noite, Marcus — Visual Calibration** não pretende finalizar:
+A calibração **Boa noite, Marcus v0.1**, concluída e aprovada, não pretendeu finalizar:
 
 - fonte;
 - hex;
@@ -1622,7 +1623,7 @@ O próximo estudo **Boa noite, Marcus — Visual Calibration** não pretende fin
 - navegação final;
 - arte final.
 
-Ele serve para validar:
+Ela serviu para validar:
 
 - emoção;
 - direção;
@@ -1637,43 +1638,26 @@ Ele serve para validar:
 
 ---
 
-## 38. Ordem revisada das próximas etapas
+## 38. Estado da trilha visual e próximas etapas
+
+| Etapa | Estado |
+|---|---|
+| Art System & Screen Archetypes v0.2 | em revisão; este documento ainda é proposta |
+| Reference Board v0.1 | consolidado |
+| Visual Calibration — Boa noite, Marcus v0.1 | aprovado |
+| Product Architecture & Core User Flows v0.1 | aprovado |
+
+Quando a trilha visual for retomada, a sequência será:
 
 ### Etapa 1 — Aprovar Art System v0.2
 
-Este documento.
+Resolver as definições ainda abertas deste documento sem reabrir silenciosamente os princípios já aceitos.
 
-### Etapa 2 — Reference Board v0.1
-
-Somente referências humanas cuidadosamente escolhidas e analisadas.
-
-Não um moodboard automático.
-
-### Etapa 3 — Visual Calibration
-
-**Boa noite, Marcus v0.1**
-
-Usando preferencialmente arte humana apropriada/licenciada para o estudo.
-
-### Etapa 4 — Information Architecture & Core User Flows
-
-Formalizar:
-
-- login;
-- personagem;
-- Crônica;
-- entrada;
-- ficha;
-- Mesa;
-- biblioteca;
-- cidade;
-- Narrador.
-
-### Etapa 5 — Color Study v0.1
+### Etapa 2 — Color Study v0.1
 
 Transformar nossa direção cromática em sistema.
 
-### Etapa 6 — Typography Study v0.1
+### Etapa 3 — Typography Study v0.1
 
 Pesquisar e testar:
 
@@ -1685,11 +1669,11 @@ Pesquisar e testar:
 - performance;
 - licenciamento.
 
-### Etapa 7 — Low-Fidelity Wireframes
+### Etapa 4 — Low-Fidelity Wireframes
 
 Fluxos antes de acabamento.
 
-### Etapa 8 — Design Tokens v0.1
+### Etapa 5 — Design Tokens v0.1
 
 Somente depois de termos evidência suficiente sobre os componentes reais.
 
@@ -1756,4 +1740,4 @@ As principais lacunas da v0.1 foram corrigidas:
 - distinção entre Visual Calibration e Final UI explicitada;
 - sequência de trabalho revisada para evitar fechamento prematuro de tokens e componentes.
 
-O próximo passo é o **Reference Board v0.1**, tratado como instrumento de análise profissional: poucas obras reais, cuidadosamente escolhidas, analisadas por **composição, gesto, cor, luz, silêncio, textura, enquadramento e potencial de convivência com a interface**.
+O próximo trabalho desta trilha é aprovar o próprio Art System e então produzir estudos de cor, tipografia, wireframes de baixa fidelidade e tokens mínimos. A fase atual do projeto permanece concentrada na arquitetura de software.

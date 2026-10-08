@@ -1,9 +1,9 @@
 # Rules & Content Discovery Plan v0.1
 
 **Status:** aprovado<br>
-**Estado da fase:** iniciada; extração aguardando corpus autorizado<br>
+**Estado da fase:** corpus inicial ingerido; especificação executável em andamento<br>
 **Data:** 1º de outubro de 2026  
-**Edição inicial:** V5, sujeita à confirmação do corpus
+**Edição inicial:** V5; corpus inicial confirmado com Livro Básico, Companion e Players Guide
 
 ---
 
@@ -11,7 +11,7 @@
 
 Extrair evidências suficientes das fontes autorizadas para criar:
 
-- Domain Model v0.1;
+- sustentação e evolução versionada do Modelo de Domínio v0.1;
 - Rules Engine Scope v0.1;
 - glossário inicial;
 - testes determinísticos do primeiro corte vertical;
@@ -82,7 +82,7 @@ Selecionar somente trechos necessários para responder:
 2. quando dados de Fome substituem dados normais?
 3. como dificuldade e sucessos funcionam?
 4. como críticos são identificados e contabilizados?
-5. o que caracteriza Crítico Sangrento?
+5. o que caracteriza Crítico Bestial?
 6. o que caracteriza Falha Bestial?
 7. quem define modificadores e dificuldade?
 8. quais decisões permanecem com o Narrador?
@@ -265,7 +265,7 @@ Na ausência de autorização clara, manter o material original fora do reposit�
 5. lista de ambiguidades;
 6. cenários de teste;
 7. Rules & Content Discovery Report v0.1;
-8. recomendações para o Domain Model.
+8. recomendações para a evolução do Modelo de Domínio.
 
 ---
 
@@ -279,4 +279,4 @@ A fase termina quando:
 - os exemplos principais viraram cenários de teste;
 - termos PT-BR estão controlados;
 - o conteúdo permitido no Git está separado do corpus privado;
-- o Domain Model pode ser criado sem inventar a mecânica.
+- o Modelo de Domínio pode evoluir sem inventar a mecânica.

@@ -2,6 +2,7 @@
 
 **Status:** consolidado<br>
 **Uso:** referência de produto<br>
+**Última revisão de coerência:** 7 de outubro de 2026<br>
 **Fase:** descoberta e definição de produto  
 **Objetivo:** registrar a visão, princípios, experiências, funcionalidades, limites, referências e decisões aprovadas antes da identidade visual, wireframes e arquitetura técnica.
 
@@ -406,7 +407,7 @@ Durante a sessão:
 
 Aberto sobre a Mesa:
 
-- pools;
+- paradas de dados;
 - ações rápidas;
 - poderes;
 - condições;
@@ -425,7 +426,7 @@ Tela ampliada:
 - Disciplinas;
 - histórico;
 - relações;
-- Touchstones;
+- Pilares;
 - demais campos.
 
 ---
@@ -541,12 +542,12 @@ Podem ser:
 
 Automatizar quando aplicável:
 
-- Rouse Check;
+- Checagem de Sangue;
 - Frenesi;
 - Remorso;
 - Humanidade;
 - Força de Vontade;
-- rerolls;
+- rerrolagens;
 - demais testes específicos.
 
 ---
@@ -589,7 +590,7 @@ Não hardcodar regras universais como:
 
 quando a regra ou contexto puder variar.
 
-Armas, poderes e ações devem carregar configuração própria de pool.
+Armas, poderes e ações devem carregar configuração própria de parada.
 
 ---
 
@@ -600,7 +601,7 @@ Os dados 3D fazem parte da experiência da Mesa.
 Devem diferenciar:
 
 - dados normais;
-- Hunger Dice.
+- Dados de Fome.
 
 O Rules Engine determina o resultado.
 
@@ -615,7 +616,7 @@ O sistema deve interpretar:
 - sucessos;
 - falhas;
 - críticos;
-- Críticos Sangrentos;
+- Críticos Bestiais;
 - Falhas Bestiais;
 - demais efeitos da edição.
 
@@ -652,15 +653,13 @@ Não incluir inicialmente:
 
 ---
 
-# 21. Chat da Sessão
+# 21. Chat e Feed da Sessão
 
-A Mesa deve possuir um **chat compartilhado em tempo real**.
+A Mesa deve possuir um **Feed compartilhado em tempo real**. O Chat, quando presente, é somente a capacidade de entrada de mensagens de texto; ele não é o contêiner dos demais eventos.
 
-Sua função não é substituir Discord ou voz.
+O Feed não substitui Discord ou voz. Ele funciona como a linha do tempo operacional e narrativa da sessão.
 
-Ele funciona como o canal operacional da sessão.
-
-Deve exibir:
+O Feed pode exibir, conforme autorização:
 
 - mensagens de texto;
 - rolagens;
@@ -699,9 +698,9 @@ Intimidação
 > Novo handout revelado:  
 > Recorte do Chicago Tribune.
 
-O chat pode ser lateral ou recolhível para não competir com a imagem central.
+O Feed pode ser lateral ou recolhível para não competir com a imagem central. A entrada de Chat aparece dentro dessa superfície somente quando o recurso estiver habilitado.
 
-Questões futuras:
+Questões futuras do Chat:
 
 - IC/OOC;
 - mensagens privadas;
@@ -825,7 +824,7 @@ Ao clicar em NPC:
 - retrato;
 - Saúde;
 - Força de Vontade;
-- pools;
+- paradas de dados;
 - ataques;
 - poderes;
 - Disciplinas;
@@ -875,9 +874,9 @@ Deve ser estruturada por assunto, não apenas livro.
 - Disciplinas;
 - Vantagens;
 - Defeitos;
-- Predator Type;
+- Tipo de Predador;
 - Convicções;
-- Touchstones.
+- Pilares.
 
 ## Mundo das Trevas
 
@@ -942,7 +941,7 @@ Princípio:
 
 Exemplo:
 
-> “Não entendi Crítico Sangrento.”
+> “Não entendi Crítico Bestial.”
 
 Resposta simples.
 
@@ -979,7 +978,7 @@ Evitar teatralidade excessiva.
 Possíveis modos:
 
 - Resposta rápida;
-- Explique como meu Sire.
+- Explique como meu Senhor.
 
 ---
 
@@ -1219,7 +1218,7 @@ Pode possuir:
 - recursos;
 - Méritos/Defeitos;
 - relações;
-- Boons;
+- Favores;
 - histórico.
 
 ---
@@ -1274,7 +1273,7 @@ Nós podem representar:
 
 Relações:
 
-- Sire;
+- Senhor;
 - Childe;
 - aliado;
 - inimigo;
@@ -1323,10 +1322,10 @@ Exemplos:
 - Coterie;
 - facção;
 - clã;
-- Boons;
+- Favores;
 - aliados;
 - inimigos;
-- Touchstones;
+- Pilares;
 - capítulo;
 - sessão;
 - status.
@@ -1446,14 +1445,14 @@ Não criar formulário redundante.
 
 Derivar quando possível de:
 
-- Touchstones;
-- Sire;
+- Pilares;
+- Senhor;
 - inimigos;
-- Boons;
-- Ambition;
-- Desire;
-- Convictions;
-- Flaws;
+- Favores;
+- Ambição;
+- Desejo;
+- Convicções;
+- Defeitos;
 - histórico.
 
 Apresentar ao Narrador como:
@@ -1764,7 +1763,7 @@ Decisões finais pertencem ao documento de arquitetura.
 
 # 79. Identidade visual
 
-Ainda não definida.
+A direção visual e a calibração da tela “Boa noite, Marcus” estão definidas. Tipografia, tokens e aplicações nas demais telas continuam em evolução controlada.
 
 Direção conceitual:
 
@@ -1915,7 +1914,7 @@ Referências:
 
 - rolagens;
 - Custom Rolls;
-- Hunger;
+- Fome;
 - rerolls;
 - facilidade de sessão.
 
@@ -1931,7 +1930,9 @@ Referências:
 
 ---
 
-# 83. Escopo proposto da primeira versão jogável
+# 83. Horizonte funcional da primeira versão jogável
+
+Este horizonte descreve a primeira experiência jogável desejada, não um único incremento de implementação. O Vertical Slice 01 e o MVP de playtest são recortes posteriores e menores, definidos pela Arquitetura de Produto e pelo Roadmap de Engenharia.
 
 ## Conta
 
@@ -1954,7 +1955,7 @@ Referências:
 ## Rolagens
 
 - Roll Builder;
-- Hunger;
+- Fome;
 - ações rápidas;
 - dados 3D;
 - Evento de Sessão, Chat e Feed da Mesa.
@@ -2151,10 +2152,6 @@ Não pela quantidade de funcionalidades.
 
 - granularidade de permissões da V1.
 
-## Personagem
-
-- duplicação ou reutilização entre crônicas.
-
 ## Coterie
 
 - profundidade na V1.
@@ -2184,62 +2181,17 @@ Não pela quantidade de funcionalidades.
 
 ---
 
-# 93. Próximos documentos
+# 93. Documentos derivados e estado atual
 
-Após aprovação desta Foundation:
+| Documento | Estado | Papel atual |
+|---|---|---|
+| Visual Identity & Design Direction v0.1 | em evolução | direção artística consolidada; tipografia e tokens ainda pendentes |
+| Product Architecture & Core User Flows v0.1 | aprovado | formaliza navegação, atores e fluxos principais |
+| Modelo de Domínio v0.1 | aprovado | formaliza entidades, agregados, invariantes e decisões estruturais |
+| Architecture v0.1 | próximo | fechar stack, módulos, dados, segurança, realtime, operação e limites de IA |
+| ADRs | contínuo | registrar decisões de alto impacto ou difícil reversão |
 
-## 1. Visual Identity & Design Direction v0.1
-
-Definir:
-
-- personalidade;
-- marca;
-- moodboards;
-- direção artística;
-- paleta;
-- tipografia;
-- fotografia;
-- iconografia;
-- mapa;
-- grafo;
-- ficha;
-- Mesa;
-- design tokens.
-
-## 2. Information Architecture & Core User Flows
-
-Formalizar:
-
-- login;
-- seleção;
-- Boa noite;
-- criação;
-- ficha;
-- Biblioteca;
-- Mesa;
-- Narrador.
-
-## 3. Domain Model v0.1
-
-Formalizar entidades, agregados e relações.
-
-## 4. Architecture v0.1
-
-Formalizar:
-
-- stack;
-- módulos;
-- banco;
-- segurança;
-- realtime;
-- Rules Engine;
-- Knowledge Engine;
-- ingestão;
-- IA.
-
-## 5. Architecture Decision Records
-
-Registrar decisões importantes e suas justificativas.
+A dúvida original sobre reutilização de Personagem entre Crônicas foi resolvida: na v0.1, cada Personagem possui no máximo um Vínculo ativo; outra Crônica exige uma cópia explícita. Mudanças nessa política exigem decisão versionada.
 
 ---
 

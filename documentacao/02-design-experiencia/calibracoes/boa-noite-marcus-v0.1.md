@@ -19,11 +19,11 @@
 
 ## 1. Artefato aprovado
 
-![Visual Calibration — Boa noite, Marcus](./referencias-visuais/boa-noite-marcus-visual-calibration-v01.png)
+![Visual Calibration — Boa noite, Marcus](../assets/calibracoes/boa-noite-marcus-visual-calibration-v01.png)
 
 Arquivo:
 
-`referencias-visuais/boa-noite-marcus-visual-calibration-v01.png`
+`../assets/calibracoes/boa-noite-marcus-visual-calibration-v01.png`
 
 ### 1.1 Proveniência e estado de uso
 

@@ -2,15 +2,16 @@
 
 **Status:** aprovado<br>
 **Uso:** execução da descoberta<br>
-**Estado da fase:** iniciada; extração aguardando corpus autorizado<br>
+**Estado da fase:** corpus inicial ingerido; especificação do primeiro fluxo em andamento<br>
 **Início:** 2 de outubro de 2026<br>
+**Última revisão de coerência:** 7 de outubro de 2026<br>
 **Escopo inicial:** regras necessárias ao primeiro fluxo de rolagem V5
 
 ---
 
 ## 1. Objetivo da fase
 
-Transformar fontes autorizadas em conhecimento revisado, especificações de regra e casos de teste antes de desenhar o Domain Model definitivo.
+Transformar fontes autorizadas em conhecimento revisado, especificações de regra e casos de teste que sustentem o Modelo de Domínio aprovado e a implementação do Rules Engine.
 
 Esta pasta contém somente artefatos de trabalho que podem ser versionados. Livros, PDFs, extrações integrais e notas com conteúdo protegido permanecem em `fontes-privadas/`, ignorada pelo Git.
 
@@ -35,13 +36,15 @@ Sem depender de memória, interpretação informal ou texto enviado à IA em tem
 
 ## 3. Artefatos vivos
 
+- [Plano de descoberta de conteúdo e regras v0.1](./plano-descoberta-conteudo-regras-v0.1.md)
 - [Inventário de fontes v0.1](./inventario-fontes-v0.1.md)
+- [Linha normativa v0.1](./linha-normativa-v0.1.md)
 - [Glossário controlado v0.1](./glossario-v0.1.md)
 - [Catálogo de rastreabilidade v0.1](./catalogo-rastreabilidade-v0.1.md)
 - [Registro de ambiguidades v0.1](./registro-ambiguidades-v0.1.md)
 - [Checklist de revisão de regra](./checklist-revisao-regra.md)
-- [Template de especificação](../templates/regra-executavel-template.md)
-- [Template de requisito do produto](../templates/requisito-produto-template.md)
+- [Template de especificação](../99-modelos/regra-executavel-template.md)
+- [Template de requisito do produto](../99-modelos/requisito-produto-template.md)
 
 ---
 
@@ -209,11 +212,11 @@ Identificadores não devem carregar número de página ou edição, pois essas i
 
 ---
 
-## 11. Consequências arquiteturais a validar
+## 11. Consequências arquiteturais incorporadas e ainda verificáveis
 
-Esta fase deve produzir evidência suficiente para expressar no Domain Model as decisões já aceitas e validar as hipóteses ainda abertas:
+O Modelo de Domínio v0.1 incorporou as decisões abaixo. A trilha de regras deve preservar sua evidência e verificar cada comportamento nas especificações, testes e ADRs correspondentes:
 
-- edição e versão deverão ser identificadas por um `RuleSetId` explícito;
+- identidade e versão do perfil deverão ser separadas em `ruleSetProfileId` e `ruleSetProfileRevisionId`;
 - a resolução deverá ser determinística quando receber entradas e faces dos dados;
 - geração aleatória deverá permanecer fora do núcleo puro da regra;
 - cada tentativa confirmada deverá ser imutável e persistida antes da apresentação;
@@ -222,7 +225,7 @@ Esta fase deve produzir evidência suficiente para expressar no Domain Model as 
 - julgamentos do Narrador deverão aparecer como decisões explícitas;
 - proveniência deverá permanecer ligada à especificação e ao conhecimento, sem contaminar indiscriminadamente todos os objetos do jogo.
 
-As decisões de tentativa imutável e histórico sem sobrescrita não serão reabertas silenciosamente. As demais hipóteses serão confirmadas, corrigidas ou rejeitadas no Domain Model e nos ADRs.
+As decisões de tentativa imutável e histórico sem sobrescrita não serão reabertas silenciosamente. Qualquer correção nas demais hipóteses exige evolução versionada do Modelo de Domínio ou um ADR, conforme o alcance da mudança.
 
 ---
 
@@ -235,8 +238,9 @@ O primeiro fluxo executável será um teste básico percorrido de ponta a ponta 
 3. informar uma dificuldade conhecida e o valor atual de Fome;
 4. fornecer faces determinísticas ao avaliador, separadas em dados normais e de Fome;
 5. classificar integralmente o teste básico, inclusive resultados críticos ou especiais confirmados pelo corpus;
-6. persistir a tentativa como Evento de Sessão imutável, com entradas, faces, `RuleSetId` e resultado;
-7. projetar o resultado autorizado no Feed da Mesa.
+6. persistir o `RollAttempt` imutável, com entradas, faces, `ruleSetProfileRevisionId` e resultado;
+7. criar um `SessionEvent` que referencia a tentativa persistida;
+8. projetar o evento autorizado no Feed da Mesa.
 
 Ficam fora desta fatia:
 
@@ -260,7 +264,7 @@ Ordem recomendada:
 3. dados de Fome;
 4. dificuldade e sucessos;
 5. críticos;
-6. Crítico Sangrento;
+6. Crítico Bestial;
 7. Falha Bestial;
 8. composição e ordem do fluxo completo;
 9. requisitos internos `REQ-*` para persistência do Evento de Sessão e projeção no Feed da Mesa.
@@ -269,6 +273,8 @@ O reroll com Força de Vontade permanece candidato para o incremento seguinte. E
 
 ---
 
-## 14. Bloqueio atual
+## 14. Estado atual
 
-A área de trabalho está pronta, mas nenhuma regra será marcada como extraída ou revisada até que as fontes sejam adicionadas localmente e inventariadas.
+Livro Básico, Companion e Players Guide foram adicionados localmente, preservados fora do Git, inventariados e comparados. A fase não está mais bloqueada por corpus.
+
+O próximo lote é transformar as regras do primeiro fluxo de rolagem em especificações próprias e cenários determinísticos, submetendo cada uma à aprovação humana antes da implementação.

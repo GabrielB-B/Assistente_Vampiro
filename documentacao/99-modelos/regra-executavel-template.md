@@ -5,7 +5,7 @@ Substituir `AREA` por um código curto e estável da capacidade, como `ROLL`, `H
 **Maturidade:** candidata<br>
 **Implementação:** não iniciada<br>
 **Edição:** V5  
-**RuleSetId:**<br>
+**ruleSetProfileRevisionId:**<br>
 **Categoria:** parada | Fome | dificuldade | resultado | crítico | reroll | dano | composição | outra<br>
 **Responsável pela revisão:**
 
@@ -88,7 +88,7 @@ Cada cenário fornece as faces ao avaliador. A geração aleatória não faz par
 | Campo | Valor |
 |---|---|
 | Estado anterior | |
-| RuleSetId | |
+| ruleSetProfileRevisionId | |
 | Dados normais | quantidade |
 | Dados de Fome | quantidade |
 | Faces fornecidas | separar normais e Fome |
@@ -116,7 +116,7 @@ Cobertura mínima:
 
 - dúvida a confirmar na fonte ou errata.
 
-Se a dúvida puder alterar comportamento, teste ou escopo, registrar um `AMB-*` no [Registro de Ambiguidades](../descoberta-regras/registro-ambiguidades-v0.1.md) e referenciar o ID aqui.
+Se a dúvida puder alterar comportamento, teste ou escopo, registrar um `AMB-*` no [Registro de Ambiguidades](../03-dominio-regras/registro-ambiguidades-v0.1.md) e referenciar o ID aqui.
 
 ## 12. Dependências
 

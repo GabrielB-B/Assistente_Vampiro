@@ -6,7 +6,7 @@ Usar antes de alterar a maturidade de uma regra para `revisada` ou `aprovada`.
 
 - [ ] edição confirmada;
 - [ ] ID da fonte (`source_id`) registrado;
-- [ ] RuleSetId registrado;
+- [ ] `ruleSetProfileRevisionId` registrado;
 - [ ] versão ou impressão confirmada;
 - [ ] capítulo e página registrados;
 - [ ] errata procurada;

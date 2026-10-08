@@ -1,7 +1,7 @@
 # Glossário Controlado v0.1
 
-**Status:** rascunho<br>
-**Estado da fase:** termos do jogo aguardam validação nas fontes<br>
+**Status:** baseline terminológico do primeiro fluxo aprovado<br>
+**Estado da fase:** termos centrais confirmados no Livro Básico Galápagos<br>
 **Escopo:** primeiro fluxo de rolagem
 
 ---
@@ -40,25 +40,31 @@ Estados:
 
 ---
 
-## 3. Termos do jogo a validar
+## 3. Termos do jogo confirmados
 
-As traduções abaixo são somente formas de trabalho já presentes no planejamento. Não representam confirmação editorial.
+As formas abaixo foram confirmadas em `SRC-0001`. O Companion (`SRC-0003`) confirma parte do vocabulário e fornece termos adicionais. O Players Guide (`SRC-0004`) permanece como fonte mecânica em inglês nos casos republicados.
 
 | ID | Original | Forma de trabalho PT-BR | Estado | Fonte oficial | Observação |
 |---|---|---|---|---|---|
-| TERM-GAME-001 | Attribute | Atributo | provisório | pendente | confirmar edição adotada |
-| TERM-GAME-002 | Skill | Habilidade | provisório | pendente | verificar terminologia oficial PT-BR |
-| TERM-GAME-003 | Dice Pool | Parada de dados | provisório | pendente | registrar aliases de busca depois |
-| TERM-GAME-004 | Hunger | Fome | provisório | pendente | confirmar capitalização editorial |
-| TERM-GAME-005 | Hunger Die | Dado de Fome | provisório | pendente | confirmar singular e plural oficiais |
-| TERM-GAME-006 | Difficulty | Dificuldade | provisório | pendente | separar número e conceito |
-| TERM-GAME-007 | Success | Sucesso | provisório | pendente | validar contagem |
-| TERM-GAME-008 | Critical | Crítico | provisório | pendente | validar terminologia completa |
-| TERM-GAME-009 | Messy Critical | Crítico Sangrento | provisório | pendente | tradução precisa ser confirmada |
-| TERM-GAME-010 | Bestial Failure | Falha Bestial | provisório | pendente | tradução precisa ser confirmada |
-| TERM-GAME-011 | Willpower | Força de Vontade | provisório | pendente | confirmar usos mecânicos |
-| TERM-GAME-012 | Reroll | Reroll / nova rolagem | provisório | pendente | escolher termo de interface depois |
-| TERM-GAME-013 | Rouse Check | Teste de Despertar a confirmar | provisório | pendente | não usar como oficial ainda |
+| TERM-GAME-001 | Attribute | Atributo | oficial | SRC-0001, p. 118, 155+ | categoria de Característica |
+| TERM-GAME-002 | Skill | Habilidade | oficial | SRC-0001, p. 118, 159+ | categoria de Característica |
+| TERM-GAME-003 | dice pool | parada de dados | oficial | SRC-0001, p. 117–123 | evitar `pool` na interface PT-BR |
+| TERM-GAME-004 | Hunger | Fome | oficial | SRC-0001, p. 205+ | trilha do vampiro |
+| TERM-GAME-005 | Hunger Die / Dice | Dado de Fome / Dados de Fome | oficial | SRC-0001, p. 205+ | singular e plural explícitos |
+| TERM-GAME-006 | Difficulty | Dificuldade | oficial | SRC-0001, p. 119+ | quantidade de sucessos necessária |
+| TERM-GAME-007 | success | sucesso | oficial | SRC-0001, p. 118+ | resultado individual ou contagem contextual |
+| TERM-GAME-008 | critical success / critical win | sucesso crítico / vitória crítica | oficial | SRC-0001, p. 120+ | manter a distinção contextual |
+| TERM-GAME-009 | messy critical | Crítico Bestial | oficial | SRC-0001, p. 207 | `Crítico Sangrento` está depreciado |
+| TERM-GAME-010 | bestial failure | Falha Bestial | oficial | SRC-0001, p. 207–208 | distinta de Falha Total |
+| TERM-GAME-011 | Willpower | Força de Vontade | oficial | SRC-0001, p. 119, 157+ | trilha e recurso de rerrolagem |
+| TERM-GAME-012 | reroll | rerrolagem | controlado | decisão editorial interna | manter o inglês como alias de busca |
+| TERM-GAME-013 | Rouse Check | Checagem de Sangue | oficial | SRC-0001, p. 211+ | `Teste de Despertar` está depreciado |
+| TERM-GAME-014 | Blood Surge | Surto de Sangue | oficial | SRC-0001, p. 218+ | ligado à Potência do Sangue |
+| TERM-GAME-015 | Blood Potency | Potência do Sangue | oficial | SRC-0001, p. 215+ | valor versionado pelo perfil de regras |
+| TERM-GAME-016 | Bane Severity | Gravidade da Perdição | oficial | SRC-0001, p. 216+ | derivada da Potência do Sangue |
+| TERM-GAME-017 | Touchstone | Pilar | oficial | SRC-0001, p. 173, 236+ | mortal ligado a uma Convicção |
+| TERM-GAME-018 | Stain | Mácula | oficial | SRC-0001, p. 239+ | plural: Máculas |
+| TERM-GAME-019 | Loresheet | Ficha de Conhecimento | oficial | SRC-0001, p. 152, 382+ | plural: Fichas de Conhecimento |
 
 ---
 

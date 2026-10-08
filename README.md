@@ -4,9 +4,9 @@ Plataforma brasileira para aprender, criar, organizar e jogar **Vampiro: A Másc
 
 ## Estado atual
 
-O projeto está em **descoberta estruturada e arquitetura de produto**.
+O projeto está em **arquitetura de software**, com fundação de produto, direção visual, corpus inicial de regras, Modelo de Domínio e stack tecnológica aprovados.
 
-Ainda não existe uma aplicação implementada. As decisões de produto, experiência e direção visual estão sendo formalizadas antes da escolha final da arquitetura técnica e da criação do primeiro corte executável.
+Ainda não existe uma aplicação implementada. A Architecture v0.1 está em revisão; a etapa atual fecha permissões, a primeira regra executável e a prova de persistência antes da criação do código de produção.
 
 ## Princípios centrais
 
@@ -18,7 +18,7 @@ Ainda não existe uma aplicação implementada. As decisões de produto, experi�
 - separação entre Biblioteca, Rules Engine e SIRE;
 - IA opcional e sem responsabilidade por proteger segredos;
 - regras e conteúdo com edição e proveniência;
-- monólito modular como hipótese inicial, sem distribuição prematura;
+- monólito modular como arquitetura inicial, sem distribuição prematura;
 - desenvolvimento por cortes verticais testáveis.
 
 ## Documentação
@@ -26,12 +26,12 @@ Ainda não existe uma aplicação implementada. As decisões de produto, experi�
 O mapa oficial dos documentos, status e ordem de leitura está em:
 
 - [Índice da documentação](./documentacao/README.md)
-- [Roadmap de Engenharia v0.1](./documentacao/roadmap-engenharia-v0.1.md)
-- [Registro de Decisões](./documentacao/registro-decisoes.md)
+- [Roadmap de Engenharia v0.1](./documentacao/05-planejamento/roadmap-engenharia-v0.1.md)
+- [Registro de Decisões](./documentacao/00-governanca/registro-decisoes.md)
 
 ## Próximo objetivo
 
-Executar **Rules & Content Discovery v0.1** com um corpus mínimo das regras necessárias ao primeiro corte vertical:
+Fechar a arquitetura técnica e os contratos necessários ao **Vertical Slice 01**:
 
 ```text
 Autenticar
@@ -44,14 +44,15 @@ Autenticar
 → Exibir o resultado no Feed da Mesa
 ```
 
-Após essa descoberta serão produzidos:
+Próximas entregas:
 
-1. Domain Model v0.1;
+1. prova comparativa de persistência e ADR-0004;
 2. Permissions & Visibility Matrix v0.1;
-3. Rules Engine Scope v0.1;
-4. Architecture v0.1;
-5. ADRs iniciais;
-6. esqueleto executável e CI.
+3. primeira especificação executável de rolagem;
+4. Rules Engine Scope v0.1;
+5. revisão e aprovação da Architecture v0.1;
+6. esqueleto executável, banco local e CI;
+7. alpha técnico antes do MVP de playtest.
 
 ## Conteúdo protegido
 

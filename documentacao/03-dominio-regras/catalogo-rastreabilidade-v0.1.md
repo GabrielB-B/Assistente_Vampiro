@@ -1,7 +1,7 @@
 # Catálogo de Rastreabilidade v0.1
 
 **Status:** rascunho<br>
-**Estado da fase:** fontes e comportamentos ainda não confirmados<br>
+**Estado da fase:** fontes confirmadas; especificações e cenários em elaboração<br>
 **Escopo:** primeiro fluxo de rolagem
 
 ---
@@ -18,15 +18,15 @@ Regras normativas (`RULE-*`) e requisitos internos (`REQ-*`) possuem autoridades
 
 | Regra | Recorte | Capacidade | Fonte (`SRC-*`) | Especificação | Cenários (`RULE-*-T*`) | Revisão humana | Maturidade | Implementação |
 |---|---|---|---|---|---|---|---|---|
-| RULE-ROLL-001 — composição da parada | fatia 01 | Roll Builder | pendente | pendente | pendente | não | candidata | não iniciada |
-| RULE-HUNGER-001 — participação da Fome | fatia 01 | Roll Builder | pendente | pendente | pendente | não | candidata | não iniciada |
-| RULE-DIFF-001 — dificuldade | fatia 01 | Roll Builder | pendente | pendente | pendente | não | candidata | não iniciada |
-| RULE-RESULT-001 — sucessos e falha | fatia 01 | resultado | pendente | pendente | pendente | não | candidata | não iniciada |
-| RULE-CRIT-001 — crítico | fatia 01 | resultado | pendente | pendente | pendente | não | candidata | não iniciada |
-| RULE-MESSY-001 — Crítico Sangrento | fatia 01 | resultado | pendente | pendente | pendente | não | candidata | não iniciada |
-| RULE-BESTIAL-001 — Falha Bestial | fatia 01 | resultado | pendente | pendente | pendente | não | candidata | não iniciada |
-| RULE-ROLLFLOW-001 — ordem de resolução | fatia 01 | Rules Engine | pendente | pendente | pendente | não | candidata | não iniciada |
-| RULE-WILL-001 — reroll com Força de Vontade | incremento seguinte | resultado e decisão | pendente | pendente | pendente | não | candidata | não iniciada |
+| RULE-ROLL-001 — composição da parada | fatia 01 | Roll Builder | SRC-0001, p. 117–123 | pendente | pendente | não | candidata | não iniciada |
+| RULE-HUNGER-001 — participação da Fome | fatia 01 | Roll Builder | SRC-0001, p. 205–210 | pendente | pendente | não | candidata | não iniciada |
+| RULE-DIFF-001 — dificuldade | fatia 01 | Roll Builder | SRC-0001, p. 118–123 | pendente | pendente | não | candidata | não iniciada |
+| RULE-RESULT-001 — sucessos e falha | fatia 01 | resultado | SRC-0001, p. 118–123 | pendente | pendente | não | candidata | não iniciada |
+| RULE-CRIT-001 — crítico | fatia 01 | resultado | SRC-0001, p. 120–122 | pendente | pendente | não | candidata | não iniciada |
+| RULE-MESSY-001 — Crítico Bestial | fatia 01 | resultado | SRC-0001, p. 207–208; SRC-0003, p. 62 | pendente | pendente | não | candidata | não iniciada |
+| RULE-BESTIAL-001 — Falha Bestial | fatia 01 | resultado | SRC-0001, p. 207–208 | pendente | pendente | não | candidata | não iniciada |
+| RULE-ROLLFLOW-001 — ordem de resolução | fatia 01 | Rules Engine | SRC-0001, p. 117–123, 205–210 | pendente | pendente | não | candidata | não iniciada |
+| RULE-WILL-001 — rerrolagem com Força de Vontade | incremento seguinte | resultado e decisão | SRC-0001, p. 122, 158 | pendente | pendente | não | candidata; escopo adiado | não iniciada |
 
 ---
 
@@ -34,7 +34,7 @@ Regras normativas (`RULE-*`) e requisitos internos (`REQ-*`) possuem autoridades
 
 | Requisito | Recorte | Capacidade | Decisão | Especificação | Cenários (`REQ-*-T*`) | Revisão humana | Maturidade | Implementação |
 |---|---|---|---|---|---|---|---|---|
-| REQ-ROLL-ATTEMPT-001 — persistir tentativa imutável antes da apresentação | fatia 01 | Evento de Sessão | DEC-012, DEC-020 e DEC-021 | pendente | pendente | sim | candidato | não iniciada |
+| REQ-ROLL-ATTEMPT-001 — persistir tentativa imutável antes da apresentação | fatia 01 | persistência de rolagem | DEC-012, DEC-020 e DEC-021 | pendente | pendente | sim | candidato | não iniciada |
 | REQ-TABLE-FEED-001 — projetar resultado autorizado | fatia 01 | Feed da Mesa | DEC-012, DEC-020 e DEC-022 | pendente | pendente | sim | candidato | não iniciada |
 
 ---

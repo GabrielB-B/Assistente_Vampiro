@@ -6,6 +6,8 @@
 **Fase:** identidade visual e direção de arte  
 **Objetivo:** registrar, de forma profissional, a direção visual aprovada para o produto antes da definição final de paleta, tipografia, design tokens, componentes e wireframes.
 
+**Leitura do status:** os princípios identificados como aprovados estão vigentes; paleta, tipografia, tokens, componentes e aplicações ainda permanecem como proposta até aprovação específica.
+
 ---
 
 # 1. Propósito deste documento
@@ -29,7 +31,7 @@ Este documento **não** fecha ainda:
 - componentes UI finais;
 - mockups de tela definitivos.
 
-Ele serve como **base oficial** para as próximas etapas visuais.
+Ele serve como **base de trabalho vigente** para as próximas etapas visuais, respeitando a distinção entre decisões aprovadas e definições ainda abertas.
 
 ---
 
