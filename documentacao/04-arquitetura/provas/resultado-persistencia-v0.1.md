@@ -132,4 +132,3 @@ Esses limites não impedem a decisão inicial. O adapter e as migrações preser
 1. iniciar a Engineering Foundation e o esqueleto de produção;
 2. transformar o contrato aprovado em migrações e adapters de produção;
 3. arquivar ou remover o código experimental quando ele deixar de ser necessário para auditoria.
-

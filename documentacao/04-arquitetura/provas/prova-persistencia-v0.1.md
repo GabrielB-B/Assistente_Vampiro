@@ -298,4 +298,3 @@ A prova foi executada em três schemas isolados no banco `assistente_vampiro_per
 - ADR-0004 foi aceita, adotando Kysely 0.29.6 com `pg` 8.23.1.
 
 O relatório completo está em [Resultado da Prova de Persistência v0.1](./resultado-persistencia-v0.1.md).
-

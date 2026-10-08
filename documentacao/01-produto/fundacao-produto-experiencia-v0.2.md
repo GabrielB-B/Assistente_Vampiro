@@ -2188,7 +2188,8 @@ Não pela quantidade de funcionalidades.
 | Visual Identity & Design Direction v0.1 | em evolução | direção artística consolidada; tipografia e tokens ainda pendentes |
 | Product Architecture & Core User Flows v0.1 | aprovado | formaliza navegação, atores e fluxos principais |
 | Modelo de Domínio v0.1 | aprovado | formaliza entidades, agregados, invariantes e decisões estruturais |
-| Architecture v0.1 | próximo | fechar stack, módulos, dados, segurança, realtime, operação e limites de IA |
+| Architecture v0.1 | aprovado | stack, módulos, dados, segurança, realtime, operação e limites de IA definidos |
+| Engineering Foundation | próximo | criar esqueleto, CI, banco e ambiente reproduzível |
 | ADRs | contínuo | registrar decisões de alto impacto ou difícil reversão |
 
 A dúvida original sobre reutilização de Personagem entre Crônicas foi resolvida: na v0.1, cada Personagem possui no máximo um Vínculo ativo; outra Crônica exige uma cópia explícita. Mudanças nessa política exigem decisão versionada.

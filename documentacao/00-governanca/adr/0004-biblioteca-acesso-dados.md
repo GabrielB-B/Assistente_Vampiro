@@ -97,4 +97,3 @@ Os casos de uso dependem de portas do projeto, não de Kysely. Uma substituiçã
 ## Aprovação
 
 A recomendação foi aprovada explicitamente pelo responsável do produto em 8 de outubro de 2026. Esta decisão passa a orientar a Engineering Foundation e o primeiro código de produção.
-

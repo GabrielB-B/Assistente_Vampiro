@@ -29,9 +29,15 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 7. [Opções Tecnológicas v0.1](./04-arquitetura/opcoes-tecnologicas-v0.1.md)
 8. [Pesquisa de Benchmarks de Plataformas de RPG v0.1](./04-arquitetura/pesquisa-benchmarks-plataformas-rpg-v0.1.md)
 9. [Architecture v0.1 — Arquitetura de Software](./04-arquitetura/arquitetura-software-v0.1.md)
-10. [Escopo do Alpha Técnico v0.1](./05-planejamento/escopo-alpha-tecnica-v0.1.md)
-11. [Registro de Decisões](./00-governanca/registro-decisoes.md)
-12. [Roadmap de Engenharia v0.1](./05-planejamento/roadmap-engenharia-v0.1.md)
+10. [Permissions & Visibility Matrix v0.1](./04-arquitetura/permissoes-visibilidade-v0.1.md)
+11. [Rules Engine Scope v0.1](./04-arquitetura/escopo-rules-engine-v0.1.md)
+12. [Prova de Persistência v0.1](./04-arquitetura/provas/prova-persistencia-v0.1.md)
+13. [Resultado da Prova de Persistência v0.1](./04-arquitetura/provas/resultado-persistencia-v0.1.md)
+14. [ADR-0004 — Biblioteca de acesso a dados](./00-governanca/adr/0004-biblioteca-acesso-dados.md)
+15. [ADR-0005 — Identificadores UUIDv7](./00-governanca/adr/0005-identificadores-uuidv7.md)
+16. [Escopo do Alpha Técnico v0.1](./05-planejamento/escopo-alpha-tecnica-v0.1.md)
+17. [Registro de Decisões](./00-governanca/registro-decisoes.md)
+18. [Roadmap de Engenharia v0.1](./05-planejamento/roadmap-engenharia-v0.1.md)
 
 ## Situação por etapa
 
@@ -41,19 +47,23 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 | direção visual | em evolução controlada | calibração aprovada; sistema visual ainda em proposta |
 | corpus inicial | concluído | três fontes auditadas e linha normativa aprovada |
 | Modelo de Domínio v0.1 | aprovado | decisões registradas e versionadas |
-| arquitetura técnica | em revisão | stack e ADRs registrados; prova de persistência e revisão humana pendentes |
-| permissões e Rules Engine | em paralelo | matriz de visibilidade e primeira regra executável |
-| Vertical Slice 01 | não iniciado | somente após contratos e Architecture v0.1 |
+| arquitetura técnica | aprovada | Architecture v0.1 e cinco ADRs aceitas |
+| permissões e Rules Engine | concluída para a Fatia 01 | matriz, escopo e oito regras aprovados |
+| Engineering Foundation | próximo | esqueleto, CI, banco e ambiente reproduzível |
+| Vertical Slice 01 | não iniciado | após os gates da Engineering Foundation |
 | MVP de playtest | planejado | após validar o corte vertical interno |
 
 ## Documentos de governança obrigatórios
 
 - [Registro de Decisões](./00-governanca/registro-decisoes.md)
 - [Padrões de Qualidade de Engenharia v0.1](./00-governanca/padroes-qualidade-engenharia-v0.1.md)
+- [Fluxo Git v0.1](./00-governanca/fluxo-git-v0.1.md)
 - [Template de ADR](./00-governanca/adr/0000-template.md)
 - [ADR-0001 — Stack web e monorepo TypeScript](./00-governanca/adr/0001-stack-web-e-monorepo.md)
 - [ADR-0002 — Persistência, eventos e realtime confiável](./00-governanca/adr/0002-persistencia-eventos-e-realtime.md)
 - [ADR-0003 — Identidade controlada no alpha técnico](./00-governanca/adr/0003-identidade-da-alpha.md)
+- [ADR-0004 — Biblioteca de acesso a dados](./00-governanca/adr/0004-biblioteca-acesso-dados.md) — aceita.
+- [ADR-0005 — Identificadores UUIDv7](./00-governanca/adr/0005-identificadores-uuidv7.md) — aceita.
 - [Roadmap de Engenharia v0.1](./05-planejamento/roadmap-engenharia-v0.1.md)
 
 ## Política de status

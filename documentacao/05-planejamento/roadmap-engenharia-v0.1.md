@@ -213,7 +213,7 @@ Media
 
 ### Estado
 
-**Em andamento.** A matriz de permissões e a primeira regra executável evoluem em paralelo à prova técnica de persistência, sem iniciar código de produção.
+**Concluída para a Fatia 01.** A matriz de permissões, o Rules Engine Scope e as oito regras de `RULE-ROLL-001` a `RULE-ROLLFLOW-001` foram aprovados. A rerrolagem com Força de Vontade terá especificação própria no incremento seguinte, antes do MVP de playtest. Nenhum código de produção foi iniciado.
 
 ---
 
@@ -237,7 +237,8 @@ Media
 1. ADR-0001 — stack web e monorepo TypeScript: **aceita**;
 2. ADR-0002 — persistência, eventos e realtime confiável: **aceita**;
 3. ADR-0003 — identidade controlada no alpha: **aceita**;
-4. ADR-0004 — biblioteca de acesso a dados: **após a prova técnica**.
+4. ADR-0004 — biblioteca de acesso a dados: **aceita; Kysely aprovado pela prova técnica**;
+5. ADR-0005 — identificadores UUIDv7: **aceita; geração pela aplicação aprovada**.
 
 Autenticação real, storage, IA e decomposição só recebem ADR quando entrarem num corte aprovado. Não serão criadas decisões ornamentais para tecnologia ainda não usada.
 
@@ -250,7 +251,7 @@ Autenticação real, storage, IA e decomposição só recebem ADR quando entrare
 
 ### Estado
 
-**Em revisão.** A stack foi aceita, os três primeiros ADRs foram registrados e a Architecture v0.1 foi produzida. A aprovação final depende da matriz de permissões, da primeira regra executável e da prova de persistência com ADR-0004.
+**Concluída.** A stack, a Fatia 01, a prova de persistência, as cinco ADRs e a Architecture v0.1 foram aprovadas. A Engineering Foundation é o corte ativo.
 
 ---
 
@@ -450,9 +451,7 @@ As referências orientam o raciocínio. Elas não substituem decisões baseadas 
 
 ## 16. Próxima ação concreta
 
-1. executar a prova de persistência com Kysely, Drizzle e Prisma em código descartável;
-2. registrar o resultado no ADR-0004;
-3. concluir Permissions & Visibility Matrix, `RULE-ROLL-001` a `RULE-ROLLFLOW-001` e Rules Engine Scope;
-4. revisar e aprovar a Architecture v0.1;
-5. criar o esqueleto executável e o CI somente após esse gate;
-6. implementar e validar o alpha técnico antes do MVP de playtest.
+1. criar o esqueleto executável, o banco local e a CI;
+2. comprovar instalação limpa e setup reproduzível;
+3. especificar `RULE-WILL-001` no incremento previsto;
+4. implementar e validar o alpha técnico antes do MVP de playtest.
