@@ -1,0 +1,35 @@
+{
+  "name": "@assistente-vampiro/prova-persistencia",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.10.1",
+  "engines": {
+    "node": "24.18.0",
+    "pnpm": "12.10.1"
+  },
+  "scripts": {
+    "db:generate:prisma": "prisma generate --config prisma.config.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:kysely": "vitest run kysely/tests",
+    "test:drizzle": "vitest run drizzle/tests",
+    "test:prisma": "vitest run prisma/tests",
+    "measure": "vitest run --config vitest.benchmark.config.ts"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "7.10.0",
+    "@prisma/client": "7.10.0",
+    "drizzle-orm": "0.45.4",
+    "kysely": "0.29.6",
+    "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.1",
+    "@types/pg": "8.23.1",
+    "drizzle-kit": "0.31.11",
+    "prisma": "7.10.0",
+    "typescript": "7.0.2",
+    "vitest": "5.0.3"
+  }
+}

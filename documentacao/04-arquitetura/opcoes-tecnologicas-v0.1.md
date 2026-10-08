@@ -291,7 +291,7 @@ Cada candidato executará o mesmo cenário:
 | manutenção e estabilidade do ecossistema | 10% |
 | diagnóstico e desempenho | 10% |
 
-O resultado será um relatório curto, os três experimentos descartáveis e um ADR com a matriz de pontuação. Se a Opção B for escolhida, o mesmo cenário será adaptado para comparar a abordagem padrão do ecossistema .NET com uma alternativa de SQL mais explícita.
+O resultado foi registrado no relatório da prova e na ADR-0004. Kysely 0.29.6 com `pg` 8.23.1 foi aprovado após os três candidatos passarem pelo mesmo contrato em PostgreSQL 18.6.
 
 A aplicação dependerá das interfaces de repositório, não da biblioteca vencedora.
 
@@ -502,7 +502,7 @@ Chat livre fica fora do MVP recomendado até um playtest demonstrar que o Feed e
 
 A decisão foi registrada como **F1 + A + I + alpha + prova de persistência + Feed sem chat**.
 
-Os detalhes vigentes estão no [ADR-0001](../00-governanca/adr/0001-stack-web-e-monorepo.md), no [ADR-0002](../00-governanca/adr/0002-persistencia-eventos-e-realtime.md), no [ADR-0003](../00-governanca/adr/0003-identidade-da-alpha.md) e na [Architecture v0.1](./arquitetura-software-v0.1.md). Nenhuma pasta de código será criada antes da aprovação do gate arquitetural.
+Os detalhes vigentes estão no [ADR-0001](../00-governanca/adr/0001-stack-web-e-monorepo.md), no [ADR-0002](../00-governanca/adr/0002-persistencia-eventos-e-realtime.md), no [ADR-0003](../00-governanca/adr/0003-identidade-da-alpha.md), no [ADR-0004](../00-governanca/adr/0004-biblioteca-acesso-dados.md), no [ADR-0005](../00-governanca/adr/0005-identificadores-uuidv7.md) e na [Architecture v0.1](./arquitetura-software-v0.1.md). O gate arquitetural foi aprovado; a criação de código começa pela Engineering Foundation, sem antecipar funcionalidades.
 
 ## 16. Fontes primárias consultadas
 

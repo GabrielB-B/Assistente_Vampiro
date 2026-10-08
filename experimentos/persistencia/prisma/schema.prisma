@@ -1,0 +1,112 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "./generated/client"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["prisma_lab"]
+}
+
+enum Visibility {
+  PUBLIC
+  PLAYER
+  STORYTELLER
+
+  @@map("visibility")
+  @@schema("prisma_lab")
+}
+
+enum RollResultKind {
+  SUCCESS
+  FAILURE
+  MESSY_CRITICAL
+  BESTIAL_FAILURE
+
+  @@map("roll_result_kind")
+  @@schema("prisma_lab")
+}
+
+model CharacterState {
+  id           String        @id @db.Uuid
+  version      Int
+  hunger       Int           @db.SmallInt
+  updatedAt    DateTime      @default(now()) @map("updated_at") @db.Timestamptz
+  rollAttempts RollAttempt[]
+
+  @@map("character_state")
+  @@schema("prisma_lab")
+}
+
+model RollAttempt {
+  id                   String          @id @db.Uuid
+  sessionId            String          @map("session_id") @db.Uuid
+  sceneId              String          @map("scene_id") @db.Uuid
+  characterId          String          @map("character_id") @db.Uuid
+  idempotencyKey       String          @map("idempotency_key")
+  commandFingerprint   String          @map("command_fingerprint")
+  expectedStateVersion Int             @map("expected_state_version")
+  profileRevision      String          @map("profile_revision")
+  rulesRevision        String          @map("rules_revision")
+  evaluatorRevision    String          @map("evaluator_revision")
+  composition          Json
+  faces                Json
+  resultKind           RollResultKind  @map("result_kind")
+  result               Json
+  previousAttemptId    String?         @map("previous_attempt_id") @db.Uuid
+  confirmedAt          DateTime        @default(now()) @map("confirmed_at") @db.Timestamptz
+  correlationId        String          @map("correlation_id") @db.Uuid
+  characterState       CharacterState  @relation(fields: [characterId], references: [id])
+  previousAttempt      RollAttempt?    @relation("AttemptHistory", fields: [previousAttemptId], references: [id])
+  followingAttempts    RollAttempt[]   @relation("AttemptHistory")
+  sessionEvent         SessionEvent?
+
+  @@unique([sessionId, idempotencyKey], map: "uq_roll_attempt_session_idempotency")
+  @@index([characterId, confirmedAt(sort: Desc)], map: "ix_roll_attempt_character_time")
+  @@index([correlationId], map: "ix_roll_attempt_correlation")
+  @@map("roll_attempt")
+  @@schema("prisma_lab")
+}
+
+model SessionEvent {
+  id            String        @id @db.Uuid
+  sessionId     String        @map("session_id") @db.Uuid
+  sequence      BigInt
+  rollAttemptId String        @unique @map("roll_attempt_id") @db.Uuid
+  eventType     String        @map("event_type")
+  audience      Visibility[]
+  occurredAt    DateTime      @default(now()) @map("occurred_at") @db.Timestamptz
+  rollAttempt   RollAttempt   @relation(fields: [rollAttemptId], references: [id])
+  outboxMessage OutboxMessage?
+
+  @@unique([sessionId, sequence], map: "uq_session_event_sequence")
+  @@map("session_event")
+  @@schema("prisma_lab")
+}
+
+model SessionStream {
+  sessionId    String @id @map("session_id") @db.Uuid
+  lastSequence BigInt @default(0) @map("last_sequence")
+
+  @@map("session_stream")
+  @@schema("prisma_lab")
+}
+
+model OutboxMessage {
+  id             String       @id @db.Uuid
+  sessionEventId String       @unique @map("session_event_id") @db.Uuid
+  topic          String
+  payload        Json
+  audience       Visibility[]
+  attempts       Int          @default(0)
+  nextAttemptAt  DateTime     @default(now()) @map("next_attempt_at") @db.Timestamptz
+  dispatchedAt   DateTime?    @map("dispatched_at") @db.Timestamptz
+  claimToken     String?      @map("claim_token") @db.Uuid
+  claimedUntil   DateTime?    @map("claimed_until") @db.Timestamptz
+  sessionEvent   SessionEvent @relation(fields: [sessionEventId], references: [id])
+
+  @@index([nextAttemptAt, id], map: "ix_outbox_pending")
+  @@map("outbox_message")
+  @@schema("prisma_lab")
+}

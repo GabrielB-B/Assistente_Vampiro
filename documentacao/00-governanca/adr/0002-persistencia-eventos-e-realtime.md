@@ -39,7 +39,7 @@ Adotar PostgreSQL 18 como fonte de verdade e o padrão outbox transacional:
 
 Socket.IO será o primeiro adapter de transporte. O relay pode executar no processo da API no alpha, mas estado, tentativa e próxima execução permanecem duráveis no PostgreSQL. Chat livre não faz parte do primeiro MVP.
 
-A biblioteca de acesso a dados não está decidida. Kysely, Drizzle e Prisma serão comparados numa prova curta usando exatamente essa transação.
+A biblioteca de acesso a dados ainda não estava decidida nesta ADR. A prova posterior comparou Kysely, Drizzle e Prisma usando exatamente essa transação; a ADR-0004 adotou Kysely.
 
 ## Consequências positivas
 
