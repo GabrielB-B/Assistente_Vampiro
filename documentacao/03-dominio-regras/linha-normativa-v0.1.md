@@ -4,7 +4,8 @@
 **Data:** 6 de outubro de 2026<br>
 **Data de aprovação:** 6 de outubro de 2026<br>
 **Última revisão de coerência:** 7 de outubro de 2026<br>
-**Perfil:** `v5-core-companion-pg-2023`
+**Perfil:** `v5-core-companion-pg-2023`<br>
+**Revisão publicada:** `v5-core-companion-pg-2023-r1`
 
 ---
 

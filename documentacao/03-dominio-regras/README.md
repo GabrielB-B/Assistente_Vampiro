@@ -2,7 +2,7 @@
 
 **Status:** aprovado<br>
 **Uso:** execução da descoberta<br>
-**Estado da fase:** corpus inicial ingerido; especificação do primeiro fluxo em andamento<br>
+**Estado da fase:** corpus inicial ingerido; Fatia 01 de regras aprovada<br>
 **Início:** 2 de outubro de 2026<br>
 **Última revisão de coerência:** 7 de outubro de 2026<br>
 **Escopo inicial:** regras necessárias ao primeiro fluxo de rolagem V5
@@ -24,11 +24,23 @@ Ao final da fase será possível explicar, testar e rastrear:
 ```text
 formação da parada
 → substituição por dados de Fome
-→ dificuldade e sucessos
-→ crítico ou falha especial
+→ dificuldade e bônus de crítico
+→ resultado e falha especial
 → Evento de Sessão persistido
 → resultado autorizado no Feed da Mesa
 ```
+
+## Especificações executáveis
+
+- [Fatia 01 — índice e ordem de revisão](./especificacoes/fatia-01/README.md)
+- [RULE-ROLL-001 — Formação da parada de dados](./especificacoes/fatia-01/rule-roll-001-composicao-parada.md)
+- [RULE-HUNGER-001 — Dados de Fome na rolagem](./especificacoes/fatia-01/rule-hunger-001-participacao-dados-fome.md)
+- [RULE-DIFF-001 — Definição da Dificuldade](./especificacoes/fatia-01/rule-diff-001-definicao-dificuldade.md)
+- [RULE-CRIT-001 — Contagem de críticos](./especificacoes/fatia-01/rule-crit-001-contagem-criticos.md)
+- [RULE-RESULT-001 — Sucessos, falha e margem](./especificacoes/fatia-01/rule-result-001-resolucao-resultado.md)
+- [RULE-MESSY-001 — Crítico Bestial](./especificacoes/fatia-01/rule-messy-001-critico-bestial.md)
+- [RULE-BESTIAL-001 — Falha Bestial](./especificacoes/fatia-01/rule-bestial-001-falha-bestial.md)
+- [RULE-ROLLFLOW-001 — Ordem de resolução](./especificacoes/fatia-01/rule-rollflow-001-ordem-resolucao.md)
 
 Sem depender de memória, interpretação informal ou texto enviado à IA em tempo de execução.
 
@@ -262,12 +274,13 @@ Ordem recomendada:
 1. termos e fontes;
 2. composição da parada;
 3. dados de Fome;
-4. dificuldade e sucessos;
-5. críticos;
-6. Crítico Bestial;
-7. Falha Bestial;
-8. composição e ordem do fluxo completo;
-9. requisitos internos `REQ-*` para persistência do Evento de Sessão e projeção no Feed da Mesa.
+4. dificuldade;
+5. críticos e bônus de sucessos;
+6. sucessos, falha e margem;
+7. Crítico Bestial;
+8. Falha Bestial;
+9. composição e ordem do fluxo completo;
+10. requisitos internos `REQ-*` para persistência do Evento de Sessão e projeção no Feed da Mesa.
 
 O reroll com Força de Vontade permanece candidato para o incremento seguinte. Ele não bloqueia a primeira fatia e só será promovido quando elegibilidade, custo, limites e encerramento estiverem confirmados.
 

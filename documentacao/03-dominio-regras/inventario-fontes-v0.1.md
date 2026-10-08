@@ -32,9 +32,10 @@ Este inventário registra metadados e decisões próprias. Ele não reproduz o c
 
 Os três originais foram preservados sem alteração. Cada página foi inventariada. As extrações são camadas de busca e cotejo, nunca a autoridade normativa.
 
-## 4. Perfil de regras proposto
+## 4. Perfil de regras aprovado
 
-Identificador: `v5-core-companion-pg-2023`.
+Identificador da família: `v5-core-companion-pg-2023`.<br>
+Primeira revisão imutável: `v5-core-companion-pg-2023-r1`.
 
 O identificador contém a composição e o marco temporal do corpus. Não usa palavras como `atual`, que perderiam significado com o tempo.
 
@@ -98,7 +99,7 @@ Documentos versionáveis podem conter:
 |---|---|
 | A — identificar e extrair privadamente | satisfeito nas três fontes |
 | Controle técnico — integridade e baseline | satisfeito para o corpus inicial |
-| B — aprovar uma regra executável | pendente por regra |
+| B — aprovar uma regra executável | satisfeito para `RULE-ROLL-001`; permanece individual por regra |
 | C — fechar termos centrais PT-BR | satisfeito para o primeiro fluxo de rolagem |
 | C — localizar todos os nomes inéditos do Players Guide | pendente e não bloqueante |
 | D — publicar ou distribuir conteúdo editorial | não autorizado |
