@@ -1,0 +1,6 @@
+allowBuilds:
+  '@prisma/engines': true
+  esbuild: true
+  prisma: true
+minimumReleaseAgeExclude:
+  - drizzle-orm@0.45.4

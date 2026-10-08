@@ -4,9 +4,9 @@ Plataforma brasileira para aprender, criar, organizar e jogar **Vampiro: A Másc
 
 ## Estado atual
 
-O projeto está em **arquitetura de software**, com fundação de produto, direção visual, corpus inicial de regras, Modelo de Domínio e stack tecnológica aprovados.
+O projeto entra na **Engineering Foundation**, com fundação de produto, corpus inicial de regras, Modelo de Domínio, stack tecnológica e Architecture v0.1 aprovados.
 
-Ainda não existe uma aplicação implementada. A Architecture v0.1 está em revisão; a etapa atual fecha permissões, a primeira regra executável e a prova de persistência antes da criação do código de produção.
+Ainda não existe uma aplicação implementada. A Fatia 01 de regras, a prova de persistência, as cinco ADRs do gate e a Architecture v0.1 foram concluídas. O próximo corte cria a fundação executável antes das funcionalidades do alpha.
 
 ## Princípios centrais
 
@@ -31,7 +31,7 @@ O mapa oficial dos documentos, status e ordem de leitura está em:
 
 ## Próximo objetivo
 
-Fechar a arquitetura técnica e os contratos necessários ao **Vertical Slice 01**:
+Criar a fundação técnica necessária ao **Vertical Slice 01**:
 
 ```text
 Autenticar
@@ -46,13 +46,10 @@ Autenticar
 
 Próximas entregas:
 
-1. prova comparativa de persistência e ADR-0004;
-2. Permissions & Visibility Matrix v0.1;
-3. primeira especificação executável de rolagem;
-4. Rules Engine Scope v0.1;
-5. revisão e aprovação da Architecture v0.1;
-6. esqueleto executável, banco local e CI;
-7. alpha técnico antes do MVP de playtest.
+1. criar o esqueleto executável, as migrações iniciais e a CI;
+2. comprovar instalação limpa e ambiente local reproduzível;
+3. especificar a rerrolagem com Força de Vontade no incremento previsto;
+4. implementar o alpha técnico antes do MVP de playtest.
 
 ## Conteúdo protegido
 

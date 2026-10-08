@@ -1,9 +1,9 @@
 # Architecture v0.1 — Arquitetura de Software
 
-**Status:** proposta para aprovação<br>
+**Status:** aprovada<br>
 **Data:** 8 de outubro de 2026<br>
 **Escopo:** alpha técnico e preparação do MVP de playtest<br>
-**Decisões de base:** DEC-001 a DEC-033; ADR-0001 a ADR-0003<br>
+**Decisões de base:** DEC-001 a DEC-050; ADR-0001 a ADR-0005<br>
 
 ---
 
@@ -29,6 +29,7 @@ O sistema nasce como monólito modular TypeScript em monorepo:
 - Next.js 16 e React no frontend;
 - NestJS 12 no backend autoritativo;
 - PostgreSQL 18 como fonte de verdade;
+- Kysely com `pg` nos adapters de persistência e nas migrações;
 - REST/OpenAPI para comandos e consultas;
 - outbox transacional e Socket.IO por adapter para eventos em tempo real;
 - Rules Engine puro, determinístico e executado no servidor;
@@ -304,14 +305,14 @@ Ele é server-only. O frontend usa schemas e descrições públicas, nunca impor
 - `rule_set_profile_revision`;
 - `roll_attempt` append-only;
 - `session_event` append-only;
-- `session_stream_cursor`;
+- `session_stream`;
 - `outbox_message`;
 - `audit_entry`.
 
 ### Restrições obrigatórias
 
-- UUID ou UUIDv7 gerado pela aplicação para identidade global; a escolha final será fixada na prova;
-- unicidade da idempotência por contexto do comando;
+- UUIDv7 gerado pela aplicação para novos identificadores internos, conforme ADR-0005;
+- idempotência de rolagem única por Conta atuante, Sessão, versão da operação e chave, com impressão digital obrigatória;
 - no máximo um Vínculo ativo por personagem na v0.1;
 - sequência única e crescente por stream de Sessão;
 - `RollAttempt` e `SessionEvent` confirmados não recebem `UPDATE` destrutivo;
@@ -331,6 +332,8 @@ Migrações são imutáveis depois de aplicadas em ambiente compartilhado. Corre
 - OpenAPI é a fonte do contrato público;
 - cliente TypeScript é gerado, não escrito duas vezes;
 - comandos mutáveis relevantes aceitam `Idempotency-Key`;
+- a API calcula uma impressão SHA-256 da versão da operação e do comando validado em forma canônica, sem IDs gerados pelo servidor nem `correlationId`;
+- a mesma chave no mesmo contexto recupera a resposta original somente se a impressão for igual; outra impressão produz conflito;
 - paginação usa cursor quando a ordem precisa ser estável.
 
 ### Eventos públicos
@@ -378,7 +381,7 @@ sequenceDiagram
     W->>W: deduplicar por eventId e avançar cursor
 ```
 
-Se a chave já existir com o mesmo hash de comando, a API devolve o resultado anterior. Se existir com payload diferente, devolve conflito. Falha antes do `commit` não produz fato; falha depois do `commit` é recuperada pelo relay.
+Se a chave já existir no mesmo contexto com a mesma impressão do comando, inclusive durante requisições concorrentes, a API devolve a resposta original. Se existir com outra impressão, devolve conflito. Falha antes do `commit` não produz fato; falha depois do `commit` é recuperada pelo relay.
 
 ## 17. Outbox, realtime e Feed
 
@@ -410,7 +413,7 @@ Controles:
 - registrar negações relevantes sem gravar conteúdo secreto;
 - testar acessos horizontais e verticais negativos.
 
-A matriz detalhada de permissões é gate antes do código de produção. No alpha, o adapter fictício segue ADR-0003; no MVP, OIDC e sessão em cookie seguro exigem ADR próprio.
+A matriz detalhada de permissões foi aprovada e continua obrigatória para os casos de uso. No alpha, o adapter fictício segue ADR-0003; no MVP, OIDC e sessão em cookie seguro exigem ADR próprio.
 
 ## 19. Segurança, privacidade e conteúdo protegido
 
@@ -534,9 +537,6 @@ Gatilhos objetivos:
 
 | Pendência | Bloqueia | Resolução |
 |---|---|---|
-| biblioteca de acesso a dados | foundation após experimento | prova técnica e ADR-0004 |
-| matriz detalhada de permissões | casos de uso de produção | documento de permissões v0.1 |
-| primeira especificação `RULE-*` | Rules Engine real | revisão humana e testes rastreáveis |
 | provedor OIDC | ambiente compartilhado | ADR antes do MVP |
 | storage de mídia | upload real | ADR quando o fluxo entrar no corte |
 | política jurídica de conteúdo | publicação de conteúdo derivado | análise própria antes do uso público |
@@ -552,9 +552,11 @@ Nenhuma pendência acima autoriza solução provisória escondida no código.
 - [x] fronteiras de frontend, backend, regras e dados definidas;
 - [x] segurança, observabilidade, testes e implantação consideradas;
 - [x] evolução futura possui adapters e gatilhos objetivos;
-- [ ] matriz de permissões aprovada;
-- [ ] prova de persistência concluída e ADR-0004 aceito;
-- [ ] primeira regra executável aprovada;
-- [ ] revisão humana deste documento concluída.
+- [x] matriz de permissões aprovada;
+- [x] prova de persistência concluída;
+- [x] ADR-0004 revisada e aceita;
+- [x] oito regras executáveis da Fatia 01 aprovadas após revisão humana;
+- [x] ADR-0005 revisada e aceita;
+- [x] revisão humana deste documento concluída.
 
-Enquanto os quatro itens finais estiverem abertos, o documento orienta a preparação, mas não libera código de produção. O próximo trabalho técnico autorizado é a prova de persistência; o próximo trabalho de domínio é a matriz de permissões e a primeira regra executável.
+A Architecture v0.1 foi aprovada pelo responsável do produto em 8 de outubro de 2026. A Engineering Foundation está autorizada a criar o esqueleto, a CI, as migrações e a infraestrutura local dentro destes limites. Funcionalidades fora do corte continuam sujeitas aos seus próprios gates.

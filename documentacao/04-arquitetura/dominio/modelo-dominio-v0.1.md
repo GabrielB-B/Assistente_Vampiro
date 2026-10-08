@@ -480,14 +480,12 @@ O módulo de Conhecimento e qualquer integração futura com IA recebem somente 
 - [x] eventos e serviços de domínio iniciais;
 - [x] revisão e aprovação humana deste documento;
 
-O documento está concluído. A matriz de permissões e a primeira regra executável são gates posteriores para iniciar o código, não pendências deste Modelo de Domínio.
+O documento está concluído. A matriz de permissões, a Fatia 01 de regras, a prova de persistência, as ADRs e a Architecture v0.1 também foram aprovadas posteriormente. A Engineering Foundation é o próximo corte.
 
 ## 22. Próximos passos
 
-1. produzir `Permissions & Visibility Matrix v0.1`;
-2. especificar `RULE-ROLL-001` até `RULE-ROLLFLOW-001` com exemplos determinísticos;
-3. produzir `Rules Engine Scope v0.1`;
-4. definir `Architecture v0.1` com containers, persistência, realtime, segurança e implantação;
-5. registrar ADRs apenas para decisões de alto impacto ou difícil reversão.
+1. iniciar a Engineering Foundation dentro dos limites aprovados;
+2. comprovar os contratos no primeiro corte executável;
+3. manter ADRs reservadas a decisões de alto impacto ou difícil reversão.
 
 O primeiro código deve nascer depois desses contratos mínimos. Isso mantém o sistema simples no início sem esconder decisões importantes em implementação acidental.

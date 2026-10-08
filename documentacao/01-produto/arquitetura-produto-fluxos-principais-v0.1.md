@@ -5,7 +5,7 @@
 **Data:** 1º de outubro de 2026  
 **Última revisão de coerência:** 7 de outubro de 2026<br>
 **Fase:** Arquitetura de Produto e Fluxos Principais  
-**Continuidade atual:** Architecture v0.1, matriz de permissões e escopo do Rules Engine
+**Continuidade atual:** Engineering Foundation e Vertical Slice 01
 
 **Documentos-base:**
 
@@ -600,7 +600,8 @@ flowchart TD
     TRAIT --> MOD[Aplicar especialidade e modificadores]
     TEMPLATE --> MOD
     SPECIAL --> MOD
-    MOD --> PREVIEW[Exibir parada final e Fome]
+    MOD --> DIFF[Selecionar ou confirmar Dificuldade]
+    DIFF --> PREVIEW[Exibir parada final, Fome e Dificuldade permitida]
     PREVIEW --> CONFIRM[Confirmar rolagem]
     CONFIRM --> ENGINE[Rules Engine resolve]
     ENGINE --> EVENT[Persistir tentativa imutável]
@@ -614,7 +615,7 @@ flowchart TD
 
 Cada tentativa confirmada deve ser persistida antes de ser apresentada. Um reroll futuro cria outra tentativa, referencia a anterior e nunca apaga ou sobrescreve o histórico.
 
-O ramo de reroll é apenas uma hipótese para um incremento posterior. Elegibilidade, custo, dados permitidos, limite de repetições e condição de encerramento dependem da fonte normativa e não estão aprovados para implementação.
+O ramo de rerrolagem permanece no incremento seguinte, antes do MVP de playtest. Já estão confirmados o custo de um ponto de Força de Vontade, a seleção de até três dados normais e a proibição de rerrolar Dados de Fome. `RULE-WILL-001` fechará as demais exceções, o limite sobre uma mesma cadeia e a condição de encerramento antes de autorizar a implementação.
 
 ### Regra de responsabilidade
 
@@ -809,6 +810,7 @@ Exibir resultado no Feed da Mesa
 - ficha mínima em Modo Jogar;
 - Atributos e Habilidades necessários ao teste;
 - Fome;
+- Dificuldade selecionável, confirmável ou oculta conforme o contexto;
 - Roll Builder;
 - resolução completa do teste básico, incluindo as classificações de resultado confirmadas pelo corpus;
 - resultado textual;
