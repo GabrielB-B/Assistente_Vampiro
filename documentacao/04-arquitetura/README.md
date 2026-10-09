@@ -3,7 +3,7 @@
 **Estado:** Architecture v0.1 aprovada<br>
 **Estilo aprovado:** monólito modular<br>
 **Stack aprovada:** Next.js + NestJS + PostgreSQL em infraestrutura portável<br>
-**Próximo gate:** setup limpo e reproduzível da Engineering Foundation
+**Próximo gate:** persistência de produção da FND-02
 
 Esta área transforma as decisões de produto e domínio em limites técnicos verificáveis.
 
@@ -46,4 +46,4 @@ trilho de domínio: permissões → Fatia 01 de regras → Rules Engine Scope
                          esqueleto + CI + Vertical Slice 01
 ```
 
-O trilho de domínio foi concluído para a Fatia 01, a prova de persistência foi executada, as ADRs foram aceitas e a Architecture v0.1 foi aprovada. A Engineering Foundation é o próximo trabalho autorizado.
+O trilho de domínio foi concluído para a Fatia 01, a prova de persistência foi executada, as ADRs foram aceitas e a Architecture v0.1 foi aprovada. A FND-01 criou o monorepo executável e a FND-02 é o próximo trabalho autorizado.

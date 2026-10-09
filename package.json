@@ -1,0 +1,27 @@
+{
+  "name": "assistente-vampiro",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@12.10.1",
+  "engines": {
+    "node": ">=24.18.0 <25",
+    "pnpm": "12.10.1"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "check": "prettier --check . && turbo run lint && turbo run typecheck && turbo run test && turbo run build",
+    "dev": "turbo run dev --parallel",
+    "dev:api": "turbo run dev --filter=@assistente-vampiro/api",
+    "dev:web": "turbo run dev --filter=@assistente-vampiro/web",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "pnpm": "12.10.1",
+    "prettier": "3.9.9",
+    "turbo": "2.11.7"
+  }
+}

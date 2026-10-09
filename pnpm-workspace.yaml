@@ -1,0 +1,19 @@
+packages:
+  - apps/*
+  - packages/*
+
+engineStrict: true
+saveExact: true
+sharedWorkspaceLockfile: true
+strictPeerDependencies: true
+
+catalog:
+  typescript: 6.0.3
+  vitest: 5.0.3
+  eslint: 9.39.5
+  "@types/node": 24.19.1
+
+allowBuilds:
+  esbuild: true
+  pnpm: true
+  unrs-resolver: true

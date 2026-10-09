@@ -1,9 +1,11 @@
 # Dependências e builds
 node_modules/
 .next/
+.turbo/
 dist/
 build/
 coverage/
+*.tsbuildinfo
 
 # Configuração local e segredos
 .env
