@@ -68,6 +68,12 @@ Na Engineering Foundation, executar pela raiz:
 corepack pnpm check
 ```
 
+Mudanças em migrações, tipos ou adapters de banco também exigem PostgreSQL local e:
+
+```powershell
+corepack pnpm test:integration
+```
+
 ## Conteúdo e propriedade intelectual
 
 Não versionar:

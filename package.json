@@ -10,6 +10,9 @@
   "scripts": {
     "build": "turbo run build",
     "check": "prettier --check . && turbo run lint && turbo run typecheck && turbo run test && turbo run build",
+    "db:migrate": "turbo run db:migrate --filter=@assistente-vampiro/database",
+    "db:rollback": "turbo run db:rollback --filter=@assistente-vampiro/database",
+    "db:status": "turbo run db:status --filter=@assistente-vampiro/database",
     "dev": "turbo run dev --parallel",
     "dev:api": "turbo run dev --filter=@assistente-vampiro/api",
     "dev:web": "turbo run dev --filter=@assistente-vampiro/web",
@@ -17,6 +20,7 @@
     "format:check": "prettier --check .",
     "lint": "turbo run lint",
     "test": "turbo run test",
+    "test:integration": "turbo run test:integration --filter=@assistente-vampiro/database",
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {

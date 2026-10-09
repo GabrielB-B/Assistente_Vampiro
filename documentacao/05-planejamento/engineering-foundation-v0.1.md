@@ -31,7 +31,7 @@ As dependências usam versões exatas e respeitam a janela de segurança do pnpm
 | ID | Entrega | Estado | Gate |
 |---|---|---|---|
 | FND-01 | monorepo, web, API e quality baseline | concluído | instalar, lintar, testar, tipar e compilar pela raiz |
-| FND-02 | PostgreSQL, migrações e adapter Kysely de produção | planejado | banco vazio e contrato de integração aprovados |
+| FND-02 | PostgreSQL, migrações e adapter Kysely de produção | concluído | banco vazio e contrato de integração aprovados |
 | FND-03 | CI, containers locais e observabilidade mínima | planejado | clone limpo reproduz todos os gates |
 
 Cada incremento usa branch e pull request próprios. Um incremento não mistura funcionalidade do Vertical Slice 01.
@@ -56,6 +56,25 @@ Cada incremento usa branch e pull request próprios. Um incremento não mistura 
 - design system definitivo;
 - deploy e ambiente compartilhado.
 
+## Escopo do FND-02
+
+- pacote `database` como fronteira exclusiva do Kysely;
+- PostgreSQL 18 com schema configurável e conexões em UTC;
+- migrações iniciais do domínio e do histórico de Sessão;
+- constraints, índices parciais e proteção append-only;
+- comandos de migração, status e rollback;
+- endpoint de readiness separado do liveness;
+- UUIDv7 nativo atrás de uma porta testável;
+- teste de integração isolado contra PostgreSQL real.
+
+## Fora do FND-02
+
+- caso de uso de confirmação da rolagem;
+- relay da outbox e Socket.IO;
+- dados fictícios de desenvolvimento;
+- containers e execução do PostgreSQL pela CI;
+- autenticação e autorização.
+
 ## Gates do FND-01
 
 - [x] instalação com lockfile em modo congelado;
@@ -66,6 +85,17 @@ Cada incremento usa branch e pull request próprios. Um incremento não mistura 
 - [x] builds independentes de web e API;
 - [x] nenhuma credencial ou conteúdo protegido versionado;
 - [x] documentação executável revisada.
+
+## Gates do FND-02
+
+- [x] migrações aplicadas em schema vazio no PostgreSQL 18;
+- [x] rollback e reaplicação do último incremento;
+- [x] tabelas, constraints, índices e triggers verificados;
+- [x] conexão configurada em UTC;
+- [x] readiness da API coberta por teste;
+- [x] UUIDv7 nativo coberto por teste;
+- [x] lint, typecheck, testes e builds aprovados;
+- [x] nenhuma credencial real versionada.
 
 ## Saída da Foundation completa
 
