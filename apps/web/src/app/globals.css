@@ -1,0 +1,135 @@
+:root {
+  color-scheme: dark;
+  --canvas: #0a0b0a;
+  --surface: #11120f;
+  --text: #e8e2d7;
+  --muted: #aaa398;
+  --line: #34352f;
+  --accent: #a72d38;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--canvas);
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 72% 22%, rgb(103 88 48 / 16%), transparent 34rem),
+    var(--canvas);
+  color: var(--text);
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.foundation-shell {
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: clamp(1.5rem, 6vw, 6rem);
+}
+
+.foundation-panel {
+  position: relative;
+  width: min(100%, 52rem);
+  padding: clamp(2rem, 6vw, 5rem);
+  border: 1px solid var(--line);
+  background: rgb(17 18 15 / 88%);
+  box-shadow: 0 2rem 7rem rgb(0 0 0 / 38%);
+}
+
+.foundation-panel::before {
+  position: absolute;
+  inset: -1px auto -1px -1px;
+  width: 3px;
+  background: var(--accent);
+  content: "";
+}
+
+.foundation-kicker {
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 12ch;
+  margin: 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", serif;
+  font-size: clamp(3.2rem, 11vw, 7.5rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.88;
+}
+
+.foundation-summary {
+  max-width: 42rem;
+  margin: 2rem 0 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 2.3vw, 1.25rem);
+  line-height: 1.7;
+}
+
+.foundation-status {
+  display: grid;
+  margin: 3rem 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.foundation-status div {
+  display: grid;
+  grid-template-columns: minmax(5rem, 0.35fr) 1fr;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.foundation-status dt {
+  color: var(--muted);
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.foundation-status dd {
+  margin: 0;
+}
+
+.foundation-note {
+  margin: 1.5rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 36rem) {
+  .foundation-panel {
+    padding: 2rem 1.5rem;
+  }
+
+  .foundation-status div {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}

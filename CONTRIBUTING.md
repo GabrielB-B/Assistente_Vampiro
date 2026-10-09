@@ -6,6 +6,8 @@ Toda mudança deve ser pequena, rastreável, revisável e coerente com os docume
 
 ## Fluxo de trabalho
 
+O procedimento completo está em [Fluxo Git v0.1](./documentacao/00-governanca/fluxo-git-v0.1.md).
+
 1. partir da branch `main` atualizada;
 2. criar branch curta por objetivo;
 3. alterar somente o necessário;
@@ -20,6 +22,8 @@ Convenção sugerida de branches:
 docs/<assunto>
 feat/<capacidade>
 fix/<problema>
+refactor/<mudanca-interna>
+test/<cobertura>
 chore/<manutencao>
 ```
 
@@ -57,6 +61,12 @@ Uma mudança está concluída quando:
 - não introduz duplicação de fonte de verdade;
 - pode ser revertida ou migrada de forma conhecida;
 - passa nas verificações automatizadas disponíveis.
+
+Na Engineering Foundation, executar pela raiz:
+
+```powershell
+corepack pnpm check
+```
 
 ## Conteúdo e propriedade intelectual
 
