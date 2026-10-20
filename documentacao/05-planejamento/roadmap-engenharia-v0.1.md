@@ -457,7 +457,7 @@ As referências orientam o raciocínio. Elas não substituem decisões baseadas 
 
 ## 16. Próxima ação concreta
 
-1. revisar e aprovar o plano de implementação do Vertical Slice 01;
-2. implementar o alpha em incrementos pequenos, começando pelo Rules Engine;
+1. implementar VS01-01 — Rules Engine executável;
+2. continuar o alpha pelos incrementos aprovados do Vertical Slice 01;
 3. demonstrar o fluxo completo e os testes negativos em ambiente limpo;
 4. especificar `RULE-WILL-001` antes do MVP de playtest.

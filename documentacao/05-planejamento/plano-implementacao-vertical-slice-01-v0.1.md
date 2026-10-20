@@ -1,6 +1,6 @@
 # Plano de Implementação do Vertical Slice 01 v0.1
 
-**Status:** proposta<br>
+**Status:** aprovado<br>
 **Data:** 20 de outubro de 2026<br>
 **Objetivo:** transformar o alpha técnico aprovado em entregas pequenas, integráveis e verificáveis<br>
 **Base:** Product Architecture, Rules Engine Scope, Permissions Matrix, Architecture v0.1 e Engineering Foundation concluída

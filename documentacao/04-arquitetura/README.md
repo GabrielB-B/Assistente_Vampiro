@@ -3,7 +3,7 @@
 **Estado:** Architecture v0.1 aprovada<br>
 **Estilo aprovado:** monólito modular<br>
 **Stack aprovada:** Next.js + NestJS + PostgreSQL em infraestrutura portável<br>
-**Próximo gate:** aprovação do plano de implementação do Vertical Slice 01
+**Próximo gate:** VS01-01 — Rules Engine executável
 
 Esta área transforma as decisões de produto e domínio em limites técnicos verificáveis.
 

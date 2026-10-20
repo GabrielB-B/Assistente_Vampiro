@@ -56,7 +56,7 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 | arquitetura técnica | aprovada | Architecture v0.1 e cinco ADRs aceitas |
 | permissões e Rules Engine | concluída para a Fatia 01 | matriz, escopo e oito regras aprovados |
 | Engineering Foundation | concluída | FND-01, FND-02 e FND-03 aprovadas; reprodução comprovada em clone limpo |
-| Vertical Slice 01 | planejamento em proposta | sete incrementos pequenos antes do alpha completo |
+| Vertical Slice 01 | em andamento | plano aprovado; VS01-01 — Rules Engine é o corte ativo |
 | MVP de playtest | planejado | após validar o corte vertical interno |
 
 ## Documentos de governança obrigatórios
