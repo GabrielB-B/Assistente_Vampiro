@@ -16,6 +16,9 @@ O procedimento completo está em [Fluxo Git v0.1](./documentacao/00-governanca/f
 6. abrir pull request com contexto, decisão e evidências;
 7. integrar somente após os critérios de aceite.
 
+Toda pull request deve aguardar o workflow `Continuous Integration`. O merge só é
+permitido quando o job `Quality and PostgreSQL integration` estiver aprovado.
+
 Convenção sugerida de branches:
 
 ```text
@@ -73,6 +76,10 @@ Mudanças em migrações, tipos ou adapters de banco também exigem PostgreSQL l
 ```powershell
 corepack pnpm test:integration
 ```
+
+A CI repete esses gates em ambiente limpo, com as versões fixadas no projeto e
+PostgreSQL 18. Credenciais usadas pelo serviço da CI são efêmeras e não podem ser
+reaproveitadas em nenhum ambiente persistente.
 
 ## Conteúdo e propriedade intelectual
 
