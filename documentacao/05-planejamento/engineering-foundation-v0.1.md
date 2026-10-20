@@ -32,7 +32,7 @@ As dependências usam versões exatas e respeitam a janela de segurança do pnpm
 |---|---|---|---|
 | FND-01 | monorepo, web, API e quality baseline | concluído | instalar, lintar, testar, tipar e compilar pela raiz |
 | FND-02 | PostgreSQL, migrações e adapter Kysely de produção | concluído | banco vazio e contrato de integração aprovados |
-| FND-03 | CI, containers locais e observabilidade mínima | planejado | clone limpo reproduz todos os gates |
+| FND-03 | CI, containers locais e observabilidade mínima | em andamento | clone limpo reproduz todos os gates |
 
 Cada incremento usa branch e pull request próprios. Um incremento não mistura funcionalidade do Vertical Slice 01.
 
@@ -75,6 +75,23 @@ Cada incremento usa branch e pull request próprios. Um incremento não mistura 
 - containers e execução do PostgreSQL pela CI;
 - autenticação e autorização.
 
+## Plano do FND-03
+
+O incremento será entregue em cortes pequenos e verificáveis:
+
+1. **CI baseline:** executar instalação congelada, formatação, lint, tipagem,
+   testes, builds e integração com PostgreSQL 18 em toda pull request;
+2. **ambiente local:** fornecer containers com versões fixadas, healthcheck e
+   persistência previsível, sem substituir a execução local direta;
+3. **observabilidade mínima:** padronizar correlation ID, logs estruturados e
+   sinais operacionais necessários para diagnosticar web, API e banco;
+4. **prova de reprodução:** executar o roteiro completo a partir de um clone
+   limpo usando somente a documentação versionada.
+
+Cada corte usa branch e pull request próprios. A proteção da `main` será
+configurada depois que o primeiro workflow estiver aprovado no GitHub, evitando
+registrar como obrigatório um check que ainda não existe.
+
 ## Gates do FND-01
 
 - [x] instalação com lockfile em modo congelado;
@@ -96,6 +113,16 @@ Cada incremento usa branch e pull request próprios. Um incremento não mistura 
 - [x] UUIDv7 nativo coberto por teste;
 - [x] lint, typecheck, testes e builds aprovados;
 - [x] nenhuma credencial real versionada.
+
+## Gates do FND-03
+
+- [ ] CI aprovada em pull request e em `main`;
+- [ ] instalação congelada, quality gates e build reproduzidos pela CI;
+- [ ] migrações verificadas pela CI contra PostgreSQL 18 real;
+- [ ] actions fixadas por commit e workflow com permissões mínimas;
+- [ ] ambiente local reproduzível por containers;
+- [ ] liveness, readiness, correlation ID e logs estruturados documentados;
+- [ ] clone limpo validado usando somente o README.
 
 ## Saída da Foundation completa
 
