@@ -4,9 +4,9 @@ Plataforma brasileira para aprender, criar, organizar e jogar **Vampiro: A Másc
 
 ## Estado atual
 
-O projeto está na **Engineering Foundation**, com fundação de produto, corpus inicial de regras, Modelo de Domínio, stack tecnológica e Architecture v0.1 aprovados.
+O projeto concluiu a **Engineering Foundation** e está pronto para iniciar o **Vertical Slice 01**, com fundação de produto, corpus inicial de regras, Modelo de Domínio, stack tecnológica e Architecture v0.1 aprovados.
 
-O esqueleto executável da FND-01 e a persistência PostgreSQL da FND-02 estão concluídos. A FND-03 está em andamento, com CI, ambiente PostgreSQL local e observabilidade mínima aprovados. A Fatia 01 de regras, a prova de persistência, as cinco ADRs do gate e a Architecture v0.1 também estão concluídas; funcionalidades do alpha ainda não começaram.
+FND-01, FND-02 e FND-03 estão concluídas. O esqueleto executável possui CI protegendo a `main`, persistência PostgreSQL, ambiente local reproduzível, observabilidade mínima e prova em clone limpo. A Fatia 01 de regras, a prova de persistência, as cinco ADRs do gate e a Architecture v0.1 também estão concluídas; funcionalidades do alpha ainda não começaram.
 
 ## Princípios centrais
 
@@ -99,9 +99,9 @@ Autenticar
 
 Próximas entregas:
 
-1. comprovar o setup em clone limpo e concluir a Engineering Foundation;
-2. especificar a rerrolagem com Força de Vontade no incremento previsto;
-3. implementar o alpha técnico antes do MVP de playtest.
+1. detalhar o plano de implementação do Vertical Slice 01;
+2. implementar e validar o alpha técnico antes do MVP de playtest;
+3. especificar a rerrolagem com Força de Vontade no incremento previsto.
 
 ## Conteúdo protegido
 

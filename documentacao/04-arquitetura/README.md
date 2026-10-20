@@ -3,7 +3,7 @@
 **Estado:** Architecture v0.1 aprovada<br>
 **Estilo aprovado:** monólito modular<br>
 **Stack aprovada:** Next.js + NestJS + PostgreSQL em infraestrutura portável<br>
-**Próximo gate:** prova de reprodução da FND-03 em clone limpo
+**Próximo gate:** plano de implementação do Vertical Slice 01
 
 Esta área transforma as decisões de produto e domínio em limites técnicos verificáveis.
 
@@ -23,6 +23,7 @@ Esta área transforma as decisões de produto e domínio em limites técnicos ve
 - [Provas de arquitetura](./provas/README.md)
 - [Prova de Persistência v0.1](./provas/prova-persistencia-v0.1.md)
 - [Resultado da Prova de Persistência v0.1](./provas/resultado-persistencia-v0.1.md)
+- [Resultado da Prova em Clone Limpo v0.1](./provas/resultado-clone-limpo-v0.1.md)
 
 ## Áreas previstas
 
@@ -51,4 +52,4 @@ trilho de domínio: permissões → Fatia 01 de regras → Rules Engine Scope
                          esqueleto + CI + Vertical Slice 01
 ```
 
-O trilho de domínio foi concluído para a Fatia 01, a prova de persistência foi executada, as ADRs foram aceitas e a Architecture v0.1 foi aprovada. A FND-01 criou o monorepo executável; a FND-02 transformou o contrato de persistência em migrações e adapters de produção. A FND-03 está em andamento com CI, ambiente local e observabilidade mínima aprovados; a prova em clone limpo é o último gate.
+O trilho de domínio foi concluído para a Fatia 01, a prova de persistência foi executada, as ADRs foram aceitas e a Architecture v0.1 foi aprovada. A FND-01 criou o monorepo executável; a FND-02 transformou o contrato de persistência em migrações e adapters de produção; a FND-03 entregou CI, ambiente local e observabilidade mínima. A reprodução em clone limpo encerrou a Engineering Foundation.
