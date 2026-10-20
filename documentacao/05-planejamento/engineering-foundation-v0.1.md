@@ -120,7 +120,7 @@ registrar como obrigatório um check que ainda não existe.
 - [x] instalação congelada, quality gates e build reproduzidos pela CI;
 - [x] migrações verificadas pela CI contra PostgreSQL 18 real;
 - [x] actions fixadas por commit e workflow com permissões mínimas;
-- [ ] ambiente local reproduzível por containers;
+- [x] ambiente local reproduzível por containers;
 - [ ] liveness, readiness, correlation ID e logs estruturados documentados;
 - [ ] clone limpo validado usando somente o README.
 

@@ -50,4 +50,4 @@ trilho de domínio: permissões → Fatia 01 de regras → Rules Engine Scope
                          esqueleto + CI + Vertical Slice 01
 ```
 
-O trilho de domínio foi concluído para a Fatia 01, a prova de persistência foi executada, as ADRs foram aceitas e a Architecture v0.1 foi aprovada. A FND-01 criou o monorepo executável; a FND-02 transformou o contrato de persistência em migrações e adapters de produção. A FND-03 está em andamento com CI aprovada e ambiente local em construção.
+O trilho de domínio foi concluído para a Fatia 01, a prova de persistência foi executada, as ADRs foram aceitas e a Architecture v0.1 foi aprovada. A FND-01 criou o monorepo executável; a FND-02 transformou o contrato de persistência em migrações e adapters de produção. A FND-03 está em andamento com CI e ambiente local aprovados; observabilidade mínima é o próximo corte.

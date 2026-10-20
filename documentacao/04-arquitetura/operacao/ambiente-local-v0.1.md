@@ -1,6 +1,6 @@
 # Ambiente Local v0.1
 
-**Status:** proposta<br>
+**Status:** aprovado<br>
 **Escopo:** PostgreSQL local da Engineering Foundation
 
 ## Objetivo
