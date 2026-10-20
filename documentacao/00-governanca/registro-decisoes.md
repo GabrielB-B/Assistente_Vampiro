@@ -1,7 +1,7 @@
 # Registro de Decisões
 
 **Status:** consolidado<br>
-**Data de revisão:** 8 de outubro de 2026
+**Data de revisão:** 20 de outubro de 2026
 
 Índice resumido das decisões vigentes e propostas. ADRs futuros fornecerão contexto, alternativas e consequências para decisões arquiteturais de alto impacto.
 
@@ -66,6 +66,9 @@
 | DEC-049 | Kysely 0.29.6 com `pg` 8.23.1 será a biblioteca inicial de acesso a dados, restrita aos adapters e migrações. | Aceita | ADR-0004 e Resultado da Prova de Persistência v0.1 |
 | DEC-050 | Novos identificadores internos persistidos serão UUIDv7 gerados pela aplicação por meio de uma porta testável; ordem de negócio, idempotência e datas permanecem explícitas. | Aceita | ADR-0005 |
 | DEC-051 | O projeto usará `main` estável e branches curtas por tarefa; `develop` só será criada se releases paralelos ou homologação permanente justificarem seu custo. | Aceita | Fluxo Git v0.1 |
+| DEC-052 | A identidade fictícia do alpha será selecionada pelo alias em `x-alpha-identity`, aceito somente em `local`, `test` e `ci`; o adapter produz `ActorContext` sem permitir UUID arbitrário do cliente. | Aceita | ADR-0003 e Plano de Implementação do Vertical Slice 01 v0.1 |
+| DEC-053 | O Feed terá recuperação autorizada por HTTP e cursor de sequência antes do realtime; Socket.IO reutilizará o mesmo evento público, sem criar outra fonte de verdade. | Aceita | Architecture v0.1 e Plano de Implementação do Vertical Slice 01 v0.1 |
+| DEC-054 | A ficha mínima do alpha persistirá Atributos e Habilidades por IDs canônicos e valores validados, sem representar a ficha inteira como JSON opaco. | Aceita | Modelo de Domínio v0.1 e Plano de Implementação do Vertical Slice 01 v0.1 |
 
 ## Pendências que exigirão ADR
 
