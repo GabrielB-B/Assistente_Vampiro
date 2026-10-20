@@ -6,7 +6,7 @@ Plataforma brasileira para aprender, criar, organizar e jogar **Vampiro: A Másc
 
 O projeto está na **Engineering Foundation**, com fundação de produto, corpus inicial de regras, Modelo de Domínio, stack tecnológica e Architecture v0.1 aprovados.
 
-O esqueleto executável da FND-01 e a persistência PostgreSQL da FND-02 estão concluídos. A FND-03 está em andamento, começando pela reprodução dos gates na CI. A Fatia 01 de regras, a prova de persistência, as cinco ADRs do gate e a Architecture v0.1 também estão concluídas; funcionalidades do alpha ainda não começaram.
+O esqueleto executável da FND-01 e a persistência PostgreSQL da FND-02 estão concluídos. A FND-03 está em andamento, com CI e ambiente PostgreSQL local aprovados. A Fatia 01 de regras, a prova de persistência, as cinco ADRs do gate e a Architecture v0.1 também estão concluídas; funcionalidades do alpha ainda não começaram.
 
 ## Princípios centrais
 
@@ -37,7 +37,7 @@ Pré-requisitos:
 - Node.js 24.18.0;
 - Corepack disponível;
 - pnpm 12.10.1;
-- PostgreSQL 18 para migrações e testes de integração.
+- Docker com Compose v2 ou PostgreSQL 18 instalado diretamente.
 
 Prepare o ambiente local sem versionar credenciais:
 
@@ -45,7 +45,19 @@ Prepare o ambiente local sem versionar credenciais:
 Copy-Item .env.example .env
 ```
 
-Edite somente o `.env` e informe uma role e um banco exclusivos do projeto. Depois instale, migre e valide:
+Troque a senha ilustrativa nos campos `POSTGRES_PASSWORD` e `DATABASE_URL` pelo
+mesmo valor, sem reutilizar credenciais de outros ambientes.
+
+Para iniciar o PostgreSQL isolado do projeto:
+
+```powershell
+corepack pnpm infra:up
+```
+
+O banco fica acessível somente pela interface local. O volume é preservado ao
+encerrar o serviço com `corepack pnpm infra:down`.
+
+Depois instale, migre e valide:
 
 ```powershell
 corepack pnpm install --frozen-lockfile
@@ -64,7 +76,7 @@ corepack pnpm dev
 - liveness da API: `http://localhost:3001/api/v1/health`;
 - readiness da API e do banco: `http://localhost:3001/api/v1/health/ready`.
 
-O arquivo `.env.example` contém somente valores ilustrativos. Credenciais reais permanecem fora do Git. Os comandos e a política de migração estão em [database/README.md](./database/README.md).
+O arquivo `.env.example` contém somente valores ilustrativos. Credenciais reais permanecem fora do Git. Os comandos e a política de migração estão em [database/README.md](./database/README.md). O contrato completo do ambiente está em [Ambiente Local v0.1](./documentacao/04-arquitetura/operacao/ambiente-local-v0.1.md).
 
 ## Próximo objetivo
 
@@ -83,11 +95,10 @@ Autenticar
 
 Próximas entregas:
 
-1. validar a CI da FND-03 em pull request e proteger a `main`;
-2. adicionar containers locais e observabilidade mínima em cortes separados;
-3. comprovar o setup em clone limpo ao concluir a Foundation;
-4. especificar a rerrolagem com Força de Vontade no incremento previsto;
-5. implementar o alpha técnico antes do MVP de playtest.
+1. adicionar observabilidade mínima no último corte funcional da FND-03;
+2. comprovar o setup em clone limpo ao concluir a Foundation;
+3. especificar a rerrolagem com Força de Vontade no incremento previsto;
+4. implementar o alpha técnico antes do MVP de playtest.
 
 ## Conteúdo protegido
 

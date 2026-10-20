@@ -1,7 +1,7 @@
 # Índice da documentação
 
 **Estado do projeto:** Engineering Foundation<br>
-**Atualização:** 9 de outubro de 2026<br>
+**Atualização:** 20 de outubro de 2026<br>
 **Entrada oficial:** este arquivo
 
 Esta documentação está organizada por área de conhecimento. Os prefixos numéricos mantêm uma ordem previsível; eles não representam sprints nem obrigam que as áreas evoluam isoladamente.
@@ -40,6 +40,7 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 18. [Roadmap de Engenharia v0.1](./05-planejamento/roadmap-engenharia-v0.1.md)
 19. [Engineering Foundation v0.1](./05-planejamento/engineering-foundation-v0.1.md)
 20. [Persistência PostgreSQL v0.1](./04-arquitetura/dados/persistencia-postgresql-v0.1.md)
+21. [Ambiente Local v0.1](./04-arquitetura/operacao/ambiente-local-v0.1.md)
 
 ## Situação por etapa
 
@@ -51,7 +52,7 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 | Modelo de Domínio v0.1 | aprovado | decisões registradas e versionadas |
 | arquitetura técnica | aprovada | Architecture v0.1 e cinco ADRs aceitas |
 | permissões e Rules Engine | concluída para a Fatia 01 | matriz, escopo e oito regras aprovados |
-| Engineering Foundation | em andamento | FND-01 e FND-02 concluídas; FND-03 é o próximo corte |
+| Engineering Foundation | em andamento | FND-01 e FND-02 concluídas; CI e ambiente local da FND-03 aprovados |
 | Vertical Slice 01 | não iniciado | após os gates da Engineering Foundation |
 | MVP de playtest | planejado | após validar o corte vertical interno |
 

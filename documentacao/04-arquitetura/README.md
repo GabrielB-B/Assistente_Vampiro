@@ -17,6 +17,8 @@ Esta área transforma as decisões de produto e domínio em limites técnicos ve
 - [Rules Engine Scope v0.1](./escopo-rules-engine-v0.1.md)
 - [Dados e persistência](./dados/README.md)
 - [Persistência PostgreSQL v0.1](./dados/persistencia-postgresql-v0.1.md)
+- [Operação](./operacao/README.md)
+- [Ambiente Local v0.1](./operacao/ambiente-local-v0.1.md)
 - [Provas de arquitetura](./provas/README.md)
 - [Prova de Persistência v0.1](./provas/prova-persistencia-v0.1.md)
 - [Resultado da Prova de Persistência v0.1](./provas/resultado-persistencia-v0.1.md)
@@ -31,7 +33,7 @@ Esta área transforma as decisões de produto e domínio em limites técnicos ve
 | dados | PostgreSQL, migrações, transações e retenção | Kysely aprovado pela ADR-0004 |
 | inteligência artificial | portas, segurança, proveniência e avaliação | antes da primeira integração com IA |
 | segurança | ameaças, autenticação, autorização e segredos | junto da matriz de permissões |
-| operação | implantação, observabilidade, backup e recuperação | antes do primeiro ambiente compartilhado |
+| operação | ambiente local, implantação, observabilidade, backup e recuperação | iniciada na FND-03; ampliar antes do primeiro ambiente compartilhado |
 
 Pastas vazias não serão criadas apenas para aparentar estrutura. Cada área nasce com seu primeiro documento aprovado.
 
@@ -48,4 +50,4 @@ trilho de domínio: permissões → Fatia 01 de regras → Rules Engine Scope
                          esqueleto + CI + Vertical Slice 01
 ```
 
-O trilho de domínio foi concluído para a Fatia 01, a prova de persistência foi executada, as ADRs foram aceitas e a Architecture v0.1 foi aprovada. A FND-01 criou o monorepo executável; a FND-02 transformou o contrato de persistência em migrações e adapters de produção. A FND-03 é o próximo trabalho previsto.
+O trilho de domínio foi concluído para a Fatia 01, a prova de persistência foi executada, as ADRs foram aceitas e a Architecture v0.1 foi aprovada. A FND-01 criou o monorepo executável; a FND-02 transformou o contrato de persistência em migrações e adapters de produção. A FND-03 está em andamento com CI e ambiente local aprovados; observabilidade mínima é o próximo corte.

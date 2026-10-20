@@ -116,11 +116,11 @@ registrar como obrigatório um check que ainda não existe.
 
 ## Gates do FND-03
 
-- [ ] CI aprovada em pull request e em `main`;
-- [ ] instalação congelada, quality gates e build reproduzidos pela CI;
-- [ ] migrações verificadas pela CI contra PostgreSQL 18 real;
-- [ ] actions fixadas por commit e workflow com permissões mínimas;
-- [ ] ambiente local reproduzível por containers;
+- [x] CI aprovada em pull request e em `main`;
+- [x] instalação congelada, quality gates e build reproduzidos pela CI;
+- [x] migrações verificadas pela CI contra PostgreSQL 18 real;
+- [x] actions fixadas por commit e workflow com permissões mínimas;
+- [x] ambiente local reproduzível por containers;
 - [ ] liveness, readiness, correlation ID e logs estruturados documentados;
 - [ ] clone limpo validado usando somente o README.
 

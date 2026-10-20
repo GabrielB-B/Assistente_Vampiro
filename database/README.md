@@ -8,11 +8,15 @@ Copie `.env.example` para `.env` na raiz e use uma role e um banco exclusivos do
 
 ```powershell
 Copy-Item .env.example .env
+corepack pnpm infra:up
 corepack pnpm db:status
 corepack pnpm db:migrate
 ```
 
 O valor real de `DATABASE_URL` nunca entra no Git.
+
+`corepack pnpm infra:down` encerra o container sem apagar o volume. A remoção
+do volume é uma operação destrutiva e, por isso, não possui atalho no projeto.
 
 ## Regras das migrações
 
