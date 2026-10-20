@@ -105,9 +105,18 @@ Para este projeto, o merge preferencial será **squash** quando os commits inter
 - arquivos privados confirmados como ignorados;
 - autorização explícita do responsável do produto para o envio.
 
-## Proteção futura da `main`
+## Proteção da `main`
 
-Quando a Engineering Foundation criar a CI, a `main` deverá exigir pull request, checks obrigatórios, resolução de conversas e bloqueio de force push. Até lá, a disciplina será aplicada pelo processo documentado e pela revisão antes de cada envio.
+A proteção está ativa e também se aplica aos administradores. A `main` exige:
+
+- pull request antes do merge;
+- branch atualizada em relação à base;
+- checks `Quality and PostgreSQL integration` e `Local PostgreSQL container`;
+- resolução das conversas de revisão;
+- histórico linear;
+- bloqueio de force push e exclusão da branch.
+
+Os nomes dos checks fazem parte do contrato de proteção. Uma alteração no workflow deve preservar esses nomes ou atualizar a regra da branch de forma coordenada.
 
 ## Referências
 

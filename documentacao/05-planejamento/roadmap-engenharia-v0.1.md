@@ -251,13 +251,13 @@ Autenticação real, storage, IA e decomposição só recebem ADR quando entrare
 
 ### Estado
 
-**Concluída.** A stack, a Fatia 01, a prova de persistência, as cinco ADRs e a Architecture v0.1 foram aprovadas. A Engineering Foundation é o corte ativo.
+**Concluída.** A stack, a Fatia 01, a prova de persistência, as cinco ADRs e a Architecture v0.1 foram aprovadas. A Engineering Foundation foi concluída posteriormente; o Vertical Slice 01 é o próximo corte.
 
 ---
 
 ## 9. Fase 5 — Engineering Foundation
 
-**Progresso atual:** FND-01 e FND-02 concluídas; CI, containers locais e observabilidade mínima da FND-03 aprovados. A prova de reprodução em clone limpo é o último gate.
+**Progresso atual:** concluída. FND-01, FND-02 e FND-03 foram aprovadas, incluindo a prova de reprodução em clone limpo.
 
 ### Entregas
 
@@ -286,6 +286,10 @@ Autenticação real, storage, IA e decomposição só recebem ADR quando entrare
 ### Critério de saída
 
 Um novo colaborador consegue clonar, configurar, testar e executar o esqueleto seguindo somente o README.
+
+### Estado
+
+**Concluída em 20 de outubro de 2026.** O procedimento e os resultados estão no [Resultado da Prova em Clone Limpo v0.1](../04-arquitetura/provas/resultado-clone-limpo-v0.1.md).
 
 ---
 

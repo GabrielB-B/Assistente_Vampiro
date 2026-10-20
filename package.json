@@ -13,7 +13,7 @@
     "db:migrate": "turbo run db:migrate --filter=@assistente-vampiro/database",
     "db:rollback": "turbo run db:rollback --filter=@assistente-vampiro/database",
     "db:status": "turbo run db:status --filter=@assistente-vampiro/database",
-    "dev": "turbo run dev --parallel",
+    "dev": "turbo run dev",
     "dev:api": "turbo run dev --filter=@assistente-vampiro/api",
     "dev:web": "turbo run dev --filter=@assistente-vampiro/web",
     "format": "prettier --write .",

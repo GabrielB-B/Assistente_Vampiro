@@ -1,6 +1,6 @@
 # Índice da documentação
 
-**Estado do projeto:** Engineering Foundation<br>
+**Estado do projeto:** Engineering Foundation concluída; Vertical Slice 01 é o próximo corte<br>
 **Atualização:** 20 de outubro de 2026<br>
 **Entrada oficial:** este arquivo
 
@@ -42,6 +42,7 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 20. [Persistência PostgreSQL v0.1](./04-arquitetura/dados/persistencia-postgresql-v0.1.md)
 21. [Ambiente Local v0.1](./04-arquitetura/operacao/ambiente-local-v0.1.md)
 22. [Observabilidade Mínima v0.1](./04-arquitetura/operacao/observabilidade-minima-v0.1.md)
+23. [Resultado da Prova em Clone Limpo v0.1](./04-arquitetura/provas/resultado-clone-limpo-v0.1.md)
 
 ## Situação por etapa
 
@@ -53,8 +54,8 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 | Modelo de Domínio v0.1 | aprovado | decisões registradas e versionadas |
 | arquitetura técnica | aprovada | Architecture v0.1 e cinco ADRs aceitas |
 | permissões e Rules Engine | concluída para a Fatia 01 | matriz, escopo e oito regras aprovados |
-| Engineering Foundation | em andamento | FND-01 e FND-02 concluídas; somente a prova em clone limpo resta na FND-03 |
-| Vertical Slice 01 | não iniciado | após os gates da Engineering Foundation |
+| Engineering Foundation | concluída | FND-01, FND-02 e FND-03 aprovadas; reprodução comprovada em clone limpo |
+| Vertical Slice 01 | não iniciado | próximo corte de implementação |
 | MVP de playtest | planejado | após validar o corte vertical interno |
 
 ## Documentos de governança obrigatórios

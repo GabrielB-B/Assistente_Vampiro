@@ -1,7 +1,8 @@
 # Engineering Foundation v0.1
 
-**Status:** em andamento<br>
+**Status:** concluída<br>
 **Início:** 9 de outubro de 2026<br>
+**Conclusão:** 20 de outubro de 2026<br>
 **Base:** Architecture v0.1 e ADR-0001 a ADR-0005
 
 ## Objetivo
@@ -32,7 +33,7 @@ As dependências usam versões exatas e respeitam a janela de segurança do pnpm
 |---|---|---|---|
 | FND-01 | monorepo, web, API e quality baseline | concluído | instalar, lintar, testar, tipar e compilar pela raiz |
 | FND-02 | PostgreSQL, migrações e adapter Kysely de produção | concluído | banco vazio e contrato de integração aprovados |
-| FND-03 | CI, containers locais e observabilidade mínima | em andamento | clone limpo reproduz todos os gates |
+| FND-03 | CI, containers locais e observabilidade mínima | concluído | clone limpo reproduziu todos os gates |
 
 Cada incremento usa branch e pull request próprios. Um incremento não mistura funcionalidade do Vertical Slice 01.
 
@@ -122,8 +123,8 @@ registrar como obrigatório um check que ainda não existe.
 - [x] actions fixadas por commit e workflow com permissões mínimas;
 - [x] ambiente local reproduzível por containers;
 - [x] liveness, readiness, correlation ID e logs estruturados documentados;
-- [ ] clone limpo validado usando somente o README.
+- [x] clone limpo validado usando somente o README.
 
 ## Saída da Foundation completa
 
-A Engineering Foundation só termina depois de FND-01, FND-02 e FND-03. O critério final permanece: uma pessoa consegue clonar, configurar, validar e executar o esqueleto usando apenas o README.
+A Engineering Foundation terminou com FND-01, FND-02 e FND-03 aprovadas. A [prova em clone limpo](../04-arquitetura/provas/resultado-clone-limpo-v0.1.md) confirmou que uma pessoa consegue clonar, configurar, validar e executar o esqueleto usando o README. O próximo corte é o plano de implementação do Vertical Slice 01.
