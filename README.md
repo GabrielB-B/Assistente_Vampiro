@@ -6,7 +6,7 @@ Plataforma brasileira para aprender, criar, organizar e jogar **Vampiro: A Másc
 
 O projeto está na **Engineering Foundation**, com fundação de produto, corpus inicial de regras, Modelo de Domínio, stack tecnológica e Architecture v0.1 aprovados.
 
-O esqueleto executável da FND-01 e a persistência PostgreSQL da FND-02 estão concluídos. A FND-03 está em andamento, com CI e ambiente PostgreSQL local aprovados. A Fatia 01 de regras, a prova de persistência, as cinco ADRs do gate e a Architecture v0.1 também estão concluídas; funcionalidades do alpha ainda não começaram.
+O esqueleto executável da FND-01 e a persistência PostgreSQL da FND-02 estão concluídos. A FND-03 está em andamento, com CI, ambiente PostgreSQL local e observabilidade mínima aprovados. A Fatia 01 de regras, a prova de persistência, as cinco ADRs do gate e a Architecture v0.1 também estão concluídas; funcionalidades do alpha ainda não começaram.
 
 ## Princípios centrais
 
@@ -76,6 +76,10 @@ corepack pnpm dev
 - liveness da API: `http://localhost:3001/api/v1/health`;
 - readiness da API e do banco: `http://localhost:3001/api/v1/health/ready`.
 
+A API devolve `x-correlation-id` em toda resposta e escreve logs estruturados em
+JSON, sem corpo, query string ou credenciais. O contrato está em
+[Observabilidade Mínima v0.1](./documentacao/04-arquitetura/operacao/observabilidade-minima-v0.1.md).
+
 O arquivo `.env.example` contém somente valores ilustrativos. Credenciais reais permanecem fora do Git. Os comandos e a política de migração estão em [database/README.md](./database/README.md). O contrato completo do ambiente está em [Ambiente Local v0.1](./documentacao/04-arquitetura/operacao/ambiente-local-v0.1.md).
 
 ## Próximo objetivo
@@ -95,10 +99,9 @@ Autenticar
 
 Próximas entregas:
 
-1. adicionar observabilidade mínima no último corte funcional da FND-03;
-2. comprovar o setup em clone limpo ao concluir a Foundation;
-3. especificar a rerrolagem com Força de Vontade no incremento previsto;
-4. implementar o alpha técnico antes do MVP de playtest.
+1. comprovar o setup em clone limpo e concluir a Engineering Foundation;
+2. especificar a rerrolagem com Força de Vontade no incremento previsto;
+3. implementar o alpha técnico antes do MVP de playtest.
 
 ## Conteúdo protegido
 

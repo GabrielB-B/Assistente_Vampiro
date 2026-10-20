@@ -41,6 +41,7 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 19. [Engineering Foundation v0.1](./05-planejamento/engineering-foundation-v0.1.md)
 20. [Persistência PostgreSQL v0.1](./04-arquitetura/dados/persistencia-postgresql-v0.1.md)
 21. [Ambiente Local v0.1](./04-arquitetura/operacao/ambiente-local-v0.1.md)
+22. [Observabilidade Mínima v0.1](./04-arquitetura/operacao/observabilidade-minima-v0.1.md)
 
 ## Situação por etapa
 
@@ -52,7 +53,7 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 | Modelo de Domínio v0.1 | aprovado | decisões registradas e versionadas |
 | arquitetura técnica | aprovada | Architecture v0.1 e cinco ADRs aceitas |
 | permissões e Rules Engine | concluída para a Fatia 01 | matriz, escopo e oito regras aprovados |
-| Engineering Foundation | em andamento | FND-01 e FND-02 concluídas; CI e ambiente local da FND-03 aprovados |
+| Engineering Foundation | em andamento | FND-01 e FND-02 concluídas; somente a prova em clone limpo resta na FND-03 |
 | Vertical Slice 01 | não iniciado | após os gates da Engineering Foundation |
 | MVP de playtest | planejado | após validar o corte vertical interno |
 
