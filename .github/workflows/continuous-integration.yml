@@ -66,3 +66,34 @@ jobs:
 
       - name: Test PostgreSQL migrations
         run: pnpm test:integration
+
+  local-environment:
+    name: Local PostgreSQL container
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Validate Compose model
+        run: docker compose --env-file .env.example config --quiet
+
+      - name: Start local PostgreSQL
+        run: docker compose --env-file .env.example up --detach --wait postgres
+
+      - name: Verify PostgreSQL major version
+        shell: bash
+        run: |
+          version="$(docker compose --env-file .env.example exec --no-TTY postgres sh -ec \
+            'psql --username="$POSTGRES_USER" --dbname="$POSTGRES_DB" --tuples-only --no-align --command="show server_version;"' \
+            | tr -d '[:space:]')"
+
+          if [[ "$version" != 18.* ]]; then
+            echo "::error::PostgreSQL 18 era esperado, mas o container informou $version."
+            exit 1
+          fi
+
+      - name: Stop local PostgreSQL
+        if: always()
+        run: docker compose --env-file .env.example down --volumes
