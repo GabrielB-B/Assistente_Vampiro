@@ -76,6 +76,10 @@ corepack pnpm dev
 - liveness da API: `http://localhost:3001/api/v1/health`;
 - readiness da API e do banco: `http://localhost:3001/api/v1/health/ready`.
 
+A API devolve `x-correlation-id` em toda resposta e escreve logs estruturados em
+JSON, sem corpo, query string ou credenciais. O contrato está em
+[Observabilidade Mínima v0.1](./documentacao/04-arquitetura/operacao/observabilidade-minima-v0.1.md).
+
 O arquivo `.env.example` contém somente valores ilustrativos. Credenciais reais permanecem fora do Git. Os comandos e a política de migração estão em [database/README.md](./database/README.md). O contrato completo do ambiente está em [Ambiente Local v0.1](./documentacao/04-arquitetura/operacao/ambiente-local-v0.1.md).
 
 ## Próximo objetivo

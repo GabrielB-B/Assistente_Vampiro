@@ -19,6 +19,7 @@ Esta área transforma as decisões de produto e domínio em limites técnicos ve
 - [Persistência PostgreSQL v0.1](./dados/persistencia-postgresql-v0.1.md)
 - [Operação](./operacao/README.md)
 - [Ambiente Local v0.1](./operacao/ambiente-local-v0.1.md)
+- [Observabilidade Mínima v0.1](./operacao/observabilidade-minima-v0.1.md)
 - [Provas de arquitetura](./provas/README.md)
 - [Prova de Persistência v0.1](./provas/prova-persistencia-v0.1.md)
 - [Resultado da Prova de Persistência v0.1](./provas/resultado-persistencia-v0.1.md)

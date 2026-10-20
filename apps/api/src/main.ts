@@ -3,6 +3,8 @@ import "reflect-metadata";
 import { NestFactory } from "@nestjs/core";
 
 import { AppModule } from "./app.module.js";
+import { applyHttpHardening } from "./bootstrap/http-hardening.js";
+import { StructuredLogger } from "./observability/structured-logger.js";
 
 function resolvePort(rawPort: string | undefined): number {
   const port = Number(rawPort ?? "3001");
@@ -15,7 +17,9 @@ function resolvePort(rawPort: string | undefined): number {
 }
 
 async function bootstrap(): Promise<void> {
-  const application = await NestFactory.create(AppModule);
+  const application = await NestFactory.create(AppModule, { bufferLogs: true });
+  application.useLogger(application.get(StructuredLogger));
+  applyHttpHardening(application);
   application.setGlobalPrefix("api/v1");
   application.enableShutdownHooks();
 

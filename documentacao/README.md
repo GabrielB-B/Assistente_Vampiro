@@ -41,6 +41,7 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 19. [Engineering Foundation v0.1](./05-planejamento/engineering-foundation-v0.1.md)
 20. [Persistência PostgreSQL v0.1](./04-arquitetura/dados/persistencia-postgresql-v0.1.md)
 21. [Ambiente Local v0.1](./04-arquitetura/operacao/ambiente-local-v0.1.md)
+22. [Observabilidade Mínima v0.1](./04-arquitetura/operacao/observabilidade-minima-v0.1.md)
 
 ## Situação por etapa
 
