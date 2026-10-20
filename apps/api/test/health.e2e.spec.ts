@@ -6,6 +6,7 @@ import request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { AppModule } from "../src/app.module.js";
+import { DatabaseService } from "../src/database/database.service.js";
 
 describe("GET /api/v1/health", () => {
   let application: INestApplication;
@@ -13,7 +14,10 @@ describe("GET /api/v1/health", () => {
   beforeAll(async () => {
     const testingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(DatabaseService)
+      .useValue({ checkConnection: () => Promise.resolve() })
+      .compile();
 
     application = testingModule.createNestApplication();
     application.setGlobalPrefix("api/v1");
@@ -31,6 +35,17 @@ describe("GET /api/v1/health", () => {
     expect(response.body).toEqual({
       service: "assistente-vampiro-api",
       status: "ok",
+    });
+  });
+
+  it("expõe prontidão sem acessar infraestrutura real no teste HTTP", async () => {
+    const server = application.getHttpServer() as Server;
+    const response = await request(server).get("/api/v1/health/ready").expect(200);
+
+    expect(response.body).toEqual({
+      database: "ready",
+      service: "assistente-vampiro-api",
+      status: "ready",
     });
   });
 });

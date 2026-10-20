@@ -3,7 +3,7 @@
 **Estado:** Architecture v0.1 aprovada<br>
 **Estilo aprovado:** monólito modular<br>
 **Stack aprovada:** Next.js + NestJS + PostgreSQL em infraestrutura portável<br>
-**Próximo gate:** persistência de produção da FND-02
+**Próximo gate:** CI, containers locais e observabilidade mínima da FND-03
 
 Esta área transforma as decisões de produto e domínio em limites técnicos verificáveis.
 
@@ -15,6 +15,8 @@ Esta área transforma as decisões de produto e domínio em limites técnicos ve
 - [Architecture v0.1 — Arquitetura de Software](./arquitetura-software-v0.1.md)
 - [Permissions & Visibility Matrix v0.1](./permissoes-visibilidade-v0.1.md)
 - [Rules Engine Scope v0.1](./escopo-rules-engine-v0.1.md)
+- [Dados e persistência](./dados/README.md)
+- [Persistência PostgreSQL v0.1](./dados/persistencia-postgresql-v0.1.md)
 - [Provas de arquitetura](./provas/README.md)
 - [Prova de Persistência v0.1](./provas/prova-persistencia-v0.1.md)
 - [Resultado da Prova de Persistência v0.1](./provas/resultado-persistencia-v0.1.md)
@@ -46,4 +48,4 @@ trilho de domínio: permissões → Fatia 01 de regras → Rules Engine Scope
                          esqueleto + CI + Vertical Slice 01
 ```
 
-O trilho de domínio foi concluído para a Fatia 01, a prova de persistência foi executada, as ADRs foram aceitas e a Architecture v0.1 foi aprovada. A FND-01 criou o monorepo executável e a FND-02 é o próximo trabalho autorizado.
+O trilho de domínio foi concluído para a Fatia 01, a prova de persistência foi executada, as ADRs foram aceitas e a Architecture v0.1 foi aprovada. A FND-01 criou o monorepo executável; a FND-02 transformou o contrato de persistência em migrações e adapters de produção. A FND-03 é o próximo trabalho previsto.

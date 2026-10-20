@@ -6,7 +6,7 @@ Plataforma brasileira para aprender, criar, organizar e jogar **Vampiro: A Másc
 
 O projeto está na **Engineering Foundation**, com fundação de produto, corpus inicial de regras, Modelo de Domínio, stack tecnológica e Architecture v0.1 aprovados.
 
-O primeiro esqueleto executável foi concluído na FND-01. A Fatia 01 de regras, a prova de persistência, as cinco ADRs do gate e a Architecture v0.1 também estão concluídas; funcionalidades do alpha ainda não começaram.
+O esqueleto executável da FND-01 e a persistência PostgreSQL da FND-02 estão concluídos. A Fatia 01 de regras, a prova de persistência, as cinco ADRs do gate e a Architecture v0.1 também estão concluídas; funcionalidades do alpha ainda não começaram.
 
 ## Princípios centrais
 
@@ -36,13 +36,22 @@ Pré-requisitos:
 
 - Node.js 24.18.0;
 - Corepack disponível;
-- pnpm 12.10.1.
+- pnpm 12.10.1;
+- PostgreSQL 18 para migrações e testes de integração.
 
-Instalação e validação:
+Prepare o ambiente local sem versionar credenciais:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Edite somente o `.env` e informe uma role e um banco exclusivos do projeto. Depois instale, migre e valide:
 
 ```powershell
 corepack pnpm install --frozen-lockfile
+corepack pnpm db:migrate
 corepack pnpm check
+corepack pnpm test:integration
 ```
 
 Execução local:
@@ -52,9 +61,10 @@ corepack pnpm dev
 ```
 
 - web: `http://localhost:3000`;
-- API: `http://localhost:3001/api/v1/health`.
+- liveness da API: `http://localhost:3001/api/v1/health`;
+- readiness da API e do banco: `http://localhost:3001/api/v1/health/ready`.
 
-Os arquivos `.env.example` contêm somente valores locais públicos. Credenciais reais permanecem fora do Git.
+O arquivo `.env.example` contém somente valores ilustrativos. Credenciais reais permanecem fora do Git. Os comandos e a política de migração estão em [database/README.md](./database/README.md).
 
 ## Próximo objetivo
 
@@ -73,11 +83,10 @@ Autenticar
 
 Próximas entregas:
 
-1. implementar PostgreSQL, migrações e o adapter Kysely na FND-02;
-2. criar CI, containers locais e observabilidade mínima na FND-03;
-3. comprovar o setup em clone limpo ao concluir a Foundation;
-4. especificar a rerrolagem com Força de Vontade no incremento previsto;
-5. implementar o alpha técnico antes do MVP de playtest.
+1. criar CI, containers locais e observabilidade mínima na FND-03;
+2. comprovar o setup em clone limpo ao concluir a Foundation;
+3. especificar a rerrolagem com Força de Vontade no incremento previsto;
+4. implementar o alpha técnico antes do MVP de playtest.
 
 ## Conteúdo protegido
 

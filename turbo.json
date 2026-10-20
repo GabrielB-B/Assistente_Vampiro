@@ -1,21 +1,42 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalPassThroughEnv": [
+    "DATABASE_POOL_MAX",
+    "DATABASE_SCHEMA",
+    "DATABASE_URL",
+    "NODE_ENV",
+    "PORT"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
+    },
+    "db:migrate": {
+      "cache": false
+    },
+    "db:rollback": {
+      "cache": false
+    },
+    "db:status": {
+      "cache": false
     },
     "lint": {
       "dependsOn": ["^lint"],
       "outputs": []
     },
     "test": {
-      "dependsOn": ["^test"],
+      "dependsOn": ["^build", "^test"],
       "outputs": []
+    },
+    "test:integration": {
+      "dependsOn": ["^build"],
+      "cache": false
     },
     "typecheck": {
       "dependsOn": ["^typecheck"],

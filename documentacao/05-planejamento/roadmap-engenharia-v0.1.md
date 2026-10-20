@@ -257,7 +257,7 @@ Autenticação real, storage, IA e decomposição só recebem ADR quando entrare
 
 ## 9. Fase 5 — Engineering Foundation
 
-**Progresso atual:** FND-01 concluída; FND-02, dedicada à persistência de produção, é o próximo corte.
+**Progresso atual:** FND-01 e FND-02 concluídas; FND-03, dedicada a CI, containers locais e observabilidade mínima, é o próximo corte.
 
 ### Entregas
 
