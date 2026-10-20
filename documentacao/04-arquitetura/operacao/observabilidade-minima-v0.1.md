@@ -1,6 +1,6 @@
 # Observabilidade Mínima v0.1
 
-**Status:** proposta<br>
+**Status:** aprovado<br>
 **Escopo:** API da Engineering Foundation
 
 ## Objetivo

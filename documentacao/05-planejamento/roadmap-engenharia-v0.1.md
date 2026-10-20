@@ -2,7 +2,7 @@
 
 **Status:** aprovado<br>
 **Data:** 1º de outubro de 2026  
-**Última revisão:** 8 de outubro de 2026<br>
+**Última revisão:** 20 de outubro de 2026<br>
 **Horizonte:** descoberta de regras até primeiro corte executável
 
 ---
@@ -257,7 +257,7 @@ Autenticação real, storage, IA e decomposição só recebem ADR quando entrare
 
 ## 9. Fase 5 — Engineering Foundation
 
-**Progresso atual:** FND-01 e FND-02 concluídas; CI e containers locais da FND-03 aprovados, seguidos por observabilidade mínima e prova de reprodução.
+**Progresso atual:** FND-01 e FND-02 concluídas; CI, containers locais e observabilidade mínima da FND-03 aprovados. A prova de reprodução em clone limpo é o último gate.
 
 ### Entregas
 

@@ -121,7 +121,7 @@ registrar como obrigatório um check que ainda não existe.
 - [x] migrações verificadas pela CI contra PostgreSQL 18 real;
 - [x] actions fixadas por commit e workflow com permissões mínimas;
 - [x] ambiente local reproduzível por containers;
-- [ ] liveness, readiness, correlation ID e logs estruturados documentados;
+- [x] liveness, readiness, correlation ID e logs estruturados documentados;
 - [ ] clone limpo validado usando somente o README.
 
 ## Saída da Foundation completa
