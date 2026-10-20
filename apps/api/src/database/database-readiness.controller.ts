@@ -1,4 +1,4 @@
-import { Controller, Get, ServiceUnavailableException } from "@nestjs/common";
+import { Controller, Get, Inject, ServiceUnavailableException } from "@nestjs/common";
 
 import { DatabaseService } from "./database.service.js";
 
@@ -10,7 +10,7 @@ export interface ReadinessResponse {
 
 @Controller("health")
 export class DatabaseReadinessController {
-  constructor(private readonly database: DatabaseService) {}
+  constructor(@Inject(DatabaseService) private readonly database: DatabaseService) {}
 
   @Get("ready")
   async getReadiness(): Promise<ReadinessResponse> {

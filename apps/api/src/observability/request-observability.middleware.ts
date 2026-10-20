@@ -1,7 +1,7 @@
 import { performance } from "node:perf_hooks";
 import type { IncomingMessage, ServerResponse } from "node:http";
 
-import { Injectable, type NestMiddleware } from "@nestjs/common";
+import { Inject, Injectable, type NestMiddleware } from "@nestjs/common";
 
 import { CorrelationContext } from "./correlation-context.js";
 import { CORRELATION_ID_HEADER, resolveCorrelationId } from "./correlation-id.js";
@@ -22,8 +22,8 @@ export class RequestObservabilityMiddleware implements NestMiddleware<
   ServerResponse
 > {
   constructor(
-    private readonly correlationContext: CorrelationContext,
-    private readonly logger: StructuredLogger,
+    @Inject(CorrelationContext) private readonly correlationContext: CorrelationContext,
+    @Inject(StructuredLogger) private readonly logger: StructuredLogger,
   ) {}
 
   use(

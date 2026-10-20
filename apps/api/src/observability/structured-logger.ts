@@ -1,4 +1,4 @@
-import { Injectable, type LoggerService } from "@nestjs/common";
+import { Inject, Injectable, type LoggerService } from "@nestjs/common";
 
 import { CorrelationContext } from "./correlation-context.js";
 
@@ -36,7 +36,9 @@ export function serializeLogRecord(record: LogRecord): string {
 
 @Injectable()
 export class StructuredLogger implements LoggerService {
-  constructor(private readonly correlationContext: CorrelationContext) {}
+  constructor(
+    @Inject(CorrelationContext) private readonly correlationContext: CorrelationContext,
+  ) {}
 
   debug(message: unknown, ...optionalParams: unknown[]): void {
     this.writeApplicationLog("debug", message, optionalParams);
