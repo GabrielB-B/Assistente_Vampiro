@@ -457,7 +457,7 @@ As referências orientam o raciocínio. Elas não substituem decisões baseadas 
 
 ## 16. Próxima ação concreta
 
-1. criar o esqueleto executável, o banco local e a CI;
-2. comprovar instalação limpa e setup reproduzível;
-3. especificar `RULE-WILL-001` no incremento previsto;
-4. implementar e validar o alpha técnico antes do MVP de playtest.
+1. revisar e aprovar o plano de implementação do Vertical Slice 01;
+2. implementar o alpha em incrementos pequenos, começando pelo Rules Engine;
+3. demonstrar o fluxo completo e os testes negativos em ambiente limpo;
+4. especificar `RULE-WILL-001` antes do MVP de playtest.

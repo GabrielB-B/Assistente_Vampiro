@@ -99,9 +99,10 @@ Autenticar
 
 Próximas entregas:
 
-1. detalhar o plano de implementação do Vertical Slice 01;
-2. implementar e validar o alpha técnico antes do MVP de playtest;
-3. especificar a rerrolagem com Força de Vontade no incremento previsto.
+1. revisar e aprovar o plano de implementação do Vertical Slice 01;
+2. iniciar o Rules Engine executável com os cenários aprovados da Fatia 01;
+3. implementar e validar o alpha técnico antes do MVP de playtest;
+4. especificar a rerrolagem com Força de Vontade no incremento previsto.
 
 ## Conteúdo protegido
 
