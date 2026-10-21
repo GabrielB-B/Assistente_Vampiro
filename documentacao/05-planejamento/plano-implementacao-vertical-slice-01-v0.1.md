@@ -30,6 +30,7 @@ não é uma versão pronta para uma mesa real.
 - [Product Architecture & Core User Flows v0.1](../01-produto/arquitetura-produto-fluxos-principais-v0.1.md);
 - [Modelo de Domínio v0.1](../04-arquitetura/dominio/modelo-dominio-v0.1.md);
 - [Permissions & Visibility Matrix v0.1](../04-arquitetura/permissoes-visibilidade-v0.1.md);
+- [Baseline de Segurança v0.1](../04-arquitetura/seguranca/baseline-seguranca-v0.1.md);
 - [Rules Engine Scope v0.1](../04-arquitetura/escopo-rules-engine-v0.1.md);
 - [Architecture v0.1](../04-arquitetura/arquitetura-software-v0.1.md);
 - [ADR-0003 — Identidade controlada no alpha](../00-governanca/adr/0003-identidade-da-alpha.md);
@@ -315,6 +316,10 @@ Os nomes orientam o trabalho; não criam branches antecipadamente.
 
 ## 9. Segurança desde o primeiro incremento
 
+A [Baseline de Segurança v0.1](../04-arquitetura/seguranca/baseline-seguranca-v0.1.md)
+é obrigatória em todo o slice. Cada incremento aplica os controles compatíveis
+com o risco que introduz e entrega sua evidência no mesmo PR.
+
 - negar por padrão e consultar apenas o necessário para decidir acesso;
 - nunca confiar em identidade, personagem, papel, Fome ou total enviados pelo cliente;
 - validar entrada externa por schema e limitar tamanhos antes do domínio;
@@ -324,6 +329,10 @@ Os nomes orientam o trabalho; não criam branches antecipadamente.
 - autorizar leitura histórica e realtime separadamente;
 - manter dados fictícios reconhecíveis como fictícios;
 - impedir que adapter e seed do alpha iniciem fora dos ambientes permitidos.
+- testar autorização por objeto, inclusive troca de IDs entre personagens;
+- rejeitar campos inesperados, payloads grandes demais e aliases desconhecidos;
+- não encerrar incremento com vulnerabilidade crítica ou risco alto sem
+  tratamento formalmente aprovado.
 
 ## 10. Definition of Done de cada incremento
 
@@ -332,12 +341,15 @@ Um incremento só termina quando:
 - comportamento e exclusões estão claros;
 - código respeita as fronteiras do módulo;
 - caminho positivo e negações relevantes estão testados;
+- ameaças, dados e públicos introduzidos foram classificados;
 - PostgreSQL real é usado quando houver persistência;
 - API e eventos mantêm contratos tipados;
 - estados de interface aplicáveis estão cobertos;
 - lint, typecheck, testes e builds passam localmente e na CI;
 - documentação e rastreabilidade foram atualizadas;
 - não há segredo, material privado nem alteração inesperada no Git;
+- logs e erros não expõem credencial, conteúdo privado ou detalhe interno;
+- nenhum achado crítico ou alto permanece aberto sem decisão formal;
 - a `main` passa novamente depois do merge.
 
 ## 11. Riscos controlados

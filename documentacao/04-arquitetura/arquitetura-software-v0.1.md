@@ -417,6 +417,10 @@ A matriz detalhada de permissões foi aprovada e continua obrigatória para os c
 
 ## 19. Segurança, privacidade e conteúdo protegido
 
+A [Baseline de Segurança v0.1](./seguranca/baseline-seguranca-v0.1.md) é a
+referência normativa para controles, evidências e gates de segurança. Os pontos
+abaixo resumem sua aplicação nesta arquitetura:
+
 - segredos chegam por configuração externa e nunca pelo repositório;
 - cookies futuros usam `HttpOnly`, `Secure` e `SameSite` definido no ADR de identidade;
 - origem, CSRF e rate limits são tratados na borda apropriada;
