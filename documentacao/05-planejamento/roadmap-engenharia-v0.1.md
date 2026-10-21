@@ -213,7 +213,7 @@ Media
 
 ### Estado
 
-**Concluída para a Fatia 01.** A matriz de permissões, o Rules Engine Scope e as oito regras de `RULE-ROLL-001` a `RULE-ROLLFLOW-001` foram aprovados. A rerrolagem com Força de Vontade terá especificação própria no incremento seguinte, antes do MVP de playtest. Nenhum código de produção foi iniciado.
+**Concluída para a Fatia 01.** A matriz de permissões, o Rules Engine Scope e as oito regras de `RULE-ROLL-001` a `RULE-ROLLFLOW-001` foram aprovados. O motor correspondente foi implementado e verificado no VS01-01. A rerrolagem com Força de Vontade terá especificação própria no incremento seguinte, antes do MVP de playtest.
 
 ---
 
@@ -457,7 +457,7 @@ As referências orientam o raciocínio. Elas não substituem decisões baseadas 
 
 ## 16. Próxima ação concreta
 
-1. implementar VS01-01 — Rules Engine executável;
-2. continuar o alpha pelos incrementos aprovados do Vertical Slice 01;
+1. implementar VS01-02 — contexto controlado do alpha;
+2. continuar o alpha pelos demais incrementos aprovados do Vertical Slice 01;
 3. demonstrar o fluxo completo e os testes negativos em ambiente limpo;
 4. especificar `RULE-WILL-001` antes do MVP de playtest.

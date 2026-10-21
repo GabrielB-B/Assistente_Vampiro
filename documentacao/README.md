@@ -1,7 +1,7 @@
 # Índice da documentação
 
-**Estado do projeto:** Engineering Foundation concluída; Vertical Slice 01 é o próximo corte<br>
-**Atualização:** 20 de outubro de 2026<br>
+**Estado do projeto:** Vertical Slice 01 em andamento; VS01-01 verificado<br>
+**Atualização:** 21 de outubro de 2026<br>
 **Entrada oficial:** este arquivo
 
 Esta documentação está organizada por área de conhecimento. Os prefixos numéricos mantêm uma ordem previsível; eles não representam sprints nem obrigam que as áreas evoluam isoladamente.
@@ -31,19 +31,21 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 9. [Architecture v0.1 — Arquitetura de Software](./04-arquitetura/arquitetura-software-v0.1.md)
 10. [Permissions & Visibility Matrix v0.1](./04-arquitetura/permissoes-visibilidade-v0.1.md)
 11. [Rules Engine Scope v0.1](./04-arquitetura/escopo-rules-engine-v0.1.md)
-12. [Prova de Persistência v0.1](./04-arquitetura/provas/prova-persistencia-v0.1.md)
-13. [Resultado da Prova de Persistência v0.1](./04-arquitetura/provas/resultado-persistencia-v0.1.md)
-14. [ADR-0004 — Biblioteca de acesso a dados](./00-governanca/adr/0004-biblioteca-acesso-dados.md)
-15. [ADR-0005 — Identificadores UUIDv7](./00-governanca/adr/0005-identificadores-uuidv7.md)
-16. [Escopo do Alpha Técnico v0.1](./05-planejamento/escopo-alpha-tecnica-v0.1.md)
-17. [Registro de Decisões](./00-governanca/registro-decisoes.md)
-18. [Roadmap de Engenharia v0.1](./05-planejamento/roadmap-engenharia-v0.1.md)
-19. [Engineering Foundation v0.1](./05-planejamento/engineering-foundation-v0.1.md)
-20. [Persistência PostgreSQL v0.1](./04-arquitetura/dados/persistencia-postgresql-v0.1.md)
-21. [Ambiente Local v0.1](./04-arquitetura/operacao/ambiente-local-v0.1.md)
-22. [Observabilidade Mínima v0.1](./04-arquitetura/operacao/observabilidade-minima-v0.1.md)
-23. [Resultado da Prova em Clone Limpo v0.1](./04-arquitetura/provas/resultado-clone-limpo-v0.1.md)
-24. [Plano de Implementação do Vertical Slice 01 v0.1](./05-planejamento/plano-implementacao-vertical-slice-01-v0.1.md)
+12. [Contrato do Rules Engine v0.1](./04-arquitetura/contratos/rules-engine-v0.1.md)
+13. [Matriz de Testes da Fatia 01 v0.1](./03-dominio-regras/matriz-testes-fatia-01-v0.1.md)
+14. [Prova de Persistência v0.1](./04-arquitetura/provas/prova-persistencia-v0.1.md)
+15. [Resultado da Prova de Persistência v0.1](./04-arquitetura/provas/resultado-persistencia-v0.1.md)
+16. [ADR-0004 — Biblioteca de acesso a dados](./00-governanca/adr/0004-biblioteca-acesso-dados.md)
+17. [ADR-0005 — Identificadores UUIDv7](./00-governanca/adr/0005-identificadores-uuidv7.md)
+18. [Escopo do Alpha Técnico v0.1](./05-planejamento/escopo-alpha-tecnica-v0.1.md)
+19. [Registro de Decisões](./00-governanca/registro-decisoes.md)
+20. [Roadmap de Engenharia v0.1](./05-planejamento/roadmap-engenharia-v0.1.md)
+21. [Engineering Foundation v0.1](./05-planejamento/engineering-foundation-v0.1.md)
+22. [Persistência PostgreSQL v0.1](./04-arquitetura/dados/persistencia-postgresql-v0.1.md)
+23. [Ambiente Local v0.1](./04-arquitetura/operacao/ambiente-local-v0.1.md)
+24. [Observabilidade Mínima v0.1](./04-arquitetura/operacao/observabilidade-minima-v0.1.md)
+25. [Resultado da Prova em Clone Limpo v0.1](./04-arquitetura/provas/resultado-clone-limpo-v0.1.md)
+26. [Plano de Implementação do Vertical Slice 01 v0.1](./05-planejamento/plano-implementacao-vertical-slice-01-v0.1.md)
 
 ## Situação por etapa
 
@@ -56,7 +58,7 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 | arquitetura técnica | aprovada | Architecture v0.1 e cinco ADRs aceitas |
 | permissões e Rules Engine | concluída para a Fatia 01 | matriz, escopo e oito regras aprovados |
 | Engineering Foundation | concluída | FND-01, FND-02 e FND-03 aprovadas; reprodução comprovada em clone limpo |
-| Vertical Slice 01 | em andamento | plano aprovado; VS01-01 — Rules Engine é o corte ativo |
+| Vertical Slice 01 | em andamento | VS01-01 verificado; VS01-02 — contexto controlado do alpha é o próximo corte |
 | MVP de playtest | planejado | após validar o corte vertical interno |
 
 ## Documentos de governança obrigatórios

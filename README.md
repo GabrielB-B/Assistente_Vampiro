@@ -4,9 +4,9 @@ Plataforma brasileira para aprender, criar, organizar e jogar **Vampiro: A Másc
 
 ## Estado atual
 
-O projeto concluiu a **Engineering Foundation** e está pronto para iniciar o **Vertical Slice 01**, com fundação de produto, corpus inicial de regras, Modelo de Domínio, stack tecnológica e Architecture v0.1 aprovados.
+O projeto concluiu a **Engineering Foundation** e iniciou o **Vertical Slice 01**, com fundação de produto, corpus inicial de regras, Modelo de Domínio, stack tecnológica e Architecture v0.1 aprovados.
 
-FND-01, FND-02 e FND-03 estão concluídas. O esqueleto executável possui CI protegendo a `main`, persistência PostgreSQL, ambiente local reproduzível, observabilidade mínima e prova em clone limpo. A Fatia 01 de regras, a prova de persistência, as cinco ADRs do gate e a Architecture v0.1 também estão concluídas; funcionalidades do alpha ainda não começaram.
+FND-01, FND-02 e FND-03 estão concluídas. O esqueleto executável possui CI protegendo a `main`, persistência PostgreSQL, ambiente local reproduzível, observabilidade mínima e prova em clone limpo. O VS01-01 implementou o Rules Engine determinístico e seus 76 cenários normativos. O próximo corte é o contexto controlado do alpha.
 
 ## Princípios centrais
 
@@ -28,6 +28,7 @@ O mapa oficial dos documentos, status e ordem de leitura está em:
 - [Índice da documentação](./documentacao/README.md)
 - [Roadmap de Engenharia v0.1](./documentacao/05-planejamento/roadmap-engenharia-v0.1.md)
 - [Engineering Foundation v0.1](./documentacao/05-planejamento/engineering-foundation-v0.1.md)
+- [Plano do Vertical Slice 01 v0.1](./documentacao/05-planejamento/plano-implementacao-vertical-slice-01-v0.1.md)
 - [Registro de Decisões](./documentacao/00-governanca/registro-decisoes.md)
 
 ## Ambiente de desenvolvimento
@@ -99,8 +100,8 @@ Autenticar
 
 Próximas entregas:
 
-1. iniciar o Rules Engine executável com os cenários aprovados da Fatia 01;
-2. implementar os demais incrementos do Vertical Slice 01;
+1. implementar o contexto controlado do alpha com identidades, seeds e políticas;
+2. construir a entrada do Jogador e a ficha mínima após benchmark do Roll20;
 3. validar o alpha técnico antes do MVP de playtest;
 4. especificar a rerrolagem com Força de Vontade no incremento previsto.
 

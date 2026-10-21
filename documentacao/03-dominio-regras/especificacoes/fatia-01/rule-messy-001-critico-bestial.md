@@ -1,7 +1,7 @@
 # RULE-MESSY-001 — Crítico Bestial
 
 **Maturidade:** aprovada<br>
-**Implementação:** não iniciada<br>
+**Implementação:** verificada em `packages/rules-engine`<br>
 **Edição:** V5<br>
 **ruleSetProfileId:** `v5-core-companion-pg-2023`<br>
 **ruleSetProfileRevisionId:** `v5-core-companion-pg-2023-r1`<br>
