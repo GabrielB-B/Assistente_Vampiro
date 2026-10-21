@@ -69,8 +69,10 @@ A Foundation já entrega:
 - liveness, readiness, correlation ID e logs estruturados;
 - CI protegendo a `main` e ambiente local reproduzível.
 
-Ainda não existem os módulos funcionais, seeds do alpha, contratos públicos,
-Rules Engine, relay da outbox, realtime nem as telas do fluxo.
+Na abertura do plano ainda não existiam módulos funcionais, seeds do alpha,
+contratos públicos, Rules Engine, relay da outbox, realtime nem as telas do fluxo.
+O VS01-01 passou a fornecer o primeiro desses componentes; os demais continuam
+nas entregas seguintes.
 
 ## 4. Decisões propostas para a implementação
 
@@ -121,6 +123,8 @@ vazio, erro, negado e desconectado fazem parte de cada tela entregue.
 
 ### VS01-01 — Rules Engine executável
 
+**Estado:** concluído e verificado localmente em 21 de outubro de 2026.
+
 **Entrega:** criar `packages/rules-engine` e implementar as oito regras aprovadas
 de `RULE-ROLL-001` a `RULE-ROLLFLOW-001`.
 
@@ -169,6 +173,12 @@ Inclui:
 - contratos HTTP documentados e cliente tipado;
 - estados carregando, vazio, erro, negado e indisponível;
 - navegação por teclado e layout responsivo básico.
+
+Antes de fechar a estrutura e a interação da ficha, será feito um benchmark da
+ficha de Vampiro disponível no Roll20. A análise observará organização da
+informação, fluxo de uso durante a sessão, legibilidade e pontos de atrito. Ela
+servirá como referência crítica, sem copiar código, conteúdo licenciado, identidade
+visual ou limitações específicas da plataforma.
 
 **Gate:** Jogador vê apenas sua projeção; Narrador recebe a projeção prevista; IDs
 alterados na URL não concedem acesso.
@@ -343,9 +353,9 @@ Um incremento só termina quando:
 | acabamento visual atrasar a prova | tokens e estados essenciais agora; arte final evolui depois |
 | dados oficiais entrarem como seed | usar somente conteúdo fictício e regras estruturadas aprovadas |
 
-## 12. Primeiro passo após aprovação
+## 12. Próximo passo
 
-Iniciar `VS01-01 — Rules Engine executável`. Antes de escrever o avaliador, os
-cenários das oito especificações serão convertidos em uma matriz de testes
-rastreável. Essa matriz será apresentada para revisão junto com o contrato final
-de entrada, saída e erros; só então o código do engine será consolidado.
+Iniciar `VS01-02 — Contexto controlado do alpha`. O Rules Engine de VS01-01 foi
+implementado com contrato aprovado, matriz de 76 cenários normativos e provas de
+arquitetura. O próximo incremento cria identidades e dados fictícios repetíveis,
+além das políticas de acesso que sustentarão as telas e a confirmação da rolagem.

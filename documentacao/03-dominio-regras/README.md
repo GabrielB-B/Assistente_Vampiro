@@ -2,9 +2,9 @@
 
 **Status:** aprovado<br>
 **Uso:** execução da descoberta<br>
-**Estado da fase:** corpus inicial ingerido; Fatia 01 de regras aprovada<br>
+**Estado da fase:** corpus inicial ingerido; Fatia 01 aprovada e implementada<br>
 **Início:** 2 de outubro de 2026<br>
-**Última revisão de coerência:** 7 de outubro de 2026<br>
+**Última revisão de coerência:** 21 de outubro de 2026<br>
 **Escopo inicial:** regras necessárias ao primeiro fluxo de rolagem V5
 
 ---
@@ -53,6 +53,7 @@ Sem depender de memória, interpretação informal ou texto enviado à IA em tem
 - [Linha normativa v0.1](./linha-normativa-v0.1.md)
 - [Glossário controlado v0.1](./glossario-v0.1.md)
 - [Catálogo de rastreabilidade v0.1](./catalogo-rastreabilidade-v0.1.md)
+- [Matriz de testes da Fatia 01 v0.1](./matriz-testes-fatia-01-v0.1.md)
 - [Registro de ambiguidades v0.1](./registro-ambiguidades-v0.1.md)
 - [Checklist de revisão de regra](./checklist-revisao-regra.md)
 - [Template de especificação](../99-modelos/regra-executavel-template.md)
@@ -264,6 +265,11 @@ Ficam fora desta fatia:
 - modificadores contextuais ainda não confirmados;
 - reroll com Força de Vontade;
 - animação ou física de dados 3D.
+
+“Fora desta fatia” descreve somente a ordem de implementação do produto. O Livro
+Básico contém regras para conflitos, combate, armas, dano e outras mecânicas dessa
+lista. Elas serão lidas nas seções correspondentes, especificadas e testadas quando
+seu incremento começar; não são lacunas do corpus nem regras inexistentes.
 
 ---
 

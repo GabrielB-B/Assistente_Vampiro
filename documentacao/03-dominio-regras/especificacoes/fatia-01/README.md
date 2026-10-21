@@ -1,7 +1,7 @@
 # Especificações da Fatia 01
 
-**Estado:** aprovada<br>
-**Objetivo:** documentar o teste básico completo antes da implementação
+**Estado:** aprovada e implementada<br>
+**Objetivo:** documentar e rastrear o teste básico completo
 
 Esta pasta contém apenas regras da primeira fatia executável. Cada arquivo possui proveniência, entradas, saídas, invariantes e cenários determinísticos próprios.
 
@@ -28,4 +28,4 @@ Uma regra só passa a `aprovada` depois de cotejo visual da fonte, comparação 
 
 ## Resultado do gate
 
-As oito especificações da Fatia 01 foram aprovadas em 8 de outubro de 2026. A prova de persistência, as ADRs e a Architecture v0.1 também foram concluídas; a implementação está liberada dentro dos limites da Engineering Foundation e do Vertical Slice 01.
+As oito especificações da Fatia 01 foram aprovadas em 8 de outubro de 2026. A implementação foi verificada em 21 de outubro de 2026 pelos 76 cenários normativos e pelas provas complementares do pacote `packages/rules-engine`.

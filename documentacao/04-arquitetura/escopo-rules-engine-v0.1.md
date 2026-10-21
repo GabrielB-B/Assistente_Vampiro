@@ -6,7 +6,7 @@
 **Escopo:** teste básico da fatia 01<br>
 **Perfil inicial:** `v5-core-companion-pg-2023`<br>
 **Revisão inicial do perfil:** `v5-core-companion-pg-2023-r1`<br>
-**Implementação:** não iniciada
+**Implementação:** verificada localmente em 21 de outubro de 2026
 
 ---
 
@@ -92,6 +92,11 @@ A ordem acima é de descoberta e dependência. A contagem crítica precede o res
 - consequências narrativas de Crítico Bestial e Falha Bestial;
 - rolagens dirigidas a uma única pessoa ou reveladas com atraso.
 
+Esta lista limita apenas a revisão `r1` do motor. O Livro Básico já contém regras
+de conflitos, combate, armas, dano e outras mecânicas adiadas. Antes de cada uma
+entrar no software, o trecho correspondente será revisado e convertido em uma
+especificação própria; não será tratado como conteúdo ausente da fonte.
+
 Itens adiados entram por nova regra e nova revisão de perfil. Eles não serão antecipados com flags genéricas.
 
 A extensão para Força de Vontade já possui um ponto de entrada definido: a tentativa inicial permanece imutável, a pessoa gasta um ponto, escolhe até três dados normais elegíveis e uma nova tentativa vinculada recebe as faces substitutas. Dados de Fome nunca entram nessa seleção. O avaliador executa novamente crítico, resultado e classificações especiais. A especificação completa, incluindo custo e exceções, pertencerá a `RULE-WILL-001` antes do MVP de playtest.
@@ -101,12 +106,8 @@ A extensão para Força de Vontade já possui um ponto de entrada definido: a te
 ```ts
 type EvaluateBasicTestInput = {
   ruleSetProfileRevisionId: RuleSetProfileRevisionId;
-  evaluatorRevision: EvaluatorRevision;
-  pool: {
-    components: readonly PoolComponent[];
-    totalDice: number;
-    hungerDice: number;
-  };
+  components: readonly PoolComponent[];
+  hunger: HungerInput;
   difficulty: number;
   faces: {
     normal: readonly D10Face[];
@@ -120,13 +121,16 @@ O exemplo expressa o contrato, não congela nomes de arquivo ou representação 
 ### Invariantes de entrada
 
 1. `ruleSetProfileRevisionId` referencia um perfil publicado e imutável.
-2. `evaluatorRevision` identifica a implementação que produziu o resultado.
-3. `totalDice` coincide com a quantidade total de faces.
-4. `hungerDice` coincide com as faces marcadas como Fome.
+2. o motor deriva os totais a partir dos componentes e da Fome; não aceita totais opacos como autoridade.
+3. o total derivado coincide com a quantidade total de faces.
+4. a quantidade derivada de Dados de Fome coincide com as faces marcadas como Fome.
 5. nenhuma face pertence simultaneamente aos dois conjuntos.
 6. toda face pertence ao domínio permitido de um d10.
 7. Dificuldade e limites da parada obedecem à especificação publicada.
 8. componentes da parada preservam origem e justificativa; não são apenas um total opaco.
+
+A revisão do avaliador é declarada pelo pacote e registrada na saída. Ela não é
+um valor livre recebido do chamador.
 
 Validação de autorização, estado da Sessão, propriedade do Personagem e visibilidade acontece antes dessa entrada.
 
@@ -134,6 +138,7 @@ Validação de autorização, estado da Sessão, propriedade do Personagem e vis
 
 ```ts
 type BasicTestResult = {
+  evaluatorRevision: EvaluatorRevision;
   totalSuccesses: number;
   difficulty: number;
   margin: number | null;
