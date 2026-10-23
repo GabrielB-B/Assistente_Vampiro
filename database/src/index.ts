@@ -16,3 +16,12 @@ export {
   readMigrationStatus,
   rollbackLastMigration,
 } from "./migrations/migrator.js";
+export {
+  ALPHA_FIXTURE_IDS,
+  ALPHA_IDENTITIES,
+  ALPHA_IDENTITY_ALIASES,
+  assertAlphaEnvironment,
+  seedAlphaContext,
+  type AlphaEnvironment,
+  type AlphaIdentityAlias,
+} from "./seeds/alpha-context.js";

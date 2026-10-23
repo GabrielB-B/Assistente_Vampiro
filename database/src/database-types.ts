@@ -5,6 +5,7 @@ export type BindingState = "requested" | "approved" | "active" | "released" | "r
 export type CharacterKind =
   "CLAN_VAMPIRE" | "CAITIFF" | "THIN_BLOOD" | "GHOUL" | "MORTAL";
 export type CharacterState = "draft" | "ready" | "retired";
+export type CharacterTraitKind = "ATTRIBUTE" | "SKILL";
 export type ChronicleState = "draft" | "active" | "archived";
 export type ContentVisibility = "CHRONICLE_SHARED" | "STORYTELLER_PRIVATE";
 export type GameSessionState = "scheduled" | "active" | "ended" | "cancelled";
@@ -62,6 +63,14 @@ export interface CharacterTable {
   version: Generated<number>;
   hunger: number | null;
   created_at: Timestamp;
+  updated_at: Timestamp;
+}
+
+export interface CharacterTraitTable {
+  character_id: string;
+  kind: CharacterTraitKind;
+  trait_id: string;
+  value: number;
   updated_at: Timestamp;
 }
 
@@ -195,6 +204,7 @@ export interface DatabaseSchema {
   account: AccountTable;
   audit_entry: AuditEntryTable;
   character: CharacterTable;
+  character_trait: CharacterTraitTable;
   character_binding: CharacterBindingTable;
   chronicle: ChronicleTable;
   chronicle_membership: ChronicleMembershipTable;

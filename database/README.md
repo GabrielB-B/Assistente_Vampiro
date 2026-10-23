@@ -11,9 +11,15 @@ Copy-Item .env.example .env
 corepack pnpm infra:up
 corepack pnpm db:status
 corepack pnpm db:migrate
+corepack pnpm db:seed:alpha
 ```
 
 O valor real de `DATABASE_URL` nunca entra no Git.
+
+O seed aceita somente `APP_ENV=local`, `test` ou `ci`. Ele cria quatro
+identidades e uma Crônica inteiramente fictícias, usa IDs determinísticos e pode
+ser repetido sem duplicar registros. Ele não substitui autenticação e não pode
+ser usado em ambiente compartilhado.
 
 `corepack pnpm infra:down` encerra o container sem apagar o volume. A remoção
 do volume é uma operação destrutiva e, por isso, não possui atalho no projeto.
