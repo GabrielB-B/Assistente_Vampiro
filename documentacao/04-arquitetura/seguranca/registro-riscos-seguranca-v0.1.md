@@ -52,3 +52,4 @@ limitado e houver responsável, prazo e controles compensatórios.
 |---|---|
 | 23/10/2026 | registro criado após auditoria do VS01-02; aguarda aprovação humana |
 | 23/10/2026 | dependência não utilizada removida da resolução; exceção de auditoria eliminada |
+| 23/10/2026 | revisão aprovada; auditoria completa sem vulnerabilidades conhecidas e VS01-02 encerrado |

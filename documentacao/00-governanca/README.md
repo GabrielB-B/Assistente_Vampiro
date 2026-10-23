@@ -13,6 +13,7 @@ Esta área registra como decisões são tomadas, revisadas e preservadas.
 - [ADR-0003 — Identidade controlada no alpha técnico](./adr/0003-identidade-da-alpha.md)
 - [ADR-0004 — Biblioteca de acesso a dados](./adr/0004-biblioteca-acesso-dados.md) — aceita.
 - [ADR-0005 — Identificadores UUIDv7](./adr/0005-identificadores-uuidv7.md) — aceita.
+- [ADR-0006 — Estratégia multiedição](./adr/0006-estrategia-multiedicao.md) — aceita.
 
 ## Regra de manutenção
 

@@ -2,7 +2,7 @@
 
 **Status:** aprovado<br>
 **Data:** 1º de outubro de 2026  
-**Última revisão:** 20 de outubro de 2026<br>
+**Última revisão:** 23 de outubro de 2026<br>
 **Horizonte:** descoberta de regras até primeiro corte executável
 
 ---
@@ -238,7 +238,8 @@ Media
 2. ADR-0002 — persistência, eventos e realtime confiável: **aceita**;
 3. ADR-0003 — identidade controlada no alpha: **aceita**;
 4. ADR-0004 — biblioteca de acesso a dados: **aceita; Kysely aprovado pela prova técnica**;
-5. ADR-0005 — identificadores UUIDv7: **aceita; geração pela aplicação aprovada**.
+5. ADR-0005 — identificadores UUIDv7: **aceita; geração pela aplicação aprovada**;
+6. ADR-0006 — estratégia multiedição: **aceita; V5 primeiro e expansão por perfis imutáveis**.
 
 Autenticação real, storage, IA e decomposição só recebem ADR quando entrarem num corte aprovado. Não serão criadas decisões ornamentais para tecnologia ainda não usada.
 
@@ -251,7 +252,7 @@ Autenticação real, storage, IA e decomposição só recebem ADR quando entrare
 
 ### Estado
 
-**Concluída.** A stack, a Fatia 01, a prova de persistência, as cinco ADRs e a Architecture v0.1 foram aprovadas. A Engineering Foundation foi concluída posteriormente; o Vertical Slice 01 é o próximo corte.
+**Concluída.** A stack, a Fatia 01, a prova de persistência e a Architecture v0.1 foram aprovadas. A Engineering Foundation foi concluída posteriormente; as ADRs continuam evoluindo conforme decisões estruturais entram em cortes reais.
 
 ---
 
@@ -457,7 +458,7 @@ As referências orientam o raciocínio. Elas não substituem decisões baseadas 
 
 ## 16. Próxima ação concreta
 
-1. implementar VS01-02 — contexto controlado do alpha;
+1. implementar VS01-03 — entrada do Jogador e ficha mínima;
 2. continuar o alpha pelos demais incrementos aprovados do Vertical Slice 01;
 3. demonstrar o fluxo completo e os testes negativos em ambiente limpo;
 4. especificar `RULE-WILL-001` antes do MVP de playtest.

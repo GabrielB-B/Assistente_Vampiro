@@ -3,7 +3,7 @@
 **Estado:** Architecture v0.1 aprovada<br>
 **Estilo aprovado:** monólito modular<br>
 **Stack aprovada:** Next.js + NestJS + PostgreSQL em infraestrutura portável<br>
-**Próximo gate:** VS01-02 — contexto controlado do alpha
+**Próximo gate:** VS01-03 — entrada do Jogador e ficha mínima
 
 Esta área transforma as decisões de produto e domínio em limites técnicos verificáveis.
 
@@ -18,6 +18,7 @@ Esta área transforma as decisões de produto e domínio em limites técnicos ve
 - [Baseline de Segurança v0.1](./seguranca/baseline-seguranca-v0.1.md)
 - [Rules Engine Scope v0.1](./escopo-rules-engine-v0.1.md)
 - [Contrato do Rules Engine v0.1](./contratos/rules-engine-v0.1.md)
+- [ADR-0006 — Estratégia multiedição](../00-governanca/adr/0006-estrategia-multiedicao.md)
 - [Dados e persistência](./dados/README.md)
 - [Persistência PostgreSQL v0.1](./dados/persistencia-postgresql-v0.1.md)
 - [Operação](./operacao/README.md)
