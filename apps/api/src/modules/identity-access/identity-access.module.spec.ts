@@ -12,6 +12,12 @@ describe("resolveAlphaEnvironment", () => {
   it("reconhece CI e testes sem assumir local em ambiente desconhecido", () => {
     expect(resolveAlphaEnvironment({ CI: "true" })).toBe("ci");
     expect(resolveAlphaEnvironment({ NODE_ENV: "test" })).toBe("test");
-    expect(resolveAlphaEnvironment({ NODE_ENV: "production" })).toBeUndefined();
+    expect(resolveAlphaEnvironment({ NODE_ENV: "development" })).toBeUndefined();
+  });
+
+  it("não permite que APP_ENV masque um runtime de produção", () => {
+    expect(resolveAlphaEnvironment({ APP_ENV: "local", NODE_ENV: "production" })).toBe(
+      "production",
+    );
   });
 });

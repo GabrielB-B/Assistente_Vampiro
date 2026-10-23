@@ -7,7 +7,9 @@ async function run(): Promise<void> {
   const database = createDatabase(config);
 
   try {
-    await seedAlphaContext(database, process.env.APP_ENV);
+    const alphaEnvironment =
+      process.env.NODE_ENV === "production" ? "production" : process.env.APP_ENV;
+    await seedAlphaContext(database, alphaEnvironment);
     console.info(`Contexto fictício do alpha aplicado no schema ${config.schema}.`);
   } finally {
     await database.destroy();

@@ -8,6 +8,10 @@ saveExact: true
 sharedWorkspaceLockfile: true
 strictPeerDependencies: true
 
+# Correção transitiva de segurança exigida por eslint-plugin-react-hooks.
+overrides:
+  zod: 4.6.7
+
 catalog:
   typescript: 6.0.3
   vitest: 5.0.3
