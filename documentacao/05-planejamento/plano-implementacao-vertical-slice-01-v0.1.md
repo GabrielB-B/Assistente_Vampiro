@@ -143,6 +143,8 @@ casos aprovados e entradas inválidas passam pelos testes.
 
 ### VS01-02 — Contexto controlado do alpha
 
+**Estado:** em implementação desde 21 de outubro de 2026.
+
 **Entrega:** criar dados fictícios repetíveis, identidade controlada e políticas
 de acesso que serão usadas pelo restante do slice.
 
