@@ -1,6 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalPassThroughEnv": [
+    "APP_ENV",
     "DATABASE_POOL_MAX",
     "DATABASE_SCHEMA",
     "DATABASE_URL",
@@ -21,6 +22,9 @@
       "cache": false
     },
     "db:rollback": {
+      "cache": false
+    },
+    "db:seed:alpha": {
       "cache": false
     },
     "db:status": {

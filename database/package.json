@@ -13,6 +13,7 @@
     "build": "tsc -p tsconfig.build.json",
     "db:migrate": "tsx --env-file-if-exists=../.env src/cli/migrate.ts up",
     "db:rollback": "tsx --env-file-if-exists=../.env src/cli/migrate.ts down",
+    "db:seed:alpha": "tsx --env-file-if-exists=../.env src/cli/seed-alpha.ts",
     "db:status": "tsx --env-file-if-exists=../.env src/cli/migrate.ts status",
     "lint": "eslint . --max-warnings=0",
     "test": "vitest run",

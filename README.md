@@ -6,7 +6,7 @@ Plataforma brasileira para aprender, criar, organizar e jogar **Vampiro: A Másc
 
 O projeto concluiu a **Engineering Foundation** e iniciou o **Vertical Slice 01**, com fundação de produto, corpus inicial de regras, Modelo de Domínio, stack tecnológica e Architecture v0.1 aprovados.
 
-FND-01, FND-02 e FND-03 estão concluídas. O esqueleto executável possui CI protegendo a `main`, persistência PostgreSQL, ambiente local reproduzível, observabilidade mínima e prova em clone limpo. O VS01-01 implementou o Rules Engine determinístico e seus 76 cenários normativos. O próximo corte é o contexto controlado do alpha.
+FND-01, FND-02 e FND-03 estão concluídas. O esqueleto executável possui CI protegendo a `main`, persistência PostgreSQL, ambiente local reproduzível, observabilidade mínima e prova em clone limpo. O VS01-01 implementou o Rules Engine determinístico e seus 76 cenários normativos. O contexto controlado do alpha está em implementação no VS01-02.
 
 ## Princípios centrais
 
@@ -63,6 +63,8 @@ Depois instale, migre e valide:
 ```powershell
 corepack pnpm install --frozen-lockfile
 corepack pnpm db:migrate
+corepack pnpm db:seed:alpha
+corepack pnpm security:audit
 corepack pnpm check
 corepack pnpm test:integration
 ```
