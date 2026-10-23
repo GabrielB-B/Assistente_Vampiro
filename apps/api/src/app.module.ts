@@ -7,12 +7,13 @@ import {
 
 import { DatabaseModule } from "./database/database.module.js";
 import { HealthController } from "./health/health.controller.js";
+import { IdentityAccessModule } from "./modules/identity-access/identity-access.module.js";
 import { ObservabilityModule } from "./observability/observability.module.js";
 import { RequestObservabilityMiddleware } from "./observability/request-observability.middleware.js";
 
 @Module({
   controllers: [HealthController],
-  imports: [ObservabilityModule, DatabaseModule],
+  imports: [ObservabilityModule, DatabaseModule, IdentityAccessModule],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
