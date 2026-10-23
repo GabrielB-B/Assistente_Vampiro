@@ -18,3 +18,5 @@ allowBuilds:
   esbuild: true
   pnpm: true
   unrs-resolver: true
+patchedDependencies:
+  "@next/eslint-plugin-next@16.4.2": patches/@next__eslint-plugin-next@16.4.2.patch

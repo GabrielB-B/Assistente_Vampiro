@@ -1,67 +1,26 @@
-import { resolve } from "node:path";
-import { loadEnvFile } from "node:process";
-
-import { Kysely, PostgresDialect, sql } from "kysely";
-import { Pool } from "pg";
+import { sql } from "kysely";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { checkDatabaseConnection, createDatabase } from "../src/client.js";
-import { readDatabaseConfig, type DatabaseConfig } from "../src/config.js";
 import {
   migrateToLatest,
   readMigrationStatus,
   rollbackLastMigration,
 } from "../src/migrations/migrator.js";
-
-function loadLocalEnvironment(): void {
-  try {
-    loadEnvFile(resolve(import.meta.dirname, "../../.env"));
-  } catch (error) {
-    if (!(error instanceof Error && "code" in error && error.code === "ENOENT")) {
-      throw error;
-    }
-  }
-}
-
-function requireLocalDatabaseConfig(): DatabaseConfig {
-  loadLocalEnvironment();
-  const config = readDatabaseConfig();
-  const hostname = new URL(config.connectionString).hostname;
-
-  if (!["127.0.0.1", "localhost", "::1"].includes(hostname)) {
-    throw new Error("O teste de integração só pode usar PostgreSQL local.");
-  }
-
-  return {
-    ...config,
-    maxConnections: 2,
-    schema: `av_test_${process.pid}_${Date.now()}`,
-  };
-}
-
-async function dropTestSchema(config: DatabaseConfig): Promise<void> {
-  const database = new Kysely<unknown>({
-    dialect: new PostgresDialect({
-      pool: new Pool({ connectionString: config.connectionString, max: 1 }),
-    }),
-  });
-
-  try {
-    await database.schema.dropSchema(config.schema).ifExists().cascade().execute();
-  } finally {
-    await database.destroy();
-  }
-}
+import {
+  createLocalTestDatabaseConfig,
+  dropLocalTestSchema,
+} from "./support/local-test-database.js";
 
 describe("migrações de produção", () => {
-  const config = requireLocalDatabaseConfig();
+  const config = createLocalTestDatabaseConfig("migrations");
 
   beforeAll(async () => {
     await migrateToLatest(config);
   });
 
   afterAll(async () => {
-    await dropTestSchema(config);
+    await dropLocalTestSchema(config);
   });
 
   it("aplica todo o schema em um banco vazio", async () => {
@@ -87,6 +46,7 @@ describe("migrações de produção", () => {
           "audit_entry",
           "character",
           "character_binding",
+          "character_trait",
           "chronicle",
           "chronicle_membership",
           "game_session",
@@ -105,12 +65,13 @@ describe("migrações de produção", () => {
     }
   });
 
-  it("registra as duas migrações como aplicadas", async () => {
+  it("registra as três migrações como aplicadas", async () => {
     const status = await readMigrationStatus(config);
 
     expect(status.map((migration) => migration.name)).toEqual([
       "001_initial_domain",
       "002_session_history",
+      "003_character_traits",
     ]);
     expect(status.every((migration) => migration.executedAt !== undefined)).toBe(true);
   });
@@ -143,6 +104,8 @@ describe("migrações de produção", () => {
       expect(constraints.rows.map((row) => row.conname)).toEqual(
         expect.arrayContaining([
           "ck_roll_special_result",
+          "ck_character_trait_kind_matches_id",
+          "ck_character_trait_value_by_kind",
           "fk_roll_scene_session",
           "uq_roll_attempt_idempotency",
           "uq_session_event_sequence",
@@ -176,11 +139,14 @@ describe("migrações de produção", () => {
         select table_name
         from information_schema.tables
         where table_schema = ${config.schema}
-          and table_name in ('account', 'session_event')
+          and table_name in ('account', 'character_trait', 'session_event')
         order by table_name
       `.execute(database);
 
-      expect(tables.rows.map((row) => row.table_name)).toEqual(["account"]);
+      expect(tables.rows.map((row) => row.table_name)).toEqual([
+        "account",
+        "session_event",
+      ]);
     } finally {
       await database.destroy();
     }

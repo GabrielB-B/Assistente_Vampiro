@@ -12,6 +12,7 @@
     "check": "prettier --check . && turbo run lint && turbo run typecheck && turbo run test && turbo run build",
     "db:migrate": "turbo run db:migrate --filter=@assistente-vampiro/database",
     "db:rollback": "turbo run db:rollback --filter=@assistente-vampiro/database",
+    "db:seed:alpha": "turbo run db:seed:alpha --filter=@assistente-vampiro/database",
     "db:status": "turbo run db:status --filter=@assistente-vampiro/database",
     "dev": "turbo run dev",
     "dev:api": "turbo run dev --filter=@assistente-vampiro/api",
@@ -23,8 +24,9 @@
     "infra:status": "docker compose ps",
     "infra:up": "docker compose up --detach --wait postgres",
     "lint": "turbo run lint",
+    "security:audit": "pnpm audit --prod --audit-level high && pnpm audit --audit-level high",
     "test": "turbo run test",
-    "test:integration": "turbo run test:integration --filter=@assistente-vampiro/database",
+    "test:integration": "turbo run test:integration",
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {

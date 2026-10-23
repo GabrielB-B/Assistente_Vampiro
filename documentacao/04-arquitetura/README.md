@@ -14,6 +14,8 @@ Esta área transforma as decisões de produto e domínio em limites técnicos ve
 - [Pesquisa de Benchmarks de Plataformas de RPG v0.1](./pesquisa-benchmarks-plataformas-rpg-v0.1.md)
 - [Architecture v0.1 — Arquitetura de Software](./arquitetura-software-v0.1.md)
 - [Permissions & Visibility Matrix v0.1](./permissoes-visibilidade-v0.1.md)
+- [Segurança](./seguranca/README.md)
+- [Baseline de Segurança v0.1](./seguranca/baseline-seguranca-v0.1.md)
 - [Rules Engine Scope v0.1](./escopo-rules-engine-v0.1.md)
 - [Contrato do Rules Engine v0.1](./contratos/rules-engine-v0.1.md)
 - [Dados e persistência](./dados/README.md)
@@ -35,7 +37,7 @@ Esta área transforma as decisões de produto e domínio em limites técnicos ve
 | backend | módulos, casos de uso, contratos e realtime | definido; detalhar por vertical slice |
 | dados | PostgreSQL, migrações, transações e retenção | Kysely aprovado pela ADR-0004 |
 | inteligência artificial | portas, segurança, proveniência e avaliação | antes da primeira integração com IA |
-| segurança | ameaças, autenticação, autorização e segredos | junto da matriz de permissões |
+| segurança | ameaças, autenticação, autorização e segredos | baseline aprovada; detalhar o modelo de ameaças por incremento |
 | operação | ambiente local, implantação, observabilidade, backup e recuperação | iniciada na FND-03; ampliar antes do primeiro ambiente compartilhado |
 
 Pastas vazias não serão criadas apenas para aparentar estrutura. Cada área nasce com seu primeiro documento aprovado.

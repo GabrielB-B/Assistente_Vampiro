@@ -71,6 +71,16 @@ Na Engineering Foundation, executar pela raiz:
 corepack pnpm check
 ```
 
+Antes de enviar a branch, execute também a auditoria de dependências:
+
+```powershell
+corepack pnpm security:audit
+```
+
+Exceções precisam estar registradas na área de segurança, limitadas por GHSA
+exato e possuir responsável e data de revisão. Não se aceita desabilitar a
+auditoria por severidade.
+
 Mudanças em migrações, tipos ou adapters de banco também exigem PostgreSQL local e:
 
 ```powershell

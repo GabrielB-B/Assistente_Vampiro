@@ -1,7 +1,7 @@
 # Registro de Decisões
 
 **Status:** consolidado<br>
-**Data de revisão:** 20 de outubro de 2026
+**Data de revisão:** 21 de outubro de 2026
 
 Índice resumido das decisões vigentes e propostas. ADRs futuros fornecerão contexto, alternativas e consequências para decisões arquiteturais de alto impacto.
 
@@ -69,6 +69,7 @@
 | DEC-052 | A identidade fictícia do alpha será selecionada pelo alias em `x-alpha-identity`, aceito somente em `local`, `test` e `ci`; o adapter produz `ActorContext` sem permitir UUID arbitrário do cliente. | Aceita | ADR-0003 e Plano de Implementação do Vertical Slice 01 v0.1 |
 | DEC-053 | O Feed terá recuperação autorizada por HTTP e cursor de sequência antes do realtime; Socket.IO reutilizará o mesmo evento público, sem criar outra fonte de verdade. | Aceita | Architecture v0.1 e Plano de Implementação do Vertical Slice 01 v0.1 |
 | DEC-054 | A ficha mínima do alpha persistirá Atributos e Habilidades por IDs canônicos e valores validados, sem representar a ficha inteira como JSON opaco. | Aceita | Modelo de Domínio v0.1 e Plano de Implementação do Vertical Slice 01 v0.1 |
+| DEC-055 | Segurança integra a Definition of Done: acesso é negado por padrão, dados são reduzidos antes da exposição e nenhum incremento termina com vulnerabilidade crítica ou risco alto sem tratamento aprovado. | Aceita | Baseline de Segurança v0.1 |
 
 ## Pendências que exigirão ADR
 
