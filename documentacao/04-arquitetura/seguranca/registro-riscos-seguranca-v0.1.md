@@ -53,3 +53,4 @@ limitado e houver responsável, prazo e controles compensatórios.
 | 23/10/2026 | registro criado após auditoria do VS01-02; aguarda aprovação humana |
 | 23/10/2026 | dependência não utilizada removida da resolução; exceção de auditoria eliminada |
 | 23/10/2026 | revisão aprovada; auditoria completa sem vulnerabilidades conhecidas e VS01-02 encerrado |
+| 24/10/2026 | advisories altos de `body-parser`, `multer` e `undici` detectados pela CI/auditoria e corrigidos por overrides para `2.4.0`, `2.5.0` e `8.12.2`; nenhuma exceção aceita |
