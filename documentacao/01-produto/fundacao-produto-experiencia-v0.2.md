@@ -2,7 +2,7 @@
 
 **Status:** consolidado<br>
 **Uso:** referência de produto<br>
-**Última revisão de coerência:** 7 de outubro de 2026<br>
+**Última revisão de coerência:** 23 de outubro de 2026<br>
 **Fase:** descoberta e definição de produto  
 **Objetivo:** registrar a visão, princípios, experiências, funcionalidades, limites, referências e decisões aprovadas antes da identidade visual, wireframes e arquitetura técnica.
 
@@ -1698,16 +1698,22 @@ A IA não valida regra sozinha.
 
 # 75. Edições
 
-A arquitetura deve suportar `edition`.
+A V5 é a primeira base funcional e concentra os cortes atuais. Isso define
+prioridade, não um acoplamento permanente do produto a uma edição.
 
-Não assumir V5 como única edição futura.
+A arquitetura nasce multiedição para incorporar devagar:
 
-Possíveis:
+- edições anteriores, começando somente após a validação do fluxo V5;
+- a V6, quando a linha de regras aplicável estiver estável e autorizada para uso;
+- combinações explícitas de fontes e módulos dentro de cada edição.
 
-- V5;
-- V6;
-- V20;
-- outros.
+Cada Crônica fixa uma revisão publicada e imutável de perfil. Novas regras,
+erratas ou módulos criam outra revisão e não alteram partidas históricas. Uma
+migração entre edições será assistida, explícita e auditável; nunca automática.
+
+O domínio compartilhado permanece canônico apenas onde a semântica for
+equivalente. Diferenças mecânicas ficam em perfis, revisões, módulos e adapters,
+sem condicionais de edição espalhadas pelas telas ou casos de uso.
 
 ---
 
@@ -2189,7 +2195,7 @@ Não pela quantidade de funcionalidades.
 | Product Architecture & Core User Flows v0.1 | aprovado | formaliza navegação, atores e fluxos principais |
 | Modelo de Domínio v0.1 | aprovado | formaliza entidades, agregados, invariantes e decisões estruturais |
 | Architecture v0.1 | aprovado | stack, módulos, dados, segurança, realtime, operação e limites de IA definidos |
-| Engineering Foundation | próximo | criar esqueleto, CI, banco e ambiente reproduzível |
+| Engineering Foundation | concluída | esqueleto, CI, banco, observabilidade e reprodução em clone limpo verificados |
 | ADRs | contínuo | registrar decisões de alto impacto ou difícil reversão |
 
 A dúvida original sobre reutilização de Personagem entre Crônicas foi resolvida: na v0.1, cada Personagem possui no máximo um Vínculo ativo; outra Crônica exige uma cópia explícita. Mudanças nessa política exigem decisão versionada.

@@ -6,7 +6,7 @@ Plataforma brasileira para aprender, criar, organizar e jogar **Vampiro: A Másc
 
 O projeto concluiu a **Engineering Foundation** e iniciou o **Vertical Slice 01**, com fundação de produto, corpus inicial de regras, Modelo de Domínio, stack tecnológica e Architecture v0.1 aprovados.
 
-FND-01, FND-02 e FND-03 estão concluídas. O esqueleto executável possui CI protegendo a `main`, persistência PostgreSQL, ambiente local reproduzível, observabilidade mínima e prova em clone limpo. O VS01-01 implementou o Rules Engine determinístico e seus 76 cenários normativos. O contexto controlado do alpha está em implementação no VS01-02.
+FND-01, FND-02 e FND-03 estão concluídas. O esqueleto executável possui CI protegendo a `main`, persistência PostgreSQL, ambiente local reproduzível, observabilidade mínima e prova em clone limpo. O VS01-01 implementou o Rules Engine determinístico e seus 76 cenários normativos. O VS01-02 concluiu o contexto controlado do alpha, com identidades fictícias, seed repetível e políticas de acesso verificadas. O próximo incremento é o VS01-03.
 
 ## Princípios centrais
 
@@ -18,6 +18,7 @@ FND-01, FND-02 e FND-03 estão concluídas. O esqueleto executável possui CI pr
 - separação entre Biblioteca, Rules Engine e SIRE;
 - IA opcional e sem responsabilidade por proteger segredos;
 - regras e conteúdo com edição e proveniência;
+- V5 como primeira implementação e arquitetura multiedição por perfis imutáveis;
 - monólito modular como arquitetura inicial, sem distribuição prematura;
 - desenvolvimento por cortes verticais testáveis.
 
@@ -102,10 +103,11 @@ Autenticar
 
 Próximas entregas:
 
-1. implementar o contexto controlado do alpha com identidades, seeds e políticas;
-2. construir a entrada do Jogador e a ficha mínima após benchmark do Roll20;
-3. validar o alpha técnico antes do MVP de playtest;
-4. especificar a rerrolagem com Força de Vontade no incremento previsto.
+1. construir a entrada do Jogador e a ficha mínima no VS01-03;
+2. validar identidade, autorização e estados de interface de ponta a ponta;
+3. continuar o fluxo de rolagem e Feed da Mesa pelos incrementos aprovados;
+4. validar o alpha técnico antes do MVP de playtest;
+5. especificar a rerrolagem com Força de Vontade no incremento previsto.
 
 ## Conteúdo protegido
 

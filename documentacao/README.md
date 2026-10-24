@@ -1,7 +1,7 @@
 # Índice da documentação
 
-**Estado do projeto:** Vertical Slice 01 em andamento; VS01-01 verificado<br>
-**Atualização:** 21 de outubro de 2026<br>
+**Estado do projeto:** Vertical Slice 01 em andamento; VS01-01 e VS01-02 verificados<br>
+**Atualização:** 23 de outubro de 2026<br>
 **Entrada oficial:** este arquivo
 
 Esta documentação está organizada por área de conhecimento. Os prefixos numéricos mantêm uma ordem previsível; eles não representam sprints nem obrigam que as áreas evoluam isoladamente.
@@ -38,15 +38,16 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 16. [Resultado da Prova de Persistência v0.1](./04-arquitetura/provas/resultado-persistencia-v0.1.md)
 17. [ADR-0004 — Biblioteca de acesso a dados](./00-governanca/adr/0004-biblioteca-acesso-dados.md)
 18. [ADR-0005 — Identificadores UUIDv7](./00-governanca/adr/0005-identificadores-uuidv7.md)
-19. [Escopo do Alpha Técnico v0.1](./05-planejamento/escopo-alpha-tecnica-v0.1.md)
-20. [Registro de Decisões](./00-governanca/registro-decisoes.md)
-21. [Roadmap de Engenharia v0.1](./05-planejamento/roadmap-engenharia-v0.1.md)
-22. [Engineering Foundation v0.1](./05-planejamento/engineering-foundation-v0.1.md)
-23. [Persistência PostgreSQL v0.1](./04-arquitetura/dados/persistencia-postgresql-v0.1.md)
-24. [Ambiente Local v0.1](./04-arquitetura/operacao/ambiente-local-v0.1.md)
-25. [Observabilidade Mínima v0.1](./04-arquitetura/operacao/observabilidade-minima-v0.1.md)
-26. [Resultado da Prova em Clone Limpo v0.1](./04-arquitetura/provas/resultado-clone-limpo-v0.1.md)
-27. [Plano de Implementação do Vertical Slice 01 v0.1](./05-planejamento/plano-implementacao-vertical-slice-01-v0.1.md)
+19. [ADR-0006 — Estratégia multiedição](./00-governanca/adr/0006-estrategia-multiedicao.md)
+20. [Escopo do Alpha Técnico v0.1](./05-planejamento/escopo-alpha-tecnica-v0.1.md)
+21. [Registro de Decisões](./00-governanca/registro-decisoes.md)
+22. [Roadmap de Engenharia v0.1](./05-planejamento/roadmap-engenharia-v0.1.md)
+23. [Engineering Foundation v0.1](./05-planejamento/engineering-foundation-v0.1.md)
+24. [Persistência PostgreSQL v0.1](./04-arquitetura/dados/persistencia-postgresql-v0.1.md)
+25. [Ambiente Local v0.1](./04-arquitetura/operacao/ambiente-local-v0.1.md)
+26. [Observabilidade Mínima v0.1](./04-arquitetura/operacao/observabilidade-minima-v0.1.md)
+27. [Resultado da Prova em Clone Limpo v0.1](./04-arquitetura/provas/resultado-clone-limpo-v0.1.md)
+28. [Plano de Implementação do Vertical Slice 01 v0.1](./05-planejamento/plano-implementacao-vertical-slice-01-v0.1.md)
 
 ## Situação por etapa
 
@@ -56,10 +57,10 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 | direção visual | em evolução controlada | calibração aprovada; sistema visual ainda em proposta |
 | corpus inicial | concluído | três fontes auditadas e linha normativa aprovada |
 | Modelo de Domínio v0.1 | aprovado | decisões registradas e versionadas |
-| arquitetura técnica | aprovada | Architecture v0.1 e cinco ADRs aceitas |
+| arquitetura técnica | aprovada | Architecture v0.1 e seis ADRs aceitas |
 | permissões e Rules Engine | concluída para a Fatia 01 | matriz, escopo e oito regras aprovados |
 | Engineering Foundation | concluída | FND-01, FND-02 e FND-03 aprovadas; reprodução comprovada em clone limpo |
-| Vertical Slice 01 | em andamento | VS01-01 verificado; VS01-02 — contexto controlado do alpha é o próximo corte |
+| Vertical Slice 01 | em andamento | VS01-01 e VS01-02 verificados; VS01-03 — entrada e ficha mínima é o próximo corte |
 | MVP de playtest | planejado | após validar o corte vertical interno |
 
 ## Documentos de governança obrigatórios
@@ -74,6 +75,7 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 - [ADR-0003 — Identidade controlada no alpha técnico](./00-governanca/adr/0003-identidade-da-alpha.md)
 - [ADR-0004 — Biblioteca de acesso a dados](./00-governanca/adr/0004-biblioteca-acesso-dados.md) — aceita.
 - [ADR-0005 — Identificadores UUIDv7](./00-governanca/adr/0005-identificadores-uuidv7.md) — aceita.
+- [ADR-0006 — Estratégia multiedição](./00-governanca/adr/0006-estrategia-multiedicao.md) — aceita.
 - [Roadmap de Engenharia v0.1](./05-planejamento/roadmap-engenharia-v0.1.md)
 
 ## Política de status

@@ -1,7 +1,7 @@
 # Registro de Decisões
 
 **Status:** consolidado<br>
-**Data de revisão:** 21 de outubro de 2026
+**Data de revisão:** 23 de outubro de 2026
 
 Índice resumido das decisões vigentes e propostas. ADRs futuros fornecerão contexto, alternativas e consequências para decisões arquiteturais de alto impacto.
 
@@ -70,13 +70,13 @@
 | DEC-053 | O Feed terá recuperação autorizada por HTTP e cursor de sequência antes do realtime; Socket.IO reutilizará o mesmo evento público, sem criar outra fonte de verdade. | Aceita | Architecture v0.1 e Plano de Implementação do Vertical Slice 01 v0.1 |
 | DEC-054 | A ficha mínima do alpha persistirá Atributos e Habilidades por IDs canônicos e valores validados, sem representar a ficha inteira como JSON opaco. | Aceita | Modelo de Domínio v0.1 e Plano de Implementação do Vertical Slice 01 v0.1 |
 | DEC-055 | Segurança integra a Definition of Done: acesso é negado por padrão, dados são reduzidos antes da exposição e nenhum incremento termina com vulnerabilidade crítica ou risco alto sem tratamento aprovado. | Aceita | Baseline de Segurança v0.1 |
+| DEC-056 | A V5 é a primeira implementação; edições anteriores e a V6 entram progressivamente por perfis e revisões imutáveis, sem alterar Crônicas históricas nem espalhar condicionais de edição. | Aceita | ADR-0006 |
 
 ## Pendências que exigirão ADR
 
 - evolução futura para Personagem em múltiplas Crônicas, caso a DEC-026 precise ser substituída;
 - autenticação;
 - autorização;
-- detalhamento técnico do versionamento de regras por edição;
 - armazenamento de mídia;
 - integração com IA;
 - estratégia de implantação.

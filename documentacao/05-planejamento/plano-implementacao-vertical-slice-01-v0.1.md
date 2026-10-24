@@ -143,7 +143,7 @@ casos aprovados e entradas inválidas passam pelos testes.
 
 ### VS01-02 — Contexto controlado do alpha
 
-**Estado:** em implementação desde 21 de outubro de 2026.
+**Estado:** concluído e verificado em 23 de outubro de 2026.
 
 **Entrega:** criar dados fictícios repetíveis, identidade controlada e políticas
 de acesso que serão usadas pelo restante do slice.
@@ -369,7 +369,7 @@ Um incremento só termina quando:
 
 ## 12. Próximo passo
 
-Iniciar `VS01-02 — Contexto controlado do alpha`. O Rules Engine de VS01-01 foi
-implementado com contrato aprovado, matriz de 76 cenários normativos e provas de
-arquitetura. O próximo incremento cria identidades e dados fictícios repetíveis,
-além das políticas de acesso que sustentarão as telas e a confirmação da rolagem.
+Iniciar `VS01-03 — Entrada do Jogador e ficha mínima`. O Rules Engine de VS01-01
+e o contexto controlado do alpha de VS01-02 foram verificados. O próximo
+incremento atravessa web, API e PostgreSQL desde a identidade fictícia até a
+projeção autorizada da ficha, cobrindo os estados de interface previstos.

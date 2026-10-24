@@ -9,6 +9,9 @@ import { IDENTITY_PROVIDER } from "./application/identity-provider.js";
 export function resolveAlphaEnvironment(
   environment: NodeJS.ProcessEnv = process.env,
 ): string | undefined {
+  if (environment.NODE_ENV === "production") {
+    return "production";
+  }
   if (environment.APP_ENV !== undefined) {
     return environment.APP_ENV;
   }

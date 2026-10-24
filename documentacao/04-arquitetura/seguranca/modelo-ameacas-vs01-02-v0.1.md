@@ -1,6 +1,6 @@
 # Modelo de Ameaças — VS01-02 v0.1
 
-**Status:** em implementação<br>
+**Status:** concluído e verificado<br>
 **Data:** 21 de outubro de 2026<br>
 **Última revisão:** 23 de outubro de 2026<br>
 **Escopo:** identidade fictícia, seed, ficha mínima e políticas de acesso do alpha
@@ -43,7 +43,7 @@ visibilidade não vêm do cabeçalho e não são aceitos do cliente.
 | Ameaça | Impacto | Controle implementado | Evidência |
 |---|---|---|---|
 | cliente envia UUID ou alias inventado | assumir outra identidade | allowlist fechada de quatro aliases; UUID nunca é aceito como identidade | testes do `AlphaIdentityProvider` |
-| adapter fictício inicia fora do alpha | acesso sem autenticação real | allowlist `local`, `test` e `ci`; ausência ou outro ambiente falha no startup | teste de ambiente e ADR-0003 |
+| adapter fictício inicia fora do alpha | acesso sem autenticação real | allowlist `local`, `test` e `ci`; `NODE_ENV=production` prevalece sobre qualquer `APP_ENV`; ausência ou outro ambiente falha no startup | testes de ambiente e ADR-0003 |
 | Jogador troca o ID da Personagem | acesso horizontal | propriedade, Participação e Vínculo são lidos do banco e avaliados juntos | teste unitário e integração PostgreSQL |
 | cliente declara papel de Narrador | elevação de privilégio | papéis vêm exclusivamente da Participação persistida | teste negativo da política de Crônica |
 | Participação suspensa continua válida | acesso depois de revogação | apenas estado `active` concede acesso | teste negativo da política de Crônica |
@@ -90,6 +90,10 @@ Esses itens são limites explícitos, não autorizações para publicar o alpha.
 - [x] vulnerabilidades críticas do Next.js foram corrigidas e o framework foi
   atualizado para `16.4.2`;
 - [x] dependência transitiva vulnerável e não utilizada foi removida do grafo;
-- [ ] migrações, seed e políticas passam contra PostgreSQL 18 na CI;
-- [ ] diff final não contém segredo, material privado ou bypass temporário;
-- [ ] revisão humana do lote concluída.
+- [x] migrações, seed e políticas passam contra PostgreSQL 18 na CI;
+- [x] diff final não contém segredo, material privado ou bypass temporário;
+- [x] revisão humana do lote concluída.
+
+O gate foi encerrado em 23 de outubro de 2026. A execução local de integração
+continua dependente de Docker ou PostgreSQL 18 disponível, mas a mesma suíte foi
+executada com sucesso na CI protegida da `main` durante a entrega do VS01-02.
