@@ -8,6 +8,7 @@ Esta área reúne direção visual, princípios de interface, referências e cal
 - [Sistema de Arte e Arquétipos de Tela v0.2](./sistema-arte-arquetipos-tela-v0.2.md)
 - [Quadro de Referências v0.1](./quadro-referencias-v0.1.md)
 - [Calibração — Boa noite, Marcus v0.1](./calibracoes/boa-noite-marcus-v0.1.md)
+- [Character Gateway — Visual Specification v0.1](./calibracoes/character-gateway-visual-spec-v0.1.md)
 
 ## Assets
 
