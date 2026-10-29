@@ -13,3 +13,5 @@ Esta área reúne direção visual, princípios de interface, referências e cal
 ## Assets
 
 Imagens versionadas servem como evidência de decisão, não como biblioteca genérica. Origem, direito de uso e função precisam estar documentados antes de um novo asset entrar no produto.
+
+- [Registro de assets de implementação](./assets/README.md)
