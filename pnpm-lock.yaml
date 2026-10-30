@@ -245,6 +245,9 @@ importers:
 
   apps/api:
     dependencies:
+      "@assistente-vampiro/contracts":
+        specifier: workspace:*
+        version: link:../../packages/contracts
       "@assistente-vampiro/database":
         specifier: workspace:*
         version: link:../../database
@@ -303,6 +306,9 @@ importers:
 
   apps/web:
     dependencies:
+      "@assistente-vampiro/contracts":
+        specifier: workspace:*
+        version: link:../../packages/contracts
       next:
         specifier: 16.4.2
         version: 16.4.2(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@24.19.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -388,6 +394,27 @@ importers:
         version: 5.0.3(@types/node@24.19.1)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.3.3(@types/node@24.19.1)(esbuild@0.28.2)(tsx@4.23.15))
 
   packages/config: {}
+
+  packages/contracts:
+    devDependencies:
+      "@eslint/js":
+        specifier: 9.39.5
+        version: 9.39.5
+      "@types/node":
+        specifier: "catalog:"
+        version: 24.19.1
+      eslint:
+        specifier: "catalog:"
+        version: 9.39.5(supports-color@7.2.0)
+      eslint-config-prettier:
+        specifier: 10.1.8
+        version: 10.1.8(eslint@9.39.5(supports-color@7.2.0))
+      typescript:
+        specifier: "catalog:"
+        version: 6.0.3
+      typescript-eslint:
+        specifier: 8.71.1
+        version: 8.71.1(eslint@9.39.5(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
 
   packages/rules-engine:
     devDependencies:

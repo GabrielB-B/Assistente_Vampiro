@@ -13,6 +13,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.test.json"
   },
   "dependencies": {
+    "@assistente-vampiro/contracts": "workspace:*",
     "@assistente-vampiro/database": "workspace:*",
     "@nestjs/common": "12.1.2",
     "@nestjs/core": "12.1.2",

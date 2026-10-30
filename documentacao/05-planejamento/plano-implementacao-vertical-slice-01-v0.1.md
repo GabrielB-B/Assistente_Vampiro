@@ -163,6 +163,9 @@ personagem alheio são negados sem revelar recurso nem criar efeito colateral.
 
 ### VS01-03 — Entrada do Jogador e ficha mínima
 
+**Estado:** autorizado por Gabriel e em implementação. O primeiro corte executável
+foi verificado localmente em 25 de outubro de 2026.
+
 **Entrega:** atravessar web, API e banco desde a escolha da identidade até a ficha
 em Modo Jogar.
 
@@ -182,6 +185,24 @@ ficha de Vampiro disponível no Roll20. A análise observará organização da
 informação, fluxo de uso durante a sessão, legibilidade e pontos de atrito. Ela
 servirá como referência crítica, sem copiar código, conteúdo licenciado, identidade
 visual ou limitações específicas da plataforma.
+
+O gate de design revisou a ficha preenchível oficial da V5, a
+[Especificação Funcional da Ficha V5](../02-design-experiencia/especificacao-funcional-ficha-v5-v0.1.md),
+o [Estudo Visual da Ficha V5](../02-design-experiencia/estudo-visual-ficha-v5-v0.1.md),
+os manuais e as referências artísticas fornecidas por Gabriel. A primeira
+composição desktop/mobile foi rejeitada por parecer corporativa; a direção
+`Folha Viva` v0.2 foi implementada e aprovada por Gabriel exclusivamente para a
+Ficha Completa em 30 de outubro de 2026. Essa aprovação não abrange Mesa, Ficha
+Rápida, shell do site ou qualquer tela de sessão. A
+leitura real da ficha agora atravessa
+web, API, políticas e PostgreSQL pelo
+[Contrato de Entrada do Jogador](../04-arquitetura/contratos/player-entry-v0.1.md).
+A confirmação e a persistência de rolagens continuam reservadas ao VS01-04.
+
+O primeiro corte cobre seletor de identidade, lista autorizada, ficha mínima,
+estados carregando/vazio/erro, cliente tipado, validação defensiva do JSON, QA
+responsivo, teste HTTP do envelope público e negação por objeto. Antes de encerrar
+o incremento ainda será adicionada a geração e verificação do OpenAPI.
 
 **Gate:** Jogador vê apenas sua projeção; Narrador recebe a projeção prevista; IDs
 alterados na URL não concedem acesso.
