@@ -71,8 +71,9 @@ visibilidade não vêm do cabeçalho e não são aceitos do cliente.
 
 ## 6. Riscos que permanecem fora deste incremento
 
-- ainda não existe endpoint funcional que leia `x-alpha-identity`; a extração do
-  cabeçalho e o envelope HTTP seguro entram com o primeiro caso de uso no VS01-03;
+- o endpoint funcional que lê `x-alpha-identity` foi entregue no VS01-03; seus
+  controles e riscos estão registrados no
+  [Modelo de Ameaças do VS01-03](./modelo-ameacas-vs01-03-v0.1.md);
 - autenticação real, sessão, CSRF e ciclo de vida de Conta pertencem ao MVP de
   playtest e exigirão ADR próprio;
 - revogação de inscrição Socket.IO será comprovada no VS01-06;

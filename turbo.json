@@ -2,6 +2,7 @@
   "$schema": "https://turbo.build/schema.json",
   "globalPassThroughEnv": [
     "APP_ENV",
+    "API_INTERNAL_ORIGIN",
     "DATABASE_POOL_MAX",
     "DATABASE_SCHEMA",
     "DATABASE_URL",

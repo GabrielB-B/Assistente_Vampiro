@@ -4,7 +4,10 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   reactStrictMode: true,
   async rewrites() {
-    const apiOrigin = process.env.API_INTERNAL_URL ?? "http://127.0.0.1:3001";
+    const apiOrigin =
+      process.env.API_INTERNAL_URL ??
+      process.env.API_INTERNAL_ORIGIN ??
+      "http://127.0.0.1:3001";
     return [
       {
         destination: `${apiOrigin}/api/v1/:path*`,
