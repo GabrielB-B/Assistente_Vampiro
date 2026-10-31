@@ -2,6 +2,9 @@ import {
   ALPHA_IDENTITY_OPTIONS,
   type AlphaIdentityAlias,
   type CharacterEntrySummaryView,
+  type CharacterSheetMutationView,
+  type CharacterSheetContextView,
+  type CharacterSheetDocumentView,
   type CharacterSheetView,
   type PlayerEntryView,
   type PublicApiErrorResponse,
@@ -30,8 +33,10 @@ function isCharacterSummary(value: unknown): value is CharacterEntrySummaryView 
     isString(value.characterId) &&
     isString(value.characterName) &&
     ["draft", "ready", "retired"].includes(String(value.characterState)) &&
-    isString(value.chronicleId) &&
-    isString(value.chronicleTitle) &&
+    isNullableString(value.chronicleId) &&
+    isNullableString(value.chronicleTitle) &&
+    ((value.chronicleId === null && value.chronicleTitle === null) ||
+      (isString(value.chronicleId) && isString(value.chronicleTitle))) &&
     isNullableString(value.concept)
   );
 }
@@ -48,56 +53,41 @@ function isPlayerEntryView(value: unknown): value is PlayerEntryView {
   );
 }
 
-function isSessionView(value: unknown): boolean {
-  return (
-    value === null ||
-    (isRecord(value) &&
-      isString(value.id) &&
-      ["active", "cancelled", "ended", "scheduled"].includes(String(value.state)) &&
-      typeof value.version === "number")
-  );
-}
-
-function isSceneView(value: unknown): boolean {
-  return (
-    value === null ||
-    (isRecord(value) &&
-      isString(value.id) &&
-      isNullableString(value.publishedDescription) &&
-      isString(value.title) &&
-      typeof value.version === "number")
-  );
-}
-
 function isCharacterSheetView(value: unknown): value is CharacterSheetView {
   if (
     !isRecord(value) ||
     (value.accessMode !== "OWNER" && value.accessMode !== "STORYTELLER") ||
     !isRecord(value.character) ||
-    !isRecord(value.chronicle) ||
     !Array.isArray(value.traits)
   ) {
     return false;
   }
 
   const character = value.character;
-  const chronicle = value.chronicle;
   return (
     isString(character.id) &&
     isString(character.name) &&
+    isNullableString(character.ambition) &&
     isNullableString(character.concept) &&
+    isNullableString(character.desire) &&
+    isNullableString(character.sire) &&
     (character.hunger === null || typeof character.hunger === "number") &&
-    ["CAITIFF", "CLAN_VAMPIRE", "GHOUL", "MORTAL", "THIN_BLOOD"].includes(
-      String(character.kind),
-    ) &&
+    (character.kind === null ||
+      ["CAITIFF", "CLAN_VAMPIRE", "GHOUL", "MORTAL", "THIN_BLOOD"].includes(
+        String(character.kind),
+      )) &&
     ["draft", "ready", "retired"].includes(String(character.state)) &&
     typeof character.version === "number" &&
-    isString(chronicle.id) &&
-    isString(chronicle.title) &&
-    isNullableString(chronicle.description) &&
     isNullableString(value.ruleSetProfileRevisionId) &&
-    isSceneView(value.scene) &&
-    isSessionView(value.session) &&
+    Array.isArray(value.convictionPairs) &&
+    value.convictionPairs.every(
+      (pair) =>
+        isRecord(pair) &&
+        typeof pair.position === "number" &&
+        Number.isInteger(pair.position) &&
+        isNullableString(pair.conviction) &&
+        isNullableString(pair.touchstone),
+    ) &&
     value.traits.every(
       (trait) =>
         isRecord(trait) &&
@@ -106,6 +96,27 @@ function isCharacterSheetView(value: unknown): value is CharacterSheetView {
         typeof trait.value === "number" &&
         Number.isInteger(trait.value),
     )
+  );
+}
+
+function isCharacterSheetContextView(value: unknown): value is CharacterSheetContextView {
+  return (
+    isRecord(value) &&
+    (value.chronicle === null ||
+      (isRecord(value.chronicle) &&
+        isString(value.chronicle.id) &&
+        isString(value.chronicle.title) &&
+        isNullableString(value.chronicle.description)))
+  );
+}
+
+function isCharacterSheetDocumentView(
+  value: unknown,
+): value is CharacterSheetDocumentView {
+  return (
+    isRecord(value) &&
+    isCharacterSheetContextView(value.context) &&
+    isCharacterSheetView(value.sheet)
   );
 }
 
@@ -171,15 +182,79 @@ export async function loadCharacterSheet(
   identityAlias: AlphaIdentityAlias,
   character: CharacterEntrySummaryView,
   signal: AbortSignal,
-): Promise<CharacterSheetView> {
-  const query = new URLSearchParams({ chronicleId: character.chronicleId });
+): Promise<CharacterSheetDocumentView> {
+  const query =
+    character.chronicleId === null
+      ? ""
+      : `?${new URLSearchParams({ chronicleId: character.chronicleId }).toString()}`;
   const body = await requestJson(
-    `/api/v1/characters/${character.characterId}/sheet?${query.toString()}`,
+    `/api/v1/characters/${character.characterId}/sheet${query}`,
     identityAlias,
     signal,
   );
-  if (!isCharacterSheetView(body)) {
+  if (!isCharacterSheetDocumentView(body)) {
     throw new CharacterApiError("A ficha recebida não respeita o contrato esperado.");
   }
   return body;
+}
+
+export async function loadCharacterSheetById(
+  identityAlias: AlphaIdentityAlias,
+  characterId: string,
+  signal: AbortSignal,
+): Promise<CharacterSheetDocumentView> {
+  const body = await requestJson(
+    `/api/v1/characters/${encodeURIComponent(characterId)}/sheet`,
+    identityAlias,
+    signal,
+  );
+  if (!isCharacterSheetDocumentView(body)) {
+    throw new CharacterApiError("A ficha recebida não respeita o contrato esperado.");
+  }
+  return body;
+}
+
+export async function updateCharacterIdentity(
+  identityAlias: AlphaIdentityAlias,
+  characterId: string,
+  expectedVersion: number,
+  identity: {
+    readonly ambition: string | null;
+    readonly concept: string | null;
+    readonly desire: string | null;
+    readonly name: string;
+    readonly sire: string | null;
+  },
+): Promise<CharacterSheetMutationView> {
+  const response = await fetch(
+    `/api/v1/characters/${encodeURIComponent(characterId)}/sheet`,
+    {
+      body: JSON.stringify({ expectedVersion, identity }),
+      credentials: "same-origin",
+      headers: {
+        "content-type": "application/json",
+        "x-alpha-identity": identityAlias,
+      },
+      method: "PATCH",
+    },
+  );
+  const body: unknown = await response.json().catch(() => null);
+  if (!response.ok) {
+    if (isPublicApiError(body)) {
+      throw new CharacterApiError(
+        body.error.message,
+        body.error.code,
+        body.error.correlationId,
+      );
+    }
+    throw new CharacterApiError("Não foi possível salvar a ficha.");
+  }
+  if (
+    !isRecord(body) ||
+    !isString(body.characterId) ||
+    typeof body.version !== "number"
+  ) {
+    throw new CharacterApiError("A alteração não respeita o contrato esperado.");
+  }
+  return body as unknown as CharacterSheetMutationView;
 }

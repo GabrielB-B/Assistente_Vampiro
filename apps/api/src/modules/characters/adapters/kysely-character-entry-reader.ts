@@ -1,6 +1,6 @@
 import type {
   CharacterEntrySummaryView,
-  CharacterSheetView,
+  CharacterSheetDocumentView,
 } from "@assistente-vampiro/contracts";
 import type { Database } from "@assistente-vampiro/database";
 import { sql } from "kysely";
@@ -13,17 +13,32 @@ import type {
   CharacterEntryReader,
 } from "../application/character-entry-reader.js";
 
-function referenceKey(characterId: string, chronicleId: string): string {
-  return `${characterId}:${chronicleId}`;
-}
-
 export class KyselyCharacterEntryReader implements CharacterEntryReader {
   constructor(private readonly database: Database) {}
 
   async listAccessCandidates(
     accountId: string,
   ): Promise<readonly CharacterAccessCandidate[]> {
-    const rows = await this.database
+    const ownerRowsPromise = this.database
+      .selectFrom("character as character_record")
+      .leftJoin("character_binding as binding", (join) =>
+        join
+          .onRef("binding.character_id", "=", "character_record.id")
+          .on("binding.state", "=", "active"),
+      )
+      .select([
+        "binding.character_id as binding_character_id",
+        "binding.chronicle_id as binding_chronicle_id",
+        "binding.membership_id as binding_membership_id",
+        "binding.state as binding_state",
+        "character_record.id as character_id",
+        "character_record.owner_account_id",
+      ])
+      .where("character_record.owner_account_id", "=", accountId)
+      .where("character_record.state", "!=", "retired")
+      .execute();
+
+    const contextualRowsPromise = this.database
       .selectFrom("character as character_record")
       .innerJoin(
         "character_binding as binding",
@@ -48,30 +63,71 @@ export class KyselyCharacterEntryReader implements CharacterEntryReader {
         "membership.status as membership_status",
         sql<MembershipRole[]>`membership.roles::text[]`.as("membership_roles"),
       ])
+      .where("binding.state", "=", "active")
       .execute();
 
-    return rows.map((row) => ({
-      chronicleId: row.binding_chronicle_id,
+    const [ownerRows, contextualRows] = await Promise.all([
+      ownerRowsPromise,
+      contextualRowsPromise,
+    ]);
+    const ownedCharacterIds = new Set(ownerRows.map((row) => row.character_id));
+
+    const ownerCandidates = ownerRows.map((row): CharacterAccessCandidate => ({
+      ...(row.binding_chronicle_id === null
+        ? {}
+        : { chronicleId: row.binding_chronicle_id }),
       context: {
         character: {
-          binding: {
-            characterId: row.binding_character_id,
-            chronicleId: row.binding_chronicle_id,
-            membershipId: row.binding_membership_id,
-            state: row.binding_state,
-          },
+          binding:
+            row.binding_character_id === null ||
+            row.binding_chronicle_id === null ||
+            row.binding_membership_id === null ||
+            row.binding_state === null
+              ? undefined
+              : {
+                  characterId: row.binding_character_id,
+                  chronicleId: row.binding_chronicle_id,
+                  membershipId: row.binding_membership_id,
+                  state: row.binding_state,
+                },
           characterId: row.character_id,
           ownerAccountId: row.owner_account_id,
         },
-        membership: {
-          accountId: row.membership_account_id,
-          chronicleId: row.membership_chronicle_id,
-          membershipId: row.membership_id,
-          roles: row.membership_roles,
-          status: row.membership_status,
-        },
+        membership: undefined,
       },
     }));
+
+    const contextualCandidates = contextualRows.flatMap(
+      (row): CharacterAccessCandidate[] =>
+        ownedCharacterIds.has(row.character_id)
+          ? []
+          : [
+              {
+                chronicleId: row.binding_chronicle_id,
+                context: {
+                  character: {
+                    binding: {
+                      characterId: row.binding_character_id,
+                      chronicleId: row.binding_chronicle_id,
+                      membershipId: row.binding_membership_id,
+                      state: row.binding_state,
+                    },
+                    characterId: row.character_id,
+                    ownerAccountId: row.owner_account_id,
+                  },
+                  membership: {
+                    accountId: row.membership_account_id,
+                    chronicleId: row.membership_chronicle_id,
+                    membershipId: row.membership_id,
+                    roles: row.membership_roles,
+                    status: row.membership_status,
+                  },
+                },
+              },
+            ],
+    );
+
+    return [...ownerCandidates, ...contextualCandidates];
   }
 
   async readEntryProjection(
@@ -93,21 +149,17 @@ export class KyselyCharacterEntryReader implements CharacterEntryReader {
     }
 
     const characterIds = [...new Set(references.map(({ characterId }) => characterId))];
-    const chronicleIds = [...new Set(references.map(({ chronicleId }) => chronicleId))];
     const accessModes = new Map(
-      references.map((reference) => [
-        referenceKey(reference.characterId, reference.chronicleId),
-        reference.accessMode,
-      ]),
+      references.map((reference) => [reference.characterId, reference.accessMode]),
     );
     const summariesPromise = this.database
       .selectFrom("character as character_record")
-      .innerJoin(
-        "character_binding as binding",
-        "binding.character_id",
-        "character_record.id",
+      .leftJoin("character_binding as binding", (join) =>
+        join
+          .onRef("binding.character_id", "=", "character_record.id")
+          .on("binding.state", "=", "active"),
       )
-      .innerJoin("chronicle", "chronicle.id", "binding.chronicle_id")
+      .leftJoin("chronicle", "chronicle.id", "binding.chronicle_id")
       .select([
         "character_record.concept",
         "character_record.id as character_id",
@@ -117,9 +169,6 @@ export class KyselyCharacterEntryReader implements CharacterEntryReader {
         "chronicle.title as chronicle_title",
       ])
       .where("character_record.id", "in", characterIds)
-      .where("chronicle.id", "in", chronicleIds)
-      .where("binding.state", "=", "active")
-      .orderBy("chronicle.title")
       .orderBy("character_record.name")
       .execute();
     const [account, rows] = await Promise.all([accountPromise, summariesPromise]);
@@ -129,9 +178,7 @@ export class KyselyCharacterEntryReader implements CharacterEntryReader {
     }
 
     const characters = rows.flatMap((row): CharacterEntrySummaryView[] => {
-      const accessMode = accessModes.get(
-        referenceKey(row.character_id, row.chronicle_id),
-      );
+      const accessMode = accessModes.get(row.character_id);
       return accessMode === undefined
         ? []
         : [
@@ -152,31 +199,23 @@ export class KyselyCharacterEntryReader implements CharacterEntryReader {
 
   async readSheet(
     reference: AuthorizedCharacterReference,
-  ): Promise<CharacterSheetView | undefined> {
+  ): Promise<CharacterSheetDocumentView | undefined> {
     const corePromise = this.database
-      .selectFrom("character as character_record")
-      .innerJoin(
-        "character_binding as binding",
-        "binding.character_id",
-        "character_record.id",
-      )
-      .innerJoin("chronicle", "chronicle.id", "binding.chronicle_id")
+      .selectFrom("character")
       .select([
-        "character_record.concept",
-        "character_record.hunger",
-        "character_record.id as character_id",
-        "character_record.kind",
-        "character_record.name as character_name",
-        "character_record.rule_set_profile_revision_id",
-        "character_record.state as character_state",
-        "character_record.version as character_version",
-        "chronicle.description as chronicle_description",
-        "chronicle.id as chronicle_id",
-        "chronicle.title as chronicle_title",
+        "ambition",
+        "concept",
+        "desire",
+        "hunger",
+        "id",
+        "kind",
+        "name",
+        "rule_set_profile_revision_id",
+        "state",
+        "sire",
+        "version",
       ])
-      .where("character_record.id", "=", reference.characterId)
-      .where("chronicle.id", "=", reference.chronicleId)
-      .where("binding.state", "=", "active")
+      .where("id", "=", reference.characterId)
       .executeTakeFirst();
     const traitsPromise = this.database
       .selectFrom("character_trait")
@@ -185,76 +224,70 @@ export class KyselyCharacterEntryReader implements CharacterEntryReader {
       .orderBy("kind")
       .orderBy("trait_id")
       .execute();
-    const sessionPromise = this.database
-      .selectFrom("game_session as session_record")
-      .leftJoin("scene", (join) =>
-        join
-          .onRef("scene.session_id", "=", "session_record.id")
-          .on("scene.state", "=", "active"),
-      )
-      .select([
-        "scene.id as scene_id",
-        "scene.published_description",
-        "scene.title as scene_title",
-        "scene.version as scene_version",
-        "session_record.id as session_id",
-        "session_record.state as session_state",
-        "session_record.version as session_version",
-      ])
-      .where("session_record.chronicle_id", "=", reference.chronicleId)
-      .where("session_record.state", "=", "active")
-      .orderBy("session_record.started_at", "desc")
-      .orderBy("scene.updated_at", "desc")
-      .executeTakeFirst();
-    const [core, traits, session] = await Promise.all([
+    const convictionPairsPromise = this.database
+      .selectFrom("character_conviction_pair")
+      .select(["conviction", "position", "touchstone"])
+      .where("character_id", "=", reference.characterId)
+      .orderBy("position")
+      .execute();
+    const contextPromise =
+      reference.chronicleId === undefined
+        ? Promise.resolve(undefined)
+        : this.database
+            .selectFrom("character_binding as binding")
+            .innerJoin("chronicle", "chronicle.id", "binding.chronicle_id")
+            .select(["chronicle.description", "chronicle.id", "chronicle.title"])
+            .where("binding.character_id", "=", reference.characterId)
+            .where("binding.chronicle_id", "=", reference.chronicleId)
+            .where("binding.state", "=", "active")
+            .executeTakeFirst();
+    const [core, traits, convictionPairs, chronicle] = await Promise.all([
       corePromise,
       traitsPromise,
-      sessionPromise,
+      convictionPairsPromise,
+      contextPromise,
     ]);
 
-    if (core === undefined) {
+    if (
+      core === undefined ||
+      (reference.accessMode === "STORYTELLER" && chronicle === undefined)
+    ) {
       return undefined;
     }
 
     return {
-      accessMode: reference.accessMode,
-      character: {
-        concept: core.concept,
-        hunger: core.hunger,
-        id: core.character_id,
-        kind: core.kind,
-        name: core.character_name,
-        state: core.character_state,
-        version: core.character_version,
+      context: {
+        chronicle:
+          chronicle === undefined
+            ? null
+            : {
+                description: chronicle.description,
+                id: chronicle.id,
+                title: chronicle.title,
+              },
       },
-      chronicle: {
-        description: core.chronicle_description,
-        id: core.chronicle_id,
-        title: core.chronicle_title,
+      sheet: {
+        accessMode: reference.accessMode,
+        character: {
+          ambition: core.ambition,
+          concept: core.concept,
+          desire: core.desire,
+          hunger: core.hunger,
+          id: core.id,
+          kind: core.kind,
+          name: core.name,
+          sire: core.sire,
+          state: core.state,
+          version: core.version,
+        },
+        convictionPairs,
+        ruleSetProfileRevisionId: core.rule_set_profile_revision_id,
+        traits: traits.map((trait) => ({
+          kind: trait.kind,
+          traitId: trait.trait_id,
+          value: trait.value,
+        })),
       },
-      ruleSetProfileRevisionId: core.rule_set_profile_revision_id,
-      scene:
-        session?.scene_id === null || session?.scene_id === undefined
-          ? null
-          : {
-              id: session.scene_id,
-              publishedDescription: session.published_description,
-              title: session.scene_title ?? "Cena sem título",
-              version: session.scene_version ?? 0,
-            },
-      session:
-        session === undefined
-          ? null
-          : {
-              id: session.session_id,
-              state: session.session_state,
-              version: session.session_version,
-            },
-      traits: traits.map((trait) => ({
-        kind: trait.kind,
-        traitId: trait.trait_id,
-        value: trait.value,
-      })),
     };
   }
 }

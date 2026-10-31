@@ -1,7 +1,14 @@
 "use client";
 
-import type { CharacterSheetView } from "@assistente-vampiro/contracts";
+import type {
+  AlphaIdentityAlias,
+  CharacterSheetContextView,
+  CharacterSheetView,
+} from "@assistente-vampiro/contracts";
+import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
+
+import { updateCharacterIdentity } from "./character-api";
 
 type SheetTab = "essential" | "chronicle" | "history";
 
@@ -238,25 +245,58 @@ function TraitRow({
   );
 }
 
-function IdentityGrid({ sheet }: { readonly sheet: CharacterSheetView }) {
+function IdentityGrid({
+  context,
+  directEdit,
+  identity,
+  onIdentityChange,
+  sheet,
+}: {
+  readonly context: CharacterSheetContextView;
+  readonly directEdit: boolean;
+  readonly identity: {
+    readonly ambition: string;
+    readonly concept: string;
+    readonly desire: string;
+    readonly name: string;
+    readonly sire: string;
+  };
+  readonly onIdentityChange: (
+    field: "ambition" | "concept" | "desire" | "name" | "sire",
+    value: string,
+  ) => void;
+  readonly sheet: CharacterSheetView;
+}) {
   const identityFields = [
-    ["Nome", sheet.character.name],
-    ["Conceito", sheet.character.concept ?? "Não informado"],
-    ["Predador", "Não informado"],
-    ["Crônica", sheet.chronicle.title],
-    ["Ambição", "Não informada"],
-    ["Clã", sheet.character.kind === "CLAN_VAMPIRE" ? "Em definição" : "—"],
-    ["Senhor", "Não informado"],
-    ["Desejo", "Não informado"],
-    ["Geração", "Não informada"],
-  ] as const;
+    { field: "name" as const, label: "Nome", value: identity.name },
+    { field: "concept" as const, label: "Conceito", value: identity.concept },
+    { label: "Predador", value: "Ainda indisponível" },
+    { label: "Crônica", value: context.chronicle?.title ?? "Sem Crônica" },
+    { field: "ambition" as const, label: "Ambição", value: identity.ambition },
+    {
+      label: "Clã",
+      value: sheet.character.kind === null ? "Ainda indisponível" : "Em definição",
+    },
+    { field: "sire" as const, label: "Senhor", value: identity.sire },
+    { field: "desire" as const, label: "Desejo", value: identity.desire },
+    { label: "Geração", value: "Ainda indisponível" },
+  ];
 
   return (
     <div className="identity-grid">
-      {identityFields.map(([label, value]) => (
-        <div className="identity-field" key={label}>
-          <span>{label}</span>
-          <strong>{value}</strong>
+      {identityFields.map((item) => (
+        <div className="identity-field" key={item.label}>
+          <span>{item.label}</span>
+          {directEdit && item.field !== undefined ? (
+            <input
+              aria-label={item.label}
+              onChange={(event) => onIdentityChange(item.field, event.target.value)}
+              placeholder={item.label}
+              value={item.value}
+            />
+          ) : (
+            <strong>{item.value || "Não informado"}</strong>
+          )}
         </div>
       ))}
     </div>
@@ -356,18 +396,41 @@ function EssentialSheet({
   );
 }
 
-function ChronicleSheet({ sheet }: { readonly sheet: CharacterSheetView }) {
+function ChronicleSheet({
+  context,
+  sheet,
+}: {
+  readonly context: CharacterSheetContextView;
+  readonly sheet: CharacterSheetView;
+}) {
   return (
     <div className="narrative-sheet">
       <SectionHeading eyebrow="04" title="Crônica & Sangue" />
       <div className="narrative-triptych">
         <article>
           <span>Princípios da Crônica</span>
-          <p>{sheet.chronicle.description ?? "Não informados nesta versão."}</p>
+          <p>
+            {context.chronicle?.description ??
+              (context.chronicle === null
+                ? "Personagem sem Crônica vinculada."
+                : "Não informados nesta versão.")}
+          </p>
         </article>
         <article>
           <span>Pilares & Convicções</span>
-          <p className="muted-copy">Ainda não registrados na ficha persistente.</p>
+          {sheet.convictionPairs.length === 0 ? (
+            <p className="muted-copy">Ainda não registrados.</p>
+          ) : (
+            <ul className="ruled-list">
+              {sheet.convictionPairs.map((pair) => (
+                <li key={pair.position}>
+                  <strong>{pair.conviction ?? "Convicção em definição"}</strong>
+                  {" ↔ "}
+                  {pair.touchstone ?? "Pilar em definição"}
+                </li>
+              ))}
+            </ul>
+          )}
         </article>
         <article>
           <span>Perdição do Clã</span>
@@ -702,12 +765,29 @@ function RollBuilder({
 }
 
 export function CharacterSheetPrototype({
+  context,
+  directEdit = false,
+  identityAlias = "player-one",
   sheet,
 }: {
+  readonly context: CharacterSheetContextView;
+  readonly directEdit?: boolean;
+  readonly identityAlias?: AlphaIdentityAlias;
   readonly sheet: CharacterSheetView;
 }) {
   const [activeTab, setActiveTab] = useState<SheetTab>("essential");
   const [rollDraft, setRollDraft] = useState<RollDraft | null>(null);
+  const [identity, setIdentity] = useState({
+    ambition: sheet.character.ambition ?? "",
+    concept: sheet.character.concept ?? "",
+    desire: sheet.character.desire ?? "",
+    name: sheet.character.name,
+    sire: sheet.character.sire ?? "",
+  });
+  const [version, setVersion] = useState(sheet.character.version);
+  const [saveState, setSaveState] = useState<"error" | "idle" | "saved" | "saving">(
+    "idle",
+  );
   const attributeGroups = hydrateTraitGroups(attributeDefinitions, sheet);
   const skillGroups = hydrateTraitGroups(skillDefinitions, sheet);
   const allAttributes = attributeGroups.flatMap((group) =>
@@ -719,6 +799,28 @@ export function CharacterSheetPrototype({
 
   const openSkill = (skill: AvailableTrait) =>
     setRollDraft({ actionName: null, initialAttribute: null, skill });
+
+  async function saveIdentity() {
+    setSaveState("saving");
+    try {
+      const result = await updateCharacterIdentity(
+        identityAlias,
+        sheet.character.id,
+        version,
+        {
+          ambition: identity.ambition.trim() || null,
+          concept: identity.concept.trim() || null,
+          desire: identity.desire.trim() || null,
+          name: identity.name,
+          sire: identity.sire.trim() || null,
+        },
+      );
+      setVersion(result.version);
+      setSaveState("saved");
+    } catch {
+      setSaveState("error");
+    }
+  }
 
   return (
     <main className="character-app character-app--full-sheet">
@@ -759,7 +861,45 @@ export function CharacterSheetPrototype({
               </div>
             </div>
 
-            <IdentityGrid sheet={sheet} />
+            {directEdit ? (
+              <div className="direct-edit-notice">
+                <p>
+                  <strong>Preenchimento direto</strong> Nome, Conceito, Senhor, Ambição e
+                  Desejo estão ativos. As demais regiões serão habilitadas conforme seus
+                  contratos forem concluídos.
+                </p>
+                <div>
+                  <Link href={`/personagens/${sheet.character.id}/criar/conceito`}>
+                    Usar criação guiada
+                  </Link>
+                  <button
+                    disabled={saveState === "saving"}
+                    onClick={() => void saveIdentity()}
+                    type="button"
+                  >
+                    {saveState === "saving" ? "Salvando…" : "Salvar campos ativos"}
+                  </button>
+                </div>
+                <span aria-live="polite">
+                  {saveState === "saved"
+                    ? "Alterações salvas."
+                    : saveState === "error"
+                      ? "Não foi possível salvar."
+                      : ""}
+                </span>
+              </div>
+            ) : null}
+
+            <IdentityGrid
+              context={context}
+              directEdit={directEdit}
+              identity={identity}
+              onIdentityChange={(field, value) => {
+                setIdentity((current) => ({ ...current, [field]: value }));
+                setSaveState("idle");
+              }}
+              sheet={sheet}
+            />
 
             <div className="sheet-content">
               {activeTab === "essential" ? (
@@ -770,7 +910,9 @@ export function CharacterSheetPrototype({
                   skillGroups={skillGroups}
                 />
               ) : null}
-              {activeTab === "chronicle" ? <ChronicleSheet sheet={sheet} /> : null}
+              {activeTab === "chronicle" ? (
+                <ChronicleSheet context={context} sheet={sheet} />
+              ) : null}
               {activeTab === "history" ? <HistorySheet /> : null}
             </div>
 

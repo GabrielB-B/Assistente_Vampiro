@@ -1,4 +1,4 @@
-import type { CharacterSheetView } from "@assistente-vampiro/contracts";
+import type { CharacterSheetDocumentView } from "@assistente-vampiro/contracts";
 
 import type { AccessContextReader } from "../../identity-access/application/access-context-reader.js";
 import type { ActorContext } from "../../identity-access/application/actor-context.js";
@@ -10,7 +10,7 @@ import type {
 
 export interface GetCharacterSheetQuery {
   readonly characterId: string;
-  readonly chronicleId: string;
+  readonly chronicleId?: string;
 }
 
 export class GetCharacterSheet {
@@ -24,22 +24,35 @@ export class GetCharacterSheet {
   async execute(
     actor: ActorContext,
     query: GetCharacterSheetQuery,
-  ): Promise<CharacterSheetView | undefined> {
-    const context = await this.accessContextReader.readCharacterAccess(
-      actor.accountId,
-      query.characterId,
-      query.chronicleId,
-    );
+  ): Promise<CharacterSheetDocumentView | undefined> {
+    const context =
+      query.chronicleId === undefined
+        ? await this.accessContextReader.readCharacterOwnerAccess(query.characterId)
+        : await this.accessContextReader.readCharacterAccess(
+            actor.accountId,
+            query.characterId,
+            query.chronicleId,
+          );
 
     if (context === undefined) {
       return undefined;
     }
 
     let reference: AuthorizedCharacterReference | undefined;
-    if (this.policy.authorizePlayerControl(actor, context).allowed) {
-      reference = { accessMode: "OWNER", ...query };
+    if (this.policy.authorizeOwnerView(actor, context).allowed) {
+      reference = {
+        accessMode: "OWNER",
+        characterId: query.characterId,
+        ...(query.chronicleId === undefined ? {} : { chronicleId: query.chronicleId }),
+      };
     } else if (this.policy.authorizeStorytellerView(actor, context).allowed) {
-      reference = { accessMode: "STORYTELLER", ...query };
+      if (query.chronicleId !== undefined) {
+        reference = {
+          accessMode: "STORYTELLER",
+          characterId: query.characterId,
+          chronicleId: query.chronicleId,
+        };
+      }
     }
 
     return reference === undefined ? undefined : this.entryReader.readSheet(reference);

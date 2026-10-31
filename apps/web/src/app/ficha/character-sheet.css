@@ -594,6 +594,87 @@ button:disabled {
   white-space: nowrap;
 }
 
+.identity-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.1rem 0;
+  border: 0;
+  border-bottom: 1px solid rgb(126 25 31 / 45%);
+  outline: 0;
+  background: transparent;
+  color: var(--sheet-blood, #761019);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: inherit;
+  font-weight: 600;
+}
+
+.identity-field input:focus {
+  border-bottom-color: #761019;
+  box-shadow: 0 2px 0 rgb(118 16 25 / 12%);
+}
+
+.direct-edit-notice {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem 1rem;
+  align-items: center;
+  margin: 0.7rem 0 0;
+  padding: 0.65rem 1rem;
+  border-block: 1px solid rgb(118 16 25 / 24%);
+  background: rgb(118 16 25 / 4%);
+  color: #4d423b;
+  font-size: 0.68rem;
+}
+
+.direct-edit-notice p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.direct-edit-notice p strong {
+  color: #761019;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.direct-edit-notice > div {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.direct-edit-notice a,
+.direct-edit-notice button {
+  padding: 0.45rem 0.65rem;
+  border: 1px solid rgb(118 16 25 / 48%);
+  background: transparent;
+  color: #5e0d14;
+  cursor: pointer;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.68rem;
+  text-decoration: none;
+}
+
+.direct-edit-notice button {
+  background: #761019;
+  color: #f4eadc;
+}
+
+.direct-edit-notice > span {
+  min-height: 0.8rem;
+  grid-column: 1 / -1;
+  color: #761019;
+}
+
+@media (max-width: 46rem) {
+  .direct-edit-notice {
+    grid-template-columns: 1fr;
+  }
+
+  .direct-edit-notice > div {
+    flex-direction: column;
+  }
+}
+
 .identity-field input,
 .history-data input,
 .history-data textarea {

@@ -1,6 +1,10 @@
 export const RULE_SET_PROFILE_ID = "v5-core-companion-pg-2023" as const;
 export const RULE_SET_PROFILE_REVISION_ID = "v5-core-companion-pg-2023-r1" as const;
 export const EVALUATOR_REVISION = "basic-test-evaluator-r1" as const;
+export const CREATION_RULE_REVISIONS = [
+  "RULE-CREATION-CONCEPT-001-r1",
+  "RULE-CREATION-ATTRIBUTES-001-r1",
+] as const;
 
 export const PREPARATION_RULE_REVISIONS = [
   "RULE-ROLL-001-r1",
@@ -19,3 +23,4 @@ export const APPLIED_RULE_REVISIONS = [
 
 export type PreparationRuleRevisions = typeof PREPARATION_RULE_REVISIONS;
 export type AppliedRuleRevisions = typeof APPLIED_RULE_REVISIONS;
+export type CreationRuleRevisions = typeof CREATION_RULE_REVISIONS;

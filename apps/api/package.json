@@ -15,6 +15,7 @@
   "dependencies": {
     "@assistente-vampiro/contracts": "workspace:*",
     "@assistente-vampiro/database": "workspace:*",
+    "@assistente-vampiro/rules-engine": "workspace:*",
     "@nestjs/common": "12.1.2",
     "@nestjs/core": "12.1.2",
     "@nestjs/platform-express": "12.1.2",

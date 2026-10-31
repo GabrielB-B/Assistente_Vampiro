@@ -36,6 +36,9 @@ export class ActiveCharacterCookie {
   ) {}
 
   encode(actor: ActorContext, character: CharacterGatewayItem): string {
+    if (character.chronicleId === null) {
+      throw new Error("Active character context requires a Chronicle binding.");
+    }
     const payload: ActiveCharacterPayload = {
       accountId: actor.accountId,
       characterId: character.characterId,

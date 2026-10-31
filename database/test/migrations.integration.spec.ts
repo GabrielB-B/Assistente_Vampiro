@@ -46,6 +46,8 @@ describe("migrações de produção", () => {
           "audit_entry",
           "character",
           "character_binding",
+          "character_conviction_pair",
+          "character_draft_request",
           "character_trait",
           "chronicle",
           "chronicle_membership",
@@ -65,13 +67,16 @@ describe("migrações de produção", () => {
     }
   });
 
-  it("registra as três migrações como aplicadas", async () => {
+  it("registra as seis migrações como aplicadas", async () => {
     const status = await readMigrationStatus(config);
 
     expect(status.map((migration) => migration.name)).toEqual([
       "001_initial_domain",
       "002_session_history",
       "003_character_traits",
+      "004_character_draft_kind",
+      "005_character_draft_request",
+      "006_character_concept",
     ]);
     expect(status.every((migration) => migration.executedAt !== undefined)).toBe(true);
   });
@@ -106,6 +111,8 @@ describe("migrações de produção", () => {
           "ck_roll_special_result",
           "ck_character_trait_kind_matches_id",
           "ck_character_trait_value_by_kind",
+          "ck_character_non_draft_kind",
+          "ck_character_conviction_pair_has_content",
           "fk_roll_scene_session",
           "uq_roll_attempt_idempotency",
           "uq_session_event_sequence",
@@ -130,6 +137,101 @@ describe("migrações de produção", () => {
     }
   });
 
+  it("permite kind nulo somente durante draft e não fixa compatibilidade de Fome", async () => {
+    const database = createDatabase(config);
+
+    try {
+      await database
+        .insertInto("account")
+        .values({
+          display_name: "Teste",
+          id: "019a0000-0000-7000-8000-000000000099",
+        })
+        .execute();
+      await expect(
+        database
+          .insertInto("character")
+          .values({
+            hunger: 3,
+            id: "019a0000-0000-7000-8000-000000000098",
+            kind: null,
+            name: "",
+            owner_account_id: "019a0000-0000-7000-8000-000000000099",
+            state: "draft",
+          })
+          .execute(),
+      ).resolves.toBeDefined();
+      await expect(
+        database
+          .insertInto("character")
+          .values({
+            id: "019a0000-0000-7000-8000-000000000097",
+            kind: null,
+            name: "Pronto",
+            owner_account_id: "019a0000-0000-7000-8000-000000000099",
+            state: "ready",
+          })
+          .execute(),
+      ).rejects.toThrow();
+    } finally {
+      await database
+        .deleteFrom("character")
+        .where("owner_account_id", "=", "019a0000-0000-7000-8000-000000000099")
+        .execute();
+      await database
+        .deleteFrom("account")
+        .where("id", "=", "019a0000-0000-7000-8000-000000000099")
+        .execute();
+      await database.destroy();
+    }
+  });
+
+  it("persiste Convicção e Pilar como um par progressivo do personagem", async () => {
+    const database = createDatabase(config);
+    const accountId = "019a0000-0000-7000-8000-000000000096";
+    const characterId = "019a0000-0000-7000-8000-000000000095";
+
+    try {
+      await database
+        .insertInto("account")
+        .values({ display_name: "Teste Conceito", id: accountId })
+        .execute();
+      await database
+        .insertInto("character")
+        .values({ id: characterId, kind: null, name: "", owner_account_id: accountId })
+        .execute();
+      await database
+        .insertInto("character_conviction_pair")
+        .values({
+          character_id: characterId,
+          conviction: "Nunca abandonar inocentes.",
+          position: 0,
+          touchstone: "Helena",
+        })
+        .execute();
+
+      await expect(
+        database
+          .insertInto("character_conviction_pair")
+          .values({
+            character_id: characterId,
+            conviction: null,
+            position: 1,
+            touchstone: null,
+          })
+          .execute(),
+      ).rejects.toThrow();
+    } finally {
+      await database
+        .deleteFrom("character_conviction_pair")
+        .where("character_id", "=", characterId)
+        .execute();
+      await database.deleteFrom("character").where("id", "=", characterId).execute();
+      await database.deleteFrom("account").where("id", "=", accountId).execute();
+      await database.destroy();
+    }
+  });
+
   it("reverte e reaplica o último incremento sem afetar o domínio inicial", async () => {
     await rollbackLastMigration(config);
     const database = createDatabase(config);
@@ -139,12 +241,20 @@ describe("migrações de produção", () => {
         select table_name
         from information_schema.tables
         where table_schema = ${config.schema}
-          and table_name in ('account', 'character_trait', 'session_event')
+          and table_name in (
+            'account',
+            'character_conviction_pair',
+            'character_draft_request',
+            'character_trait',
+            'session_event'
+          )
         order by table_name
       `.execute(database);
 
       expect(tables.rows.map((row) => row.table_name)).toEqual([
         "account",
+        "character_draft_request",
+        "character_trait",
         "session_event",
       ]);
     } finally {

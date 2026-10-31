@@ -52,17 +52,28 @@ export interface RuleSetProfileRevisionTable {
 }
 
 export interface CharacterTable {
-  id: string;
-  owner_account_id: string;
-  forked_from_character_id: string | null;
-  rule_set_profile_revision_id: string | null;
-  name: string;
+  ambition: string | null;
   concept: string | null;
-  kind: CharacterKind;
-  state: Generated<CharacterState>;
-  version: Generated<number>;
-  hunger: number | null;
   created_at: Timestamp;
+  desire: string | null;
+  forked_from_character_id: string | null;
+  hunger: number | null;
+  id: string;
+  kind: CharacterKind | null;
+  name: string;
+  owner_account_id: string;
+  rule_set_profile_revision_id: string | null;
+  sire: string | null;
+  state: Generated<CharacterState>;
+  updated_at: Timestamp;
+  version: Generated<number>;
+}
+
+export interface CharacterConvictionPairTable {
+  character_id: string;
+  conviction: string | null;
+  position: number;
+  touchstone: string | null;
   updated_at: Timestamp;
 }
 
@@ -72,6 +83,13 @@ export interface CharacterTraitTable {
   trait_id: string;
   value: number;
   updated_at: Timestamp;
+}
+
+export interface CharacterDraftRequestTable {
+  owner_account_id: string;
+  idempotency_key: string;
+  character_id: string;
+  created_at: Timestamp;
 }
 
 export interface ChronicleTable {
@@ -204,6 +222,8 @@ export interface DatabaseSchema {
   account: AccountTable;
   audit_entry: AuditEntryTable;
   character: CharacterTable;
+  character_conviction_pair: CharacterConvictionPairTable;
+  character_draft_request: CharacterDraftRequestTable;
   character_trait: CharacterTraitTable;
   character_binding: CharacterBindingTable;
   chronicle: ChronicleTable;

@@ -1,7 +1,7 @@
 export interface CharacterGatewayItem {
   readonly characterId: string;
-  readonly chronicleId: string;
-  readonly chronicleTitle: string;
+  readonly chronicleId: string | null;
+  readonly chronicleTitle: string | null;
   readonly clan: string | null;
   readonly lastActivityAt: string | null;
   readonly name: string;

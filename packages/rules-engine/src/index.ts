@@ -1,5 +1,22 @@
 export { evaluateBasicTest } from "./basic-test/evaluate-basic-test.js";
 export { prepareBasicTest } from "./basic-test/prepare-basic-test.js";
+export {
+  CREATION_ATTRIBUTE_IDS,
+  CREATION_ATTRIBUTES_POLICY,
+  evaluateCreationAttributes,
+  type CreationAttributeId,
+  type CreationAttributesEvaluation,
+  type CreationAttributeValues,
+  type CreationAttributeViolation,
+  type CreationValidationContext,
+} from "./creation/attributes.js";
+export {
+  CREATION_CONCEPT_POLICY,
+  evaluateCreationConcept,
+  type CreationConceptEvaluation,
+  type CreationConceptPair,
+  type CreationConceptValues,
+} from "./creation/concept.js";
 export type {
   BasicOutcome,
   BasicTestPreparation,
@@ -22,6 +39,7 @@ export type {
 } from "./errors/rule-engine-error.js";
 export {
   APPLIED_RULE_REVISIONS,
+  CREATION_RULE_REVISIONS,
   EVALUATOR_REVISION,
   PREPARATION_RULE_REVISIONS,
   RULE_SET_PROFILE_ID,

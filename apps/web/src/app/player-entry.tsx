@@ -4,7 +4,7 @@ import {
   ALPHA_IDENTITY_OPTIONS,
   type AlphaIdentityAlias,
   type CharacterEntrySummaryView,
-  type CharacterSheetView,
+  type CharacterSheetDocumentView,
   type PlayerEntryView,
 } from "@assistente-vampiro/contracts";
 import { useEffect, useState } from "react";
@@ -26,7 +26,7 @@ type EntryState =
   | {
       readonly entry: PlayerEntryView;
       readonly selectedCharacter: CharacterEntrySummaryView;
-      readonly sheet: CharacterSheetView;
+      readonly document: CharacterSheetDocumentView;
       readonly status: "ready";
     };
 
@@ -117,9 +117,11 @@ function EntryStateScreen({
 }
 
 export function PlayerEntry({
+  directEdit = false,
   initialCharacterId,
   initialIdentityAlias = "player-one",
 }: {
+  readonly directEdit?: boolean;
   readonly initialCharacterId?: string;
   readonly initialIdentityAlias?: AlphaIdentityAlias;
 }) {
@@ -144,12 +146,12 @@ export function PlayerEntry({
           return;
         }
 
-        const sheet = await loadCharacterSheet(
+        const document = await loadCharacterSheet(
           identityAlias,
           selectedCharacter,
           abortController.signal,
         );
-        setState({ entry, selectedCharacter, sheet, status: "ready" });
+        setState({ document, entry, selectedCharacter, status: "ready" });
       } catch (error) {
         if (abortController.signal.aborted) return;
         setState({
@@ -186,5 +188,12 @@ export function PlayerEntry({
     );
   }
 
-  return <CharacterSheetPrototype sheet={state.sheet} />;
+  return (
+    <CharacterSheetPrototype
+      context={state.document.context}
+      directEdit={directEdit}
+      identityAlias={identityAlias}
+      sheet={state.document.sheet}
+    />
+  );
 }

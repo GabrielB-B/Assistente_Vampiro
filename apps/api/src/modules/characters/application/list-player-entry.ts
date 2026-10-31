@@ -13,17 +13,19 @@ function authorizeCandidate(
   candidate: CharacterAccessCandidate,
   policy: CharacterAccessPolicy,
 ): AuthorizedCharacterReference | undefined {
-  const playerDecision = policy.authorizePlayerControl(actor, candidate.context);
-  if (playerDecision.allowed) {
+  const ownerDecision = policy.authorizeOwnerView(actor, candidate.context);
+  if (ownerDecision.allowed) {
     return {
       accessMode: "OWNER",
       characterId: candidate.context.character.characterId,
-      chronicleId: candidate.chronicleId,
+      ...(candidate.chronicleId === undefined
+        ? {}
+        : { chronicleId: candidate.chronicleId }),
     };
   }
 
   const storytellerDecision = policy.authorizeStorytellerView(actor, candidate.context);
-  if (storytellerDecision.allowed) {
+  if (storytellerDecision.allowed && candidate.chronicleId !== undefined) {
     return {
       accessMode: "STORYTELLER",
       characterId: candidate.context.character.characterId,

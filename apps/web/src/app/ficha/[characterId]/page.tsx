@@ -18,12 +18,16 @@ export default async function FullCharacterSheetPage({
   searchParams,
 }: {
   readonly params: Promise<{ readonly characterId: string }>;
-  readonly searchParams: Promise<{ readonly identity?: string | string[] }>;
+  readonly searchParams: Promise<{
+    readonly identity?: string | string[];
+    readonly mode?: string | string[];
+  }>;
 }) {
   const [{ characterId }, query] = await Promise.all([params, searchParams]);
 
   return (
     <PlayerEntry
+      directEdit={query.mode === "direct"}
       initialCharacterId={characterId}
       initialIdentityAlias={parseIdentity(query.identity)}
     />

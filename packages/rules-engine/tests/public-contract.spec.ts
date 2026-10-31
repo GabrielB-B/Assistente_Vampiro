@@ -13,11 +13,17 @@ describe("contrato público do Rules Engine", () => {
     expect(Object.keys(rulesEngine).sort()).toEqual(
       [
         "APPLIED_RULE_REVISIONS",
+        "CREATION_ATTRIBUTES_POLICY",
+        "CREATION_ATTRIBUTE_IDS",
+        "CREATION_CONCEPT_POLICY",
+        "CREATION_RULE_REVISIONS",
         "EVALUATOR_REVISION",
         "PREPARATION_RULE_REVISIONS",
         "RULE_SET_PROFILE_ID",
         "RULE_SET_PROFILE_REVISION_ID",
         "evaluateBasicTest",
+        "evaluateCreationAttributes",
+        "evaluateCreationConcept",
         "prepareBasicTest",
       ].sort(),
     );

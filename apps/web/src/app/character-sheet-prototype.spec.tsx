@@ -24,38 +24,42 @@ const playerEntry: PlayerEntryView = {
 const sheet: CharacterSheetView = {
   accessMode: "OWNER",
   character: {
+    ambition: "Descobrir quem apagou suas memórias.",
     concept: "Investigadora que ainda procura entender a própria noite.",
+    desire: "Encontrar a testemunha desaparecida.",
     hunger: 2,
     id: characterId,
     kind: "CLAN_VAMPIRE",
     name: "Noemi Vale",
+    sire: "Dorian Valerius",
     state: "ready",
     version: 0,
   },
-  chronicle: {
-    description: "Crônica inteiramente fictícia para a prova técnica do alpha.",
-    id: "019a0000-0000-7000-8000-000000000030",
-    title: "Ecos sob a Chuva",
-  },
+  convictionPairs: [
+    {
+      conviction: "Nunca abandonar quem pede ajuda.",
+      position: 0,
+      touchstone: "Helena",
+    },
+  ],
   ruleSetProfileRevisionId: "019a0000-0000-7000-8000-000000000011",
-  scene: {
-    id: "019a0000-0000-7000-8000-000000000060",
-    publishedDescription:
-      "A chuva cobre a cidade quando uma mensagem interrompe o silêncio.",
-    title: "O primeiro chamado",
-    version: 0,
-  },
-  session: {
-    id: "019a0000-0000-7000-8000-000000000050",
-    state: "active",
-    version: 0,
-  },
   traits: [
     { kind: "ATTRIBUTE", traitId: "attribute:composure", value: 3 },
     { kind: "ATTRIBUTE", traitId: "attribute:resolve", value: 2 },
     { kind: "SKILL", traitId: "skill:awareness", value: 2 },
     { kind: "SKILL", traitId: "skill:occult", value: 1 },
   ],
+};
+
+const document = {
+  context: {
+    chronicle: {
+      description: "Crônica inteiramente fictícia para a prova técnica do alpha.",
+      id: "019a0000-0000-7000-8000-000000000030",
+      title: "Ecos sob a Chuva",
+    },
+  },
+  sheet,
 };
 
 function response(body: unknown): Response {
@@ -70,7 +74,7 @@ beforeEach(() => {
     "fetch",
     vi.fn((input: RequestInfo | URL) =>
       Promise.resolve(
-        String(input).includes("/sheet") ? response(sheet) : response(playerEntry),
+        String(input).includes("/sheet") ? response(document) : response(playerEntry),
       ),
     ),
   );

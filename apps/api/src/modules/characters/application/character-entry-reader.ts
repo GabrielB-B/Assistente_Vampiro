@@ -1,20 +1,20 @@
 import type {
   CharacterAccessMode,
   CharacterEntrySummaryView,
-  CharacterSheetView,
+  CharacterSheetDocumentView,
 } from "@assistente-vampiro/contracts";
 
 import type { CharacterAccessContext } from "../../identity-access/application/authorization-context.js";
 
 export interface CharacterAccessCandidate {
-  readonly chronicleId: string;
+  readonly chronicleId?: string;
   readonly context: CharacterAccessContext;
 }
 
 export interface AuthorizedCharacterReference {
   readonly accessMode: CharacterAccessMode;
   readonly characterId: string;
-  readonly chronicleId: string;
+  readonly chronicleId?: string;
 }
 
 export interface CharacterEntryProjection {
@@ -30,7 +30,7 @@ export interface CharacterEntryReader {
   ): Promise<CharacterEntryProjection | undefined>;
   readSheet(
     reference: AuthorizedCharacterReference,
-  ): Promise<CharacterSheetView | undefined>;
+  ): Promise<CharacterSheetDocumentView | undefined>;
 }
 
 export const CHARACTER_ENTRY_READER = Symbol("CHARACTER_ENTRY_READER");

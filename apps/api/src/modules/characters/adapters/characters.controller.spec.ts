@@ -1,4 +1,9 @@
-import type { CharacterSheetView, PlayerEntryView } from "@assistente-vampiro/contracts";
+import type { Server } from "node:http";
+
+import type {
+  CharacterSheetDocumentView,
+  PlayerEntryView,
+} from "@assistente-vampiro/contracts";
 import type { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
@@ -7,8 +12,16 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { CorrelationContext } from "../../../observability/correlation-context.js";
 import { AuthenticationError } from "../../identity-access/application/authentication-error.js";
 import { IDENTITY_PROVIDER } from "../../identity-access/application/identity-provider.js";
+import { CharacterNotAvailableError } from "../application/character-not-available-error.js";
+import { CharacterVersionConflictError } from "../application/character-version-conflict-error.js";
+import { GET_CREATION_ATTRIBUTES } from "../application/get-creation-attributes.js";
+import { GET_CREATION_CONCEPT } from "../application/get-creation-concept.js";
 import { GET_CHARACTER_SHEET } from "../application/get-character-sheet.js";
 import { LIST_PLAYER_ENTRY } from "../application/list-player-entry.js";
+import { START_CHARACTER_DRAFT } from "../application/start-character-draft.js";
+import { UPDATE_CREATION_ATTRIBUTES } from "../application/update-creation-attributes.js";
+import { UPDATE_CREATION_CONCEPT } from "../application/update-creation-concept.js";
+import { UPDATE_CHARACTER_SHEET } from "../application/update-character-sheet.js";
 import { CharactersController } from "./characters.controller.js";
 
 const characterId = "019a0000-0000-7000-8000-000000000020";
@@ -19,22 +32,32 @@ const entry: PlayerEntryView = {
   characters: [],
 };
 
-const sheet: CharacterSheetView = {
-  accessMode: "OWNER",
-  character: {
-    concept: null,
-    hunger: 2,
-    id: characterId,
-    kind: "CLAN_VAMPIRE",
-    name: "Noemi Vale",
-    state: "ready",
-    version: 0,
+const document: CharacterSheetDocumentView = {
+  context: {
+    chronicle: {
+      description: null,
+      id: chronicleId,
+      title: "Ecos sob a Chuva",
+    },
   },
-  chronicle: { description: null, id: chronicleId, title: "Ecos sob a Chuva" },
-  ruleSetProfileRevisionId: null,
-  scene: null,
-  session: null,
-  traits: [],
+  sheet: {
+    accessMode: "OWNER",
+    character: {
+      ambition: null,
+      concept: null,
+      desire: null,
+      hunger: 2,
+      id: characterId,
+      kind: "CLAN_VAMPIRE",
+      name: "Noemi Vale",
+      sire: null,
+      state: "ready",
+      version: 0,
+    },
+    convictionPairs: [],
+    ruleSetProfileRevisionId: null,
+    traits: [],
+  },
 };
 
 describe("contrato HTTP de entrada e ficha", () => {
@@ -67,7 +90,48 @@ describe("contrato HTTP de entrada e ficha", () => {
           provide: GET_CHARACTER_SHEET,
           useValue: {
             execute: (actor: { readonly identityAlias: string }) =>
-              Promise.resolve(actor.identityAlias === "player-one" ? sheet : undefined),
+              Promise.resolve(
+                actor.identityAlias === "player-one" ? document : undefined,
+              ),
+          },
+        },
+        {
+          provide: GET_CREATION_ATTRIBUTES,
+          useValue: { execute: () => Promise.resolve(undefined) },
+        },
+        {
+          provide: GET_CREATION_CONCEPT,
+          useValue: { execute: () => Promise.resolve(undefined) },
+        },
+        {
+          provide: START_CHARACTER_DRAFT,
+          useValue: {
+            execute: () => Promise.resolve({ characterId, created: true, version: 0 }),
+          },
+        },
+        {
+          provide: UPDATE_CREATION_ATTRIBUTES,
+          useValue: { execute: () => Promise.resolve(undefined) },
+        },
+        {
+          provide: UPDATE_CREATION_CONCEPT,
+          useValue: { execute: () => Promise.resolve(undefined) },
+        },
+        {
+          provide: UPDATE_CHARACTER_SHEET,
+          useValue: {
+            execute: (
+              actor: { readonly identityAlias: string },
+              command: { readonly expectedVersion: number },
+            ) => {
+              if (actor.identityAlias !== "player-one") {
+                return Promise.reject(new CharacterNotAvailableError());
+              }
+              if (command.expectedVersion !== 0) {
+                return Promise.reject(new CharacterVersionConflictError());
+              }
+              return Promise.resolve({ characterId, version: 1 });
+            },
           },
         },
       ],
@@ -98,10 +162,21 @@ describe("contrato HTTP de entrada e ficha", () => {
     expect((response.body as PlayerEntryView).actor.displayName).toBe("Jogadora Um");
   });
 
+  it("carrega a ficha própria sem exigir chronicleId", async () => {
+    const response = await request(server)
+      .get(`/api/v1/characters/${characterId}/sheet`)
+      .set("x-alpha-identity", "player-one");
+
+    expect(response.status).toBe(200);
+    expect(response.body).toMatchObject({
+      context: { chronicle: { id: chronicleId } },
+      sheet: { character: { id: characterId } },
+    });
+  });
+
   it("não diferencia recurso alheio de recurso inexistente", async () => {
     const response = await request(server)
       .get(`/api/v1/characters/${characterId}/sheet`)
-      .query({ chronicleId })
       .set("x-alpha-identity", "player-two");
 
     expect(response.status).toBe(404);
@@ -113,11 +188,44 @@ describe("contrato HTTP de entrada e ficha", () => {
   it("rejeita identificadores malformados antes do caso de uso", async () => {
     const response = await request(server)
       .get("/api/v1/characters/invalido/sheet")
-      .query({ chronicleId })
       .set("x-alpha-identity", "player-one");
 
     expect(response.status).toBe(400);
     expect(response.body).toMatchObject({ error: { code: "INVALID_REQUEST" } });
   });
+
+  it("expõe escrita parcial versionada sem aceitar proprietário no corpo", async () => {
+    const response = await request(server)
+      .patch(`/api/v1/characters/${characterId}/sheet`)
+      .set("x-alpha-identity", "player-one")
+      .send({
+        expectedVersion: 0,
+        identity: { concept: "Investigadora noturna" },
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ characterId, version: 1 });
+
+    const invalid = await request(server)
+      .patch(`/api/v1/characters/${characterId}/sheet`)
+      .set("x-alpha-identity", "player-one")
+      .send({
+        expectedVersion: 0,
+        identity: { name: "Noemi" },
+        ownerAccountId: "account-other",
+      });
+
+    expect(invalid.status).toBe(400);
+    expect(invalid.body).toMatchObject({ error: { code: "INVALID_REQUEST" } });
+  });
+
+  it("traduz conflito de versão para resposta estável", async () => {
+    const response = await request(server)
+      .patch(`/api/v1/characters/${characterId}/sheet`)
+      .set("x-alpha-identity", "player-one")
+      .send({ expectedVersion: 9, identity: { name: "Noemi" } });
+
+    expect(response.status).toBe(409);
+    expect(response.body).toMatchObject({ error: { code: "VERSION_CONFLICT" } });
+  });
 });
-import type { Server } from "node:http";

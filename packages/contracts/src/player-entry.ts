@@ -11,14 +11,26 @@ export type CharacterKind =
   "CAITIFF" | "CLAN_VAMPIRE" | "GHOUL" | "MORTAL" | "THIN_BLOOD";
 export type CharacterState = "draft" | "ready" | "retired";
 export type CharacterTraitKind = "ATTRIBUTE" | "SKILL";
+export const CREATION_ATTRIBUTE_IDS = [
+  "attribute:strength",
+  "attribute:dexterity",
+  "attribute:stamina",
+  "attribute:charisma",
+  "attribute:manipulation",
+  "attribute:composure",
+  "attribute:intelligence",
+  "attribute:wits",
+  "attribute:resolve",
+] as const;
+export type CreationAttributeId = (typeof CREATION_ATTRIBUTE_IDS)[number];
 
 export interface CharacterEntrySummaryView {
   readonly accessMode: CharacterAccessMode;
   readonly characterId: string;
   readonly characterName: string;
   readonly characterState: CharacterState;
-  readonly chronicleId: string;
-  readonly chronicleTitle: string;
+  readonly chronicleId: string | null;
+  readonly chronicleTitle: string | null;
   readonly concept: string | null;
 }
 
@@ -39,30 +51,122 @@ export interface CharacterTraitView {
 export interface CharacterSheetView {
   readonly accessMode: CharacterAccessMode;
   readonly character: {
+    readonly ambition: string | null;
     readonly concept: string | null;
+    readonly desire: string | null;
     readonly hunger: number | null;
     readonly id: string;
-    readonly kind: CharacterKind;
+    readonly kind: CharacterKind | null;
     readonly name: string;
+    readonly sire: string | null;
     readonly state: CharacterState;
     readonly version: number;
   };
+  readonly convictionPairs: readonly CreationConceptPairView[];
+  readonly ruleSetProfileRevisionId: string | null;
+  readonly traits: readonly CharacterTraitView[];
+}
+
+export interface CharacterSheetContextView {
   readonly chronicle: {
     readonly description: string | null;
     readonly id: string;
     readonly title: string;
+  } | null;
+}
+
+export interface CharacterSheetDocumentView {
+  readonly context: CharacterSheetContextView;
+  readonly sheet: CharacterSheetView;
+}
+
+export interface UpdateCharacterSheetRequest {
+  readonly expectedVersion: number;
+  readonly identity: {
+    readonly ambition?: string | null;
+    readonly concept?: string | null;
+    readonly desire?: string | null;
+    readonly name?: string;
+    readonly sire?: string | null;
   };
-  readonly ruleSetProfileRevisionId: string | null;
-  readonly scene: {
+}
+
+export interface CharacterSheetMutationView {
+  readonly characterId: string;
+  readonly version: number;
+}
+
+export interface StartCharacterDraftRequest {
+  readonly idempotencyKey: string;
+}
+
+export interface CharacterDraftMutationView extends CharacterSheetMutationView {
+  readonly created: boolean;
+}
+
+export interface CreationConceptPairView {
+  readonly conviction: string | null;
+  readonly position: number;
+  readonly touchstone: string | null;
+}
+
+export interface CreationConceptEvaluationView {
+  readonly complete: boolean;
+  readonly incompletePairPositions: readonly number[];
+  readonly missingRequiredFields: readonly ("ambition" | "concept" | "name")[];
+}
+
+export interface CreationConceptStepView extends CharacterSheetMutationView {
+  readonly chronicle: {
     readonly id: string;
-    readonly publishedDescription: string | null;
     readonly title: string;
-    readonly version: number;
   } | null;
-  readonly session: {
-    readonly id: string;
-    readonly state: "active" | "cancelled" | "ended" | "scheduled";
-    readonly version: number;
-  } | null;
-  readonly traits: readonly CharacterTraitView[];
+  readonly convictionPairs: readonly CreationConceptPairView[];
+  readonly evaluation: CreationConceptEvaluationView;
+  readonly identity: {
+    readonly ambition: string | null;
+    readonly concept: string | null;
+    readonly desire: string | null;
+    readonly name: string;
+    readonly sire: string | null;
+  };
+  readonly policy: {
+    readonly maximumConvictionPairs: number;
+    readonly ruleRevision: string;
+  };
+}
+
+export interface UpdateCreationConceptRequest {
+  readonly convictionPairs: readonly Omit<CreationConceptPairView, "position">[];
+  readonly expectedVersion: number;
+  readonly identity: CreationConceptStepView["identity"];
+}
+
+export interface UpdateCreationAttributesRequest {
+  readonly attributes: Partial<Record<CreationAttributeId, number>>;
+  readonly expectedVersion: number;
+}
+
+export interface CreationAttributesMutationView extends CharacterSheetMutationView {
+  readonly evaluation: {
+    readonly complete: boolean;
+    readonly healthMax: number;
+    readonly incrementsSpent: number;
+    readonly remainingIncrements: number;
+    readonly willpowerMax: number;
+  };
+}
+
+export interface CreationAttributesStepView extends CreationAttributesMutationView {
+  readonly attributes: Readonly<Record<CreationAttributeId, number>>;
+  readonly policy: {
+    readonly maximum: number;
+    readonly minimum: number;
+    readonly ratingCounts: readonly {
+      readonly count: number;
+      readonly rating: number;
+    }[];
+    readonly ruleRevision: string;
+    readonly totalIncrements: number;
+  };
 }

@@ -1,9 +1,10 @@
 # Contrato de Entrada do Jogador e Ficha Mínima v0.1
 
-**Status:** primeiro corte implementado e verificado localmente<br>
+**Status:** substituído pela Fundação de Character/Ficha v0.1<br>
 **Data:** 25 de outubro de 2026<br>
 **Incremento:** VS01-03<br>
-**Perfil inicial:** `v5-core-companion-pg-2023-r1`
+**Perfil inicial:** `v5-core-companion-pg-2023-r1`<br>
+**Substituído por:** [Fundação de Character/Ficha v0.1](./character-sheet-foundation-v0.1.md)
 
 ## 1. Objetivo
 
