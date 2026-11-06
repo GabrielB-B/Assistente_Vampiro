@@ -17,6 +17,7 @@ next-env.d.ts
 # IDE e sistema operacional
 .vscode/
 .idea/
+.codex/
 .DS_Store
 Thumbs.db
 
