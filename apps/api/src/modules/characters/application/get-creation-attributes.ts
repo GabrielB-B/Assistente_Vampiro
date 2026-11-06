@@ -9,6 +9,7 @@ import {
 import type { AccessContextReader } from "../../identity-access/application/access-context-reader.js";
 import type { ActorContext } from "../../identity-access/application/actor-context.js";
 import { CharacterAccessPolicy } from "../../identity-access/application/character-access-policy.js";
+import { projectCharacterCreationContext } from "./character-creation-context.js";
 import type { CharacterSheetWriter } from "./character-sheet-writer.js";
 
 export class GetCreationAttributes {
@@ -30,7 +31,7 @@ export class GetCreationAttributes {
     ) {
       return undefined;
     }
-    const persisted = await this.writer.readCreationAttributes(characterId);
+    const persisted = await this.writer.readCreationContext(characterId);
     const attributes = Object.fromEntries(
       CREATION_ATTRIBUTE_IDS.map((id) => [id, persisted.attributes[id] ?? 1]),
     ) as CreationAttributeValues;
@@ -38,6 +39,11 @@ export class GetCreationAttributes {
     return {
       attributes,
       characterId,
+      creationContext: projectCharacterCreationContext(
+        persisted,
+        characterId,
+        "attributes",
+      ),
       evaluation: {
         complete: evaluation.complete,
         healthMax: evaluation.derived.healthMax,

@@ -35,10 +35,13 @@ function dependencies(
 ) {
   const updateIdentity = vi.fn().mockResolvedValue(result);
   const writer: CharacterSheetWriter = {
+    readCreationContext: vi.fn(),
+    readCreationClan: vi.fn(),
     readCreationConcept: vi.fn(),
     readCreationAttributes: vi.fn(),
     startDraft: vi.fn(),
     updateCreationAttributes: vi.fn(),
+    updateCreationClan: vi.fn(),
     updateCreationConcept: vi.fn(),
     updateIdentity,
   };

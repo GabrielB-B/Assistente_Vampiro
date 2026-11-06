@@ -17,6 +17,27 @@ export {
   type CreationConceptPair,
   type CreationConceptValues,
 } from "./creation/concept.js";
+export {
+  characterKindForOrigin,
+  CREATION_CLAN_POLICY,
+  CREATION_ORIGIN_CATALOG,
+  evaluateCreationClan,
+  resolveCreationOrigin,
+  type CreationOriginDefinition,
+  type CreationOriginId,
+  type CreationClanViolation,
+} from "./creation/clans.js";
+export {
+  CREATION_STEP_IDS,
+  determineCreationOriginChangeImpact,
+  evaluateCreationProgress,
+  projectCreationDisciplinePolicy,
+  type CreationDisciplinePolicyProjection,
+  type CreationOriginChangeImpact,
+  type CreationProgressInput,
+  type CreationStepId,
+  type CreationStepStatus,
+} from "./creation/context.js";
 export type {
   BasicOutcome,
   BasicTestPreparation,

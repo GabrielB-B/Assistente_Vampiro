@@ -13,6 +13,7 @@ import type { ActorContext } from "../../identity-access/application/actor-conte
 import { CharacterAccessPolicy } from "../../identity-access/application/character-access-policy.js";
 import type { IdGenerator } from "../../identity-access/application/id-generator.js";
 import { CharacterNotAvailableError } from "./character-not-available-error.js";
+import { projectCharacterCreationContext } from "./character-creation-context.js";
 import type { CharacterSheetWriter } from "./character-sheet-writer.js";
 import { CharacterVersionConflictError } from "./character-version-conflict-error.js";
 import { InvalidCharacterCreationError } from "./invalid-character-creation-error.js";
@@ -47,7 +48,7 @@ export class UpdateCreationAttributes {
       throw new CharacterNotAvailableError();
     }
 
-    const persisted = await this.writer.readCreationAttributes(command.characterId);
+    const persisted = await this.writer.readCreationContext(command.characterId);
     const values = Object.fromEntries(
       CREATION_ATTRIBUTE_IDS.map((id) => [
         id,
@@ -70,9 +71,15 @@ export class UpdateCreationAttributes {
     if (result.status === "version-conflict") {
       throw new CharacterVersionConflictError();
     }
+    const updatedContext = await this.writer.readCreationContext(command.characterId);
 
     return {
       characterId: result.characterId,
+      creationContext: projectCharacterCreationContext(
+        updatedContext,
+        command.characterId,
+        "attributes",
+      ),
       evaluation: {
         complete: evaluation.complete,
         healthMax: evaluation.derived.healthMax,

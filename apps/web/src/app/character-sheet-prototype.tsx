@@ -30,6 +30,32 @@ type TraitDefinitionGroup = {
   readonly traits: readonly { readonly id: string; readonly name: string }[];
 };
 
+const originLabels: Readonly<Record<string, string>> = {
+  "clan:banu-haqim": "Banu Haqim",
+  "clan:brujah": "Brujah",
+  "clan:gangrel": "Gangrel",
+  "clan:hecata": "Hecata",
+  "clan:lasombra": "Lasombra",
+  "clan:malkavian": "Malkavian",
+  "clan:ministry": "Ministry",
+  "clan:nosferatu": "Nosferatu",
+  "clan:ravnos": "Ravnos",
+  "clan:salubri": "Salubri",
+  "clan:toreador": "Toreador",
+  "clan:tremere": "Tremere",
+  "clan:tzimisce": "Tzimisce",
+  "clan:ventrue": "Ventrue",
+};
+
+function originLabel(sheet: CharacterSheetView): string {
+  if (sheet.character.clanId !== null) {
+    return originLabels[sheet.character.clanId] ?? "Clã em definição";
+  }
+  if (sheet.character.kind === "CAITIFF") return "Caitiff";
+  if (sheet.character.kind === "THIN_BLOOD") return "Sangue-Ralo";
+  return "Ainda indisponível";
+}
+
 const attributeDefinitions: readonly TraitDefinitionGroup[] = [
   {
     title: "Físicos",
@@ -275,7 +301,7 @@ function IdentityGrid({
     { field: "ambition" as const, label: "Ambição", value: identity.ambition },
     {
       label: "Clã",
-      value: sheet.character.kind === null ? "Ainda indisponível" : "Em definição",
+      value: originLabel(sheet),
     },
     { field: "sire" as const, label: "Senhor", value: identity.sire },
     { field: "desire" as const, label: "Desejo", value: identity.desire },

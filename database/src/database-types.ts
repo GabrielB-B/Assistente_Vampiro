@@ -53,6 +53,7 @@ export interface RuleSetProfileRevisionTable {
 
 export interface CharacterTable {
   ambition: string | null;
+  clan_id: ColumnType<string | null, string | null | undefined, string | null>;
   concept: string | null;
   created_at: Timestamp;
   desire: string | null;

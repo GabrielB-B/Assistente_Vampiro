@@ -35,7 +35,27 @@ function dependencies(
   },
 ) {
   const updateCreationAttributes = vi.fn().mockResolvedValue(writeResult);
+  const persistedContext = (version: number) => ({
+    attributes: {},
+    clanId: "clan:toreador" as const,
+    convictionPairs: [],
+    creationProfileRevisionId: "v5-core-companion-pg-2023-r1",
+    identity: {
+      ambition: "Compreender a noite",
+      concept: "Investigadora",
+      desire: null,
+      name: "Noemi Vale",
+      sire: null,
+    },
+    kind: "CLAN_VAMPIRE" as const,
+    version,
+  });
   const writer = {
+    readCreationContext: vi
+      .fn()
+      .mockResolvedValueOnce(persistedContext(1))
+      .mockResolvedValue(persistedContext(2)),
+    readCreationClan: vi.fn(),
     readCreationConcept: vi.fn(),
     readCreationAttributes: vi.fn().mockResolvedValue({
       attributes: {},
@@ -43,6 +63,7 @@ function dependencies(
     }),
     startDraft: vi.fn(),
     updateCreationAttributes,
+    updateCreationClan: vi.fn(),
     updateCreationConcept: vi.fn(),
     updateIdentity: vi.fn(),
   } satisfies CharacterSheetWriter;
@@ -61,14 +82,13 @@ describe("UpdateCreationAttributes", () => {
       next: () => "audit-one",
     });
 
-    await expect(
-      useCase.execute(actor, {
-        attributes: { "attribute:stamina": 4 },
-        characterId: "character-one",
-        correlationId: "correlation-one",
-        expectedVersion: 1,
-      }),
-    ).resolves.toEqual({
+    const result = await useCase.execute(actor, {
+      attributes: { "attribute:stamina": 4 },
+      characterId: "character-one",
+      correlationId: "correlation-one",
+      expectedVersion: 1,
+    });
+    expect(result).toMatchObject({
       characterId: "character-one",
       evaluation: {
         complete: false,
@@ -76,6 +96,16 @@ describe("UpdateCreationAttributes", () => {
         incrementsSpent: 3,
         remainingIncrements: 10,
         willpowerMax: 2,
+      },
+      version: 2,
+    });
+    expect(result.creationContext).toMatchObject({
+      characterId: "character-one",
+      currentStep: "attributes",
+      origin: {
+        clanId: "clan:toreador",
+        id: "clan:toreador",
+        kind: "CLAN_VAMPIRE",
       },
       version: 2,
     });

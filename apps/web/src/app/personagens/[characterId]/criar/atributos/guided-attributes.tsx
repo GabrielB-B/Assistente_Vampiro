@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { loadCharacterSheetById } from "../../../../character-api";
 import { CharacterSheetPrototype } from "../../../../character-sheet-prototype";
 import { AnkhMark } from "../../../ankh-mark";
+import { CharacterCreationIdentity } from "../../../criar/character-creation-identity";
 import {
   loadCreationAttributes,
   updateCreationAttribute,
@@ -86,6 +87,18 @@ const groups: readonly {
   },
 ] as const;
 
+const creationSteps = [
+  ["concept", "Conceito"],
+  ["clan", "Clã"],
+  ["attributes", "Atributos"],
+  ["skills", "Habilidades"],
+  ["disciplines", "Disciplinas"],
+  ["predator", "Predador"],
+  ["advantages", "Vantagens"],
+  ["history-and-blood", "História"],
+  ["review", "Revisão"],
+] as const;
+
 export function GuidedAttributes({ characterId }: { readonly characterId: string }) {
   const [step, setStep] = useState<CreationAttributesStepView | null>(null);
   const [pending, setPending] = useState<CreationAttributeId | null>(null);
@@ -132,6 +145,7 @@ export function GuidedAttributes({ characterId }: { readonly characterId: string
       setStep({
         ...step,
         attributes: { ...step.attributes, [attributeId]: value },
+        creationContext: result.creationContext,
         evaluation: result.evaluation,
         version: result.version,
       });
@@ -176,28 +190,31 @@ export function GuidedAttributes({ characterId }: { readonly characterId: string
             <h1>Assistente Vampiro</h1>
             <p>Ficha de personagem · quinta edição</p>
           </div>
-          <p>
-            <strong>Em criação</strong>
-            <span>Modo guiado</span>
-          </p>
+          <div className={styles.mastheadContext}>
+            <p>
+              <strong>Em criação</strong>
+              <span>Modo guiado</span>
+            </p>
+            <CharacterCreationIdentity context={step.creationContext} />
+          </div>
         </header>
         <nav className={styles.stepTrack} aria-label="Etapas da criação">
-          {[
-            "Conceito",
-            "Clã",
-            "Atributos",
-            "Habilidades",
-            "Disciplinas",
-            "Predador",
-            "Vantagens",
-            "História",
-            "Revisão",
-          ].map((label) => (
-            <span className={label === "Atributos" ? styles.currentStep : ""} key={label}>
-              {label}
-              <i />
-            </span>
-          ))}
+          {creationSteps.map(([id, label]) => {
+            const status = step.creationContext.steps.find(
+              (candidate) => candidate.id === id,
+            )?.status;
+            return (
+              <span
+                className={id === "attributes" ? styles.currentStep : ""}
+                data-complete={status === "complete"}
+                data-status={status}
+                key={id}
+              >
+                {label}
+                <i />
+              </span>
+            );
+          })}
         </nav>
         <div className={styles.guidedGrid}>
           <section className={styles.attributeStage}>
@@ -337,7 +354,7 @@ export function GuidedAttributes({ characterId }: { readonly characterId: string
           </aside>
         </div>
         <footer className={styles.guidedActions}>
-          <Link href="/personagens/criar">← Voltar</Link>
+          <Link href={`/personagens/${characterId}/criar/cla`}>← Voltar</Link>
           <div>
             <button onClick={() => void openPreview()} type="button">
               Ver ficha até agora

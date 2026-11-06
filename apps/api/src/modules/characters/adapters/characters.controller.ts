@@ -3,13 +3,17 @@ import type {
   CreationConceptStepView,
   CreationAttributesMutationView,
   CreationAttributesStepView,
+  CreationClanStepView,
   CharacterSheetDocumentView,
   CharacterSheetMutationView,
   PlayerEntryView,
   PublicApiErrorCode,
   PublicApiErrorResponse,
 } from "@assistente-vampiro/contracts";
-import { CREATION_ATTRIBUTE_IDS } from "@assistente-vampiro/contracts";
+import {
+  CREATION_ATTRIBUTE_IDS,
+  CREATION_ORIGIN_IDS,
+} from "@assistente-vampiro/contracts";
 import {
   BadRequestException,
   Body,
@@ -43,6 +47,10 @@ import {
   type GetCreationAttributes,
 } from "../application/get-creation-attributes.js";
 import {
+  GET_CREATION_CLAN,
+  type GetCreationClan,
+} from "../application/get-creation-clan.js";
+import {
   GET_CHARACTER_SHEET,
   type GetCharacterSheet,
 } from "../application/get-character-sheet.js";
@@ -67,6 +75,11 @@ import {
   type UpdateCreationAttributes,
   type UpdateCreationAttributesCommand,
 } from "../application/update-creation-attributes.js";
+import {
+  UPDATE_CREATION_CLAN,
+  type UpdateCreationClan,
+  type UpdateCreationClanCommand,
+} from "../application/update-creation-clan.js";
 import {
   UPDATE_CHARACTER_SHEET,
   type UpdateCharacterSheet,
@@ -226,6 +239,30 @@ function readAttributesCommand(
   };
 }
 
+function readClanCommand(
+  characterId: string,
+  correlationId: string,
+  body: unknown,
+): UpdateCreationClanCommand | undefined {
+  if (
+    !isRecord(body) ||
+    Object.keys(body).some((key) => !["expectedVersion", "originId"].includes(key)) ||
+    Object.keys(body).length !== 2 ||
+    !Number.isInteger(body.expectedVersion) ||
+    Number(body.expectedVersion) < 0 ||
+    typeof body.originId !== "string" ||
+    !CREATION_ORIGIN_IDS.includes(body.originId as (typeof CREATION_ORIGIN_IDS)[number])
+  ) {
+    return undefined;
+  }
+  return {
+    characterId,
+    correlationId,
+    expectedVersion: Number(body.expectedVersion),
+    originId: body.originId as UpdateCreationClanCommand["originId"],
+  };
+}
+
 @Controller()
 export class CharactersController {
   constructor(
@@ -237,6 +274,8 @@ export class CharactersController {
     private readonly getCreationAttributes: GetCreationAttributes,
     @Inject(GET_CREATION_CONCEPT)
     private readonly getCreationConcept: GetCreationConcept,
+    @Inject(GET_CREATION_CLAN)
+    private readonly getCreationClan: GetCreationClan,
     @Inject(UPDATE_CHARACTER_SHEET)
     private readonly updateCharacterSheet: UpdateCharacterSheet,
     @Inject(START_CHARACTER_DRAFT)
@@ -245,6 +284,8 @@ export class CharactersController {
     private readonly updateCreationAttributes: UpdateCreationAttributes,
     @Inject(UPDATE_CREATION_CONCEPT)
     private readonly updateCreationConcept: UpdateCreationConcept,
+    @Inject(UPDATE_CREATION_CLAN)
+    private readonly updateCreationClan: UpdateCreationClan,
     @Inject(CorrelationContext) private readonly correlationContext: CorrelationContext,
   ) {}
 
@@ -353,6 +394,29 @@ export class CharactersController {
     }
     const actor = await this.resolveActor(identityHeader);
     const view = await this.getCreationConcept.execute(actor, characterId);
+    if (view === undefined) {
+      throw new NotFoundException(
+        this.error(
+          "RESOURCE_NOT_AVAILABLE",
+          "A etapa solicitada não está disponível para esta identidade.",
+        ),
+      );
+    }
+    return view;
+  }
+
+  @Get("characters/:characterId/creation/clan")
+  async getClan(
+    @Headers("x-alpha-identity") identityHeader: unknown,
+    @Param("characterId") characterId: string,
+  ): Promise<CreationClanStepView> {
+    if (!uuidPattern.test(characterId)) {
+      throw new BadRequestException(
+        this.error("INVALID_REQUEST", "O identificador informado é inválido."),
+      );
+    }
+    const actor = await this.resolveActor(identityHeader);
+    const view = await this.getCreationClan.execute(actor, characterId);
     if (view === undefined) {
       throw new NotFoundException(
         this.error(
@@ -514,6 +578,57 @@ export class CharactersController {
             "INVALID_REQUEST",
             "A etapa excede os limites do perfil de criação ativo.",
           ),
+        );
+      }
+      throw error;
+    }
+  }
+
+  @Patch("characters/:characterId/creation/clan")
+  async updateClan(
+    @Headers("x-alpha-identity") identityHeader: unknown,
+    @Param("characterId") characterId: string,
+    @Body() body: unknown,
+  ): Promise<CreationClanStepView> {
+    if (!uuidPattern.test(characterId)) {
+      throw new BadRequestException(
+        this.error("INVALID_REQUEST", "O identificador informado é inválido."),
+      );
+    }
+    const actor = await this.resolveActor(identityHeader);
+    const command = readClanCommand(
+      characterId,
+      this.correlationContext.getCorrelationId() ??
+        "00000000-0000-7000-8000-000000000000",
+      body,
+    );
+    if (command === undefined) {
+      throw new BadRequestException(
+        this.error("INVALID_REQUEST", "A escolha de origem é inválida."),
+      );
+    }
+    try {
+      return await this.updateCreationClan.execute(actor, command);
+    } catch (error) {
+      if (error instanceof CharacterNotAvailableError) {
+        throw new NotFoundException(
+          this.error(
+            "RESOURCE_NOT_AVAILABLE",
+            "A ficha solicitada não está disponível para esta identidade.",
+          ),
+        );
+      }
+      if (error instanceof CharacterVersionConflictError) {
+        throw new ConflictException(
+          this.error(
+            "VERSION_CONFLICT",
+            "A ficha foi alterada em outro lugar. Recarregue antes de salvar.",
+          ),
+        );
+      }
+      if (error instanceof InvalidCharacterCreationError) {
+        throw new UnprocessableEntityException(
+          this.error("INVALID_REQUEST", "A origem não pertence ao catálogo ativo."),
         );
       }
       throw error;

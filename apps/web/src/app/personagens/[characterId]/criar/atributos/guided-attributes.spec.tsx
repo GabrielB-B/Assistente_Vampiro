@@ -17,6 +17,40 @@ vi.mock("../../../criar/creation-client", () => ({
       "attribute:wits": 1,
     },
     characterId: "character-one",
+    creationContext: {
+      characterId: "character-one",
+      completedSteps: ["concept", "clan"],
+      creationProfileRevisionId: "v5-core-companion-pg-2023-r1",
+      currentStep: "attributes",
+      disciplinePolicy: {
+        allowedDisciplines: [
+          "discipline:auspex",
+          "discipline:celerity",
+          "discipline:presence",
+        ],
+        family: "CLAN",
+        originId: "clan:toreador",
+        selectionRules: "NOT_FORMALIZED",
+      },
+      identity: { concept: "Investigadora", name: "Noemi Vale" },
+      origin: {
+        clanId: "clan:toreador",
+        id: "clan:toreador",
+        kind: "CLAN_VAMPIRE",
+      },
+      steps: [
+        { id: "concept", status: "complete" },
+        { id: "clan", status: "complete" },
+        { id: "attributes", status: "not_started" },
+        { id: "skills", status: "not_started" },
+        { id: "disciplines", status: "not_started" },
+        { id: "predator", status: "not_started" },
+        { id: "advantages", status: "not_started" },
+        { id: "history-and-blood", status: "not_started" },
+        { id: "review", status: "not_started" },
+      ],
+      version: 0,
+    },
     evaluation: {
       complete: false,
       healthMax: 4,
@@ -46,6 +80,16 @@ vi.mock("../../../../character-api", () => ({
 }));
 
 describe("GuidedAttributes", () => {
+  it("mantém a identidade Toreador herdada do Character persistido", async () => {
+    render(<GuidedAttributes characterId="character-one" />);
+
+    expect(
+      await screen.findByRole("img", { name: "Símbolo do Clã Toreador" }),
+    ).toBeVisible();
+    expect(screen.getByText("Toreador")).toBeVisible();
+    expect(screen.getByText("Noemi Vale")).toBeVisible();
+  });
+
   it("expõe os quatro blocos didáticos sem duplicar o progresso central", async () => {
     render(<GuidedAttributes characterId="character-one" />);
 

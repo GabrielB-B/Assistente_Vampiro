@@ -1,10 +1,13 @@
 import type {
   CreationAttributeViolation,
   CreationConceptEvaluation,
+  CreationClanViolation,
 } from "@assistente-vampiro/rules-engine";
 
 type CreationViolation =
-  CreationAttributeViolation | CreationConceptEvaluation["violations"][number];
+  | CreationAttributeViolation
+  | CreationClanViolation
+  | CreationConceptEvaluation["violations"][number];
 
 export class InvalidCharacterCreationError extends Error {
   constructor(readonly violations: readonly CreationViolation[]) {

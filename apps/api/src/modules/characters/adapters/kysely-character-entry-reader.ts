@@ -204,6 +204,7 @@ export class KyselyCharacterEntryReader implements CharacterEntryReader {
       .selectFrom("character")
       .select([
         "ambition",
+        "clan_id",
         "concept",
         "desire",
         "hunger",
@@ -270,6 +271,8 @@ export class KyselyCharacterEntryReader implements CharacterEntryReader {
         accessMode: reference.accessMode,
         character: {
           ambition: core.ambition,
+          clanId:
+            core.clan_id as CharacterSheetDocumentView["sheet"]["character"]["clanId"],
           concept: core.concept,
           desire: core.desire,
           hunger: core.hunger,

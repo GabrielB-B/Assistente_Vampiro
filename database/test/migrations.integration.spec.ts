@@ -67,7 +67,7 @@ describe("migrações de produção", () => {
     }
   });
 
-  it("registra as seis migrações como aplicadas", async () => {
+  it("registra as sete migrações como aplicadas", async () => {
     const status = await readMigrationStatus(config);
 
     expect(status.map((migration) => migration.name)).toEqual([
@@ -77,6 +77,7 @@ describe("migrações de produção", () => {
       "004_character_draft_kind",
       "005_character_draft_request",
       "006_character_concept",
+      "007_character_clan",
     ]);
     expect(status.every((migration) => migration.executedAt !== undefined)).toBe(true);
   });
@@ -253,10 +254,19 @@ describe("migrações de produção", () => {
 
       expect(tables.rows.map((row) => row.table_name)).toEqual([
         "account",
+        "character_conviction_pair",
         "character_draft_request",
         "character_trait",
         "session_event",
       ]);
+      const clanColumn = await sql<{ column_name: string }>`
+        select column_name
+        from information_schema.columns
+        where table_schema = ${config.schema}
+          and table_name = 'character'
+          and column_name = 'clan_id'
+      `.execute(database);
+      expect(clanColumn.rows).toEqual([]);
     } finally {
       await database.destroy();
     }

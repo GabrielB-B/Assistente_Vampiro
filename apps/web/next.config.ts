@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
+const additionalDevOrigin = process.env.NEXT_ALLOWED_DEV_ORIGIN?.trim();
+
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["127.0.0.1"],
+  allowedDevOrigins: [
+    "127.0.0.1",
+    "localhost",
+    ...(additionalDevOrigin ? [additionalDevOrigin] : []),
+  ],
   reactStrictMode: true,
   async rewrites() {
     const apiOrigin =

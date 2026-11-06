@@ -27,6 +27,7 @@ Regras normativas (`RULE-*`) e requisitos internos (`REQ-*`) possuem autoridades
 | RULE-BESTIAL-001 — Falha Bestial | fatia 01 | resultado | SRC-0001, p. 121–122, 205–208 | [especificação](./especificacoes/fatia-01/rule-bestial-001-falha-bestial.md) | T01–T09 | concluída em 2026-10-08 | aprovada | verificada em 2026-10-21 |
 | RULE-ROLLFLOW-001 — ordem de resolução | fatia 01 | Rules Engine | SRC-0001, p. 118–123, 158, 205–208; SRC-0003, p. 62 | [especificação](./especificacoes/fatia-01/rule-rollflow-001-ordem-resolucao.md) | T01–T12 | concluída em 2026-10-08 | aprovada | verificada em 2026-10-21 |
 | RULE-WILL-001 — rerrolagem com Força de Vontade | incremento seguinte | resultado e decisão | SRC-0001, p. 122, 158 | pendente | pendente | não | candidata; prevista antes do MVP de playtest | não iniciada |
+| RULE-CREATION-CLAN-001 — origem vampírica inicial | criação guiada | Clã | SRC-0001, p. 65–113, 153–155; SRC-0003, p. 7–19; SRC-0004, p. 18–67, 124–130 | [especificação](./especificacoes/criacao/creation-clan-v5-v0.1.md) | T01–T08 | concluída em 2026-10-31 | aprovada | implementada; validação em andamento |
 
 ---
 

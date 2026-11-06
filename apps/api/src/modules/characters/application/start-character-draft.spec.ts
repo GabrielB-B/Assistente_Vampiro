@@ -18,10 +18,13 @@ describe("StartCharacterDraft", () => {
       version: 1,
     });
     const writer = {
+      readCreationContext: vi.fn(),
+      readCreationClan: vi.fn(),
       readCreationConcept: vi.fn(),
       readCreationAttributes: vi.fn(),
       startDraft,
       updateCreationAttributes: vi.fn(),
+      updateCreationClan: vi.fn(),
       updateCreationConcept: vi.fn(),
       updateIdentity: vi.fn(),
     } satisfies CharacterSheetWriter;

@@ -12,11 +12,85 @@ import type {
   StartCharacterDraftWriteCommand,
   UpdateCharacterAttributesCommand,
   UpdateCharacterIdentityCommand,
+  UpdateCreationClanWriteCommand,
   UpdateCreationConceptWriteCommand,
 } from "../application/character-sheet-writer.js";
 
 export class KyselyCharacterSheetWriter implements CharacterSheetWriter {
   constructor(private readonly database: Database) {}
+
+  async readCreationContext(characterId: string) {
+    const [character, convictionPairs, attributeRows] = await Promise.all([
+      this.database
+        .selectFrom("character")
+        .leftJoin(
+          "rule_set_profile_revision as profile",
+          "profile.id",
+          "character.rule_set_profile_revision_id",
+        )
+        .select([
+          "character.ambition",
+          "character.clan_id",
+          "character.concept",
+          "character.desire",
+          "character.kind",
+          "character.name",
+          "character.sire",
+          "character.version",
+          sql<string | null>`profile.definition ->> 'profileRevisionId'`.as(
+            "creation_profile_revision_id",
+          ),
+        ])
+        .where("character.id", "=", characterId)
+        .executeTakeFirstOrThrow(),
+      this.database
+        .selectFrom("character_conviction_pair")
+        .select(["conviction", "position", "touchstone"])
+        .where("character_id", "=", characterId)
+        .orderBy("position")
+        .execute(),
+      this.database
+        .selectFrom("character_trait")
+        .select(["trait_id", "value"])
+        .where("character_id", "=", characterId)
+        .where("kind", "=", "ATTRIBUTE")
+        .execute(),
+    ]);
+    return {
+      attributes: Object.fromEntries(
+        attributeRows
+          .filter((row) =>
+            CREATION_ATTRIBUTE_IDS.includes(row.trait_id as CreationAttributeId),
+          )
+          .map((row) => [row.trait_id, row.value]),
+      ),
+      clanId: character.clan_id as UpdateCreationClanWriteCommand["clanId"],
+      convictionPairs,
+      creationProfileRevisionId: character.creation_profile_revision_id,
+      identity: {
+        ambition: character.ambition,
+        concept: character.concept,
+        desire: character.desire,
+        name: character.name,
+        sire: character.sire,
+      },
+      kind: character.kind,
+      version: character.version,
+    };
+  }
+
+  async readCreationClan(characterId: string) {
+    const character = await this.database
+      .selectFrom("character")
+      .select(["clan_id", "kind", "version"])
+      .where("id", "=", characterId)
+      .executeTakeFirstOrThrow();
+    return {
+      clanId: character.clan_id as UpdateCreationClanWriteCommand["clanId"],
+      kind: character.kind,
+      version: character.version,
+    };
+  }
 
   async readCreationConcept(characterId: string) {
     const [character, convictionPairs, chronicle] = await Promise.all([
@@ -238,6 +312,49 @@ export class KyselyCharacterSheetWriter implements CharacterSheetWriter {
         status: "updated",
         version: updated.version,
       };
+    });
+  }
+
+  updateCreationClan(
+    command: UpdateCreationClanWriteCommand,
+  ): Promise<CharacterSheetWriteResult> {
+    return this.database.transaction().execute(async (transaction) => {
+      const updated = await transaction
+        .updateTable("character")
+        .set({
+          clan_id: command.clanId,
+          kind: command.kind,
+          updated_at: new Date(),
+          version: sql<number>`version + 1`,
+        })
+        .where("id", "=", command.characterId)
+        .where("owner_account_id", "=", command.actorAccountId)
+        .where("state", "=", "draft")
+        .where("version", "=", command.expectedVersion)
+        .returning(["id", "version"])
+        .executeTakeFirst();
+      if (updated === undefined) return { status: "version-conflict" };
+
+      await transaction
+        .insertInto("audit_entry")
+        .values({
+          action: "character.creation.clan.updated",
+          actor_account_id: command.actorAccountId,
+          correlation_id: command.correlationId,
+          id: command.auditEntryId,
+          metadata: {
+            expectedVersion: command.expectedVersion,
+            kind: command.kind,
+            originId: command.originId,
+            potentialImpactedSteps: [...command.potentialImpactedSteps],
+            resultingVersion: updated.version,
+          },
+          resource_id: command.characterId,
+          resource_type: "character",
+        })
+        .execute();
+
+      return { characterId: updated.id, status: "updated", version: updated.version };
     });
   }
 

@@ -77,6 +77,7 @@ const document: CharacterSheetDocumentView = {
     accessMode: "OWNER",
     character: {
       ambition: null,
+      clanId: "clan:toreador",
       concept: "Investigadora noturna",
       desire: null,
       hunger: 2,

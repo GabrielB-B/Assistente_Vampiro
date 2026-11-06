@@ -17,6 +17,7 @@ import {
   GET_CREATION_ATTRIBUTES,
   GetCreationAttributes,
 } from "./application/get-creation-attributes.js";
+import { GET_CREATION_CLAN, GetCreationClan } from "./application/get-creation-clan.js";
 import {
   GET_CHARACTER_SHEET,
   GetCharacterSheet,
@@ -34,6 +35,10 @@ import {
   UPDATE_CREATION_ATTRIBUTES,
   UpdateCreationAttributes,
 } from "./application/update-creation-attributes.js";
+import {
+  UPDATE_CREATION_CLAN,
+  UpdateCreationClan,
+} from "./application/update-creation-clan.js";
 import {
   UPDATE_CHARACTER_SHEET,
   UpdateCharacterSheet,
@@ -77,6 +82,14 @@ import {
       ) => new GetCreationAttributes(accessContextReader, writer),
     },
     {
+      inject: [ACCESS_CONTEXT_READER, CHARACTER_SHEET_WRITER],
+      provide: GET_CREATION_CLAN,
+      useFactory: (
+        accessContextReader: ConstructorParameters<typeof GetCreationClan>[0],
+        writer: KyselyCharacterSheetWriter,
+      ) => new GetCreationClan(accessContextReader, writer),
+    },
+    {
       inject: [ACCESS_CONTEXT_READER, CHARACTER_ENTRY_READER],
       provide: GET_CHARACTER_SHEET,
       useFactory: (
@@ -110,6 +123,21 @@ import {
           accessContextReader,
           writer,
           new NodeUuidV7Generator(),
+        ),
+    },
+    {
+      inject: [ACCESS_CONTEXT_READER, CHARACTER_SHEET_WRITER, GET_CREATION_CLAN],
+      provide: UPDATE_CREATION_CLAN,
+      useFactory: (
+        accessContextReader: ConstructorParameters<typeof UpdateCreationClan>[0],
+        writer: KyselyCharacterSheetWriter,
+        getCreationClan: GetCreationClan,
+      ) =>
+        new UpdateCreationClan(
+          accessContextReader,
+          writer,
+          new NodeUuidV7Generator(),
+          getCreationClan,
         ),
     },
     {

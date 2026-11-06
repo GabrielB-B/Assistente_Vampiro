@@ -6,6 +6,7 @@ import * as characterTraits from "../../migrations/003_character_traits.js";
 import * as characterDraftKind from "../../migrations/004_character_draft_kind.js";
 import * as characterDraftRequest from "../../migrations/005_character_draft_request.js";
 import * as characterConcept from "../../migrations/006_character_concept.js";
+import * as characterClan from "../../migrations/007_character_clan.js";
 
 const migrations: Readonly<Record<string, Migration>> = {
   "001_initial_domain": initialDomain,
@@ -14,6 +15,7 @@ const migrations: Readonly<Record<string, Migration>> = {
   "004_character_draft_kind": characterDraftKind,
   "005_character_draft_request": characterDraftRequest,
   "006_character_concept": characterConcept,
+  "007_character_clan": characterClan,
 };
 
 export class ApplicationMigrationProvider implements MigrationProvider {

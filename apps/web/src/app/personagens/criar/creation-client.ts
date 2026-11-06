@@ -4,6 +4,8 @@ import type {
   CreationAttributeId,
   CreationAttributesMutationView,
   CreationAttributesStepView,
+  CreationClanStepView,
+  CreationOriginId,
 } from "@assistente-vampiro/contracts";
 
 function identityHeaders(): HeadersInit {
@@ -62,6 +64,39 @@ export async function loadCreationConcept(
       credentials: "same-origin",
       headers: identityHeaders(),
       ...(signal === undefined ? {} : { signal }),
+    },
+  );
+  return responseJson(response);
+}
+
+export async function loadCreationClan(
+  characterId: string,
+  signal?: AbortSignal,
+): Promise<CreationClanStepView> {
+  const response = await fetch(
+    `/api/v1/characters/${encodeURIComponent(characterId)}/creation/clan`,
+    {
+      cache: "no-store",
+      credentials: "same-origin",
+      headers: identityHeaders(),
+      ...(signal === undefined ? {} : { signal }),
+    },
+  );
+  return responseJson(response);
+}
+
+export async function updateCreationClan(
+  characterId: string,
+  expectedVersion: number,
+  originId: CreationOriginId,
+): Promise<CreationClanStepView> {
+  const response = await fetch(
+    `/api/v1/characters/${encodeURIComponent(characterId)}/creation/clan`,
+    {
+      body: JSON.stringify({ expectedVersion, originId }),
+      credentials: "same-origin",
+      headers: { ...identityHeaders(), "content-type": "application/json" },
+      method: "PATCH",
     },
   );
   return responseJson(response);

@@ -2,6 +2,8 @@ import type {
   CreationAttributeId,
   CreationConceptPairView,
   CreationConceptStepView,
+  CreationOriginId,
+  CharacterKind,
 } from "@assistente-vampiro/contracts";
 
 export interface UpdateCharacterIdentityCommand {
@@ -38,6 +40,20 @@ export type CharacterSheetWriteResult =
   | { readonly status: "version-conflict" };
 
 export interface CharacterSheetWriter {
+  readCreationContext(characterId: string): Promise<{
+    readonly attributes: Readonly<Partial<Record<CreationAttributeId, number>>>;
+    readonly clanId: CreationOriginId | null;
+    readonly convictionPairs: readonly CreationConceptPairView[];
+    readonly creationProfileRevisionId: string | null;
+    readonly identity: CreationConceptStepView["identity"];
+    readonly kind: CharacterKind | null;
+    readonly version: number;
+  }>;
+  readCreationClan(characterId: string): Promise<{
+    readonly clanId: CreationOriginId | null;
+    readonly kind: CharacterKind | null;
+    readonly version: number;
+  }>;
   readCreationConcept(characterId: string): Promise<{
     readonly chronicle: CreationConceptStepView["chronicle"];
     readonly convictionPairs: readonly CreationConceptPairView[];
@@ -55,6 +71,9 @@ export interface CharacterSheetWriter {
   }>;
   updateCreationAttributes(
     command: UpdateCharacterAttributesCommand,
+  ): Promise<CharacterSheetWriteResult>;
+  updateCreationClan(
+    command: UpdateCreationClanWriteCommand,
   ): Promise<CharacterSheetWriteResult>;
   updateCreationConcept(
     command: UpdateCreationConceptWriteCommand,
@@ -81,4 +100,16 @@ export interface UpdateCharacterAttributesCommand {
   readonly characterId: string;
   readonly correlationId: string;
   readonly expectedVersion: number;
+}
+
+export interface UpdateCreationClanWriteCommand {
+  readonly actorAccountId: string;
+  readonly auditEntryId: string;
+  readonly characterId: string;
+  readonly clanId: CreationOriginId | null;
+  readonly correlationId: string;
+  readonly expectedVersion: number;
+  readonly kind: Extract<CharacterKind, "CAITIFF" | "CLAN_VAMPIRE" | "THIN_BLOOD">;
+  readonly originId: CreationOriginId;
+  readonly potentialImpactedSteps: readonly string[];
 }

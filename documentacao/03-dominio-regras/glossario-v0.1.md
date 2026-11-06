@@ -65,6 +65,24 @@ As formas abaixo foram confirmadas em `SRC-0001`. O Companion (`SRC-0003`) confi
 | TERM-GAME-017 | Touchstone | Pilar | oficial | SRC-0001, p. 173, 236+ | mortal ligado a uma Convicção |
 | TERM-GAME-018 | Stain | Mácula | oficial | SRC-0001, p. 239+ | plural: Máculas |
 | TERM-GAME-019 | Loresheet | Ficha de Conhecimento | oficial | SRC-0001, p. 152, 382+ | plural: Fichas de Conhecimento |
+| TERM-GAME-020 | Clan | Clã | oficial | SRC-0001, p. 64–109 | linhagem vampírica; Caitiff e Sangue-Ralo não devem ser apresentados como clãs |
+| TERM-GAME-021 | Bane | Perdição | oficial | SRC-0001, p. 66–109; SRC-0003, p. 9–19 | usar `Gravidade da Perdição` para Bane Severity |
+| TERM-GAME-022 | Compulsion | Compulsão | oficial | SRC-0001, p. 208–210; SRC-0003, p. 9–19 | resposta do Sangue que orienta comportamento |
+| TERM-GAME-023 | Caitiff | Caitiff | oficial | SRC-0001, p. 108–109 | forma invariável; categoria `CAITIFF` |
+| TERM-GAME-024 | Thin-Blood | Sangue-Ralo | oficial | SRC-0001, p. 111–113, 155 | plural editorial: Sangues-Ralos; categoria `THIN_BLOOD` |
+| TERM-GAME-025 | Discipline | Disciplina | oficial | SRC-0001, p. 154–155, 244+ | poder vampírico; plural: Disciplinas |
+| TERM-GAME-026 | Animalism | Animalismo | oficial | SRC-0001, p. 154–155 | Disciplina |
+| TERM-GAME-027 | Auspex | Auspícios | oficial | SRC-0001, p. 92, 99, 154–155 | Disciplina |
+| TERM-GAME-028 | Celerity | Celeridade | oficial | SRC-0001, p. 69, 92, 154–155 | Disciplina |
+| TERM-GAME-029 | Dominate | Dominação | oficial | SRC-0001, p. 99, 154–155 | Disciplina |
+| TERM-GAME-030 | Blood Sorcery | Feitiçaria de Sangue | oficial | SRC-0001, p. 99, 154–155 | Disciplina |
+| TERM-GAME-031 | Fortitude | Fortitude | oficial | SRC-0001, p. 74, 104, 154–155 | Disciplina |
+| TERM-GAME-032 | Oblivion | Oblívio | oficial | SRC-0003, p. 34 | Disciplina consolidada em material posterior |
+| TERM-GAME-033 | Potence | Potência | oficial | SRC-0001, p. 69, 87, 154–155 | não confundir com Potência do Sangue |
+| TERM-GAME-034 | Presence | Presença | oficial | SRC-0001, p. 69, 93, 104, 154–155 | Disciplina |
+| TERM-GAME-035 | Protean | Proteanismo | oficial | SRC-0001, p. 74, 154–155 | Disciplina |
+| TERM-GAME-036 | Obfuscate | Ofuscação | oficial | SRC-0001, p. 81, 86, 154–155 | Disciplina |
+| TERM-GAME-037 | Thin-Blood Alchemy | Alquimia Sangue-Ralo | oficial | SRC-0001, p. 155, 390 | manter esta forma enquanto não houver decisão editorial posterior |
 
 ---
 

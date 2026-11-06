@@ -18,11 +18,14 @@ import { CharacterNotAvailableError } from "../src/modules/characters/applicatio
 import { CharacterVersionConflictError } from "../src/modules/characters/application/character-version-conflict-error.js";
 import { GetCharacterSheet } from "../src/modules/characters/application/get-character-sheet.js";
 import { GetCreationConcept } from "../src/modules/characters/application/get-creation-concept.js";
+import { GetCreationClan } from "../src/modules/characters/application/get-creation-clan.js";
+import { GetCreationAttributes } from "../src/modules/characters/application/get-creation-attributes.js";
 import { ListPlayerEntry } from "../src/modules/characters/application/list-player-entry.js";
 import { StartCharacterDraft } from "../src/modules/characters/application/start-character-draft.js";
 import { UpdateCharacterSheet } from "../src/modules/characters/application/update-character-sheet.js";
 import { UpdateCreationAttributes } from "../src/modules/characters/application/update-creation-attributes.js";
 import { UpdateCreationConcept } from "../src/modules/characters/application/update-creation-concept.js";
+import { UpdateCreationClan } from "../src/modules/characters/application/update-creation-clan.js";
 import { AlphaIdentityProvider } from "../src/modules/identity-access/adapters/alpha-identity-provider.js";
 import { KyselyAccessContextReader } from "../src/modules/identity-access/adapters/kysely-access-context-reader.js";
 
@@ -36,6 +39,11 @@ const createdDraftReplayAuditId = "019a0000-0000-7000-8000-000000000074";
 const attributesAuditId = "019a0000-0000-7000-8000-000000000075";
 const conceptDraftId = "019a0000-0000-7000-8000-000000000024";
 const conceptAuditId = "019a0000-0000-7000-8000-000000000076";
+const clanDraftId = "019a0000-0000-7000-8000-000000000025";
+const clanAuditIds = [
+  "019a0000-0000-7000-8000-000000000077",
+  "019a0000-0000-7000-8000-000000000078",
+] as const;
 
 function createTestConfig(): DatabaseConfig {
   try {
@@ -84,6 +92,21 @@ describe("entrada e ficha mínima persistidas", () => {
         name: "",
         owner_account_id: ALPHA_FIXTURE_IDS.accounts.playerOne,
         rule_set_profile_revision_id: null,
+        state: "draft",
+        version: 0,
+      })
+      .execute();
+    await database
+      .insertInto("character")
+      .values({
+        concept: null,
+        forked_from_character_id: null,
+        hunger: null,
+        id: clanDraftId,
+        kind: null,
+        name: "",
+        owner_account_id: ALPHA_FIXTURE_IDS.accounts.playerOne,
+        rule_set_profile_revision_id: ALPHA_FIXTURE_IDS.ruleProfileRevision,
         state: "draft",
         version: 0,
       })
@@ -416,5 +439,83 @@ describe("entrada e ficha mínima persistidas", () => {
     expect(traits).toHaveLength(9);
     expect(traits).toContainEqual({ trait_id: "attribute:stamina", value: 4 });
     expect(requests).toEqual([{ character_id: createdDraftId }]);
+  });
+
+  it("persiste e retoma clã, Caitiff e a versão na mesma Ficha", async () => {
+    const actor = await identities.resolve("player-one");
+    const getClan = new GetCreationClan(accessReader, sheetWriter);
+    const ids = [...clanAuditIds];
+    const updateClan = new UpdateCreationClan(
+      accessReader,
+      sheetWriter,
+      { next: () => ids.shift() ?? "unexpected-audit-id" },
+      getClan,
+    );
+
+    await expect(getClan.execute(actor, clanDraftId)).resolves.toMatchObject({
+      evaluation: { complete: false, selectedOriginId: null },
+      version: 0,
+    });
+    await expect(
+      updateClan.execute(actor, {
+        characterId: clanDraftId,
+        correlationId,
+        expectedVersion: 0,
+        originId: "clan:toreador",
+      }),
+    ).resolves.toMatchObject({
+      evaluation: { complete: true, selectedOriginId: "clan:toreador" },
+      version: 1,
+    });
+    await expect(
+      updateClan.execute(actor, {
+        characterId: clanDraftId,
+        correlationId,
+        expectedVersion: 1,
+        originId: "origin:caitiff",
+      }),
+    ).resolves.toMatchObject({
+      evaluation: { complete: true, selectedOriginId: "origin:caitiff" },
+      version: 2,
+    });
+
+    const getAttributes = new GetCreationAttributes(accessReader, sheetWriter);
+    await expect(getAttributes.execute(actor, clanDraftId)).resolves.toMatchObject({
+      creationContext: {
+        characterId: clanDraftId,
+        currentStep: "attributes",
+        disciplinePolicy: { family: "CAITIFF" },
+        origin: { clanId: null, id: "origin:caitiff", kind: "CAITIFF" },
+        version: 2,
+      },
+      version: 2,
+    });
+    await expect(
+      getSheet.execute(actor, { characterId: clanDraftId }),
+    ).resolves.toMatchObject({
+      sheet: { character: { id: clanDraftId, kind: "CAITIFF", version: 2 } },
+    });
+    await expect(getAttributes.execute(actor, clanDraftId)).resolves.toMatchObject({
+      creationContext: { origin: { id: "origin:caitiff" }, version: 2 },
+    });
+
+    await expect(
+      database
+        .selectFrom("character")
+        .select(["clan_id", "kind", "version"])
+        .where("id", "=", clanDraftId)
+        .executeTakeFirstOrThrow(),
+    ).resolves.toEqual({ clan_id: null, kind: "CAITIFF", version: 2 });
+    await expect(
+      database
+        .selectFrom("audit_entry")
+        .select("action")
+        .where("id", "in", [...clanAuditIds])
+        .orderBy("id")
+        .execute(),
+    ).resolves.toEqual([
+      { action: "character.creation.clan.updated" },
+      { action: "character.creation.clan.updated" },
+    ]);
   });
 });

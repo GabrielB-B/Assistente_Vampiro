@@ -272,10 +272,12 @@ export function GuidedConcept({ characterId }: { readonly characterId: string })
   async function continueToClan() {
     const saved = await persistCurrent();
     if (saved === null) return;
+    if (saved.evaluation.complete) {
+      router.push(`/personagens/${characterId}/criar/cla`);
+      return;
+    }
     setMessage(
-      saved.evaluation.complete
-        ? "Conceito concluído. Clã é a próxima etapa e será aberta após a aprovação desta tela."
-        : "Complete Nome, Conceito e Ambição e finalize qualquer par iniciado para avançar.",
+      "Complete Nome, Conceito e Ambição e finalize qualquer par iniciado para avançar.",
     );
   }
 

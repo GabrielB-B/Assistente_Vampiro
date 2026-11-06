@@ -25,6 +25,7 @@ const sheet: CharacterSheetView = {
   accessMode: "OWNER",
   character: {
     ambition: "Descobrir quem apagou suas memórias.",
+    clanId: "clan:toreador",
     concept: "Investigadora que ainda procura entender a própria noite.",
     desire: "Encontrar a testemunha desaparecida.",
     hunger: 2,

@@ -442,6 +442,94 @@
   text-transform: none;
 }
 
+.mastheadContext {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: end;
+}
+
+.mastheadContext > p {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  color: #312925;
+  font-size: 0.67rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.mastheadContext > p strong {
+  color: var(--blood);
+}
+
+.mastheadContext > p span {
+  text-transform: none;
+}
+
+.characterCreationIdentity {
+  --character-accent: var(--blood-dark);
+
+  display: flex;
+  gap: 0.42rem;
+  align-items: center;
+  max-width: 9.5rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid color-mix(in srgb, var(--character-accent) 55%, #94766a);
+  color: #322723;
+  text-align: right;
+}
+
+.characterCreationIdentity img {
+  width: 1.8rem;
+  height: 1.8rem;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.characterCreationIdentity > span {
+  display: grid;
+  min-width: 0;
+  line-height: 1.05;
+}
+
+.characterCreationIdentity small {
+  overflow: hidden;
+  color: #5f5149;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.characterCreationIdentity i {
+  color: #77665d;
+  font-size: 0.54rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.characterCreationIdentity strong {
+  overflow: hidden;
+  color: var(--character-accent);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.78rem;
+  font-weight: 740;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.characterCreationIdentity[data-origin-kind="CAITIFF"],
+.characterCreationIdentity[data-origin-kind="THIN_BLOOD"] {
+  padding-left: 0.5rem;
+  border-left: 2px solid var(--blood-dark);
+}
+
 .stepTrack {
   display: grid;
   grid-template-columns: repeat(9, minmax(0, 1fr));
@@ -1240,6 +1328,24 @@
     display: none;
   }
 
+  .mastheadContext {
+    grid-column: 1 / -1;
+    justify-self: end;
+    margin-top: 0.25rem;
+  }
+
+  .mastheadContext > p {
+    display: none;
+  }
+
+  .characterCreationIdentity {
+    max-width: min(12rem, 72vw);
+    padding-top: 0;
+    padding-left: 0.5rem;
+    border-top: 0;
+    border-left: 2px solid var(--character-accent);
+  }
+
   .attributeStage {
     padding: 1.2rem 0.8rem;
   }
@@ -1328,6 +1434,715 @@
 
 @media (prefers-reduced-motion: reduce) {
   .attributeTooltip {
+    transition: none;
+  }
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.stepTrack span[data-complete="true"] {
+  color: #463a34;
+}
+
+.stepTrack span[data-complete="true"] i {
+  border-color: var(--blood);
+  background: var(--blood);
+}
+
+.stepTrack span[data-complete="true"] i::after {
+  display: block;
+  color: #f7ecdf;
+  content: "✓";
+  font: 700 0.48rem/0.5rem sans-serif;
+}
+
+.clanDocument {
+  width: min(100%, 91rem);
+}
+
+.clanLayout {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(35rem, 1.15fr) minmax(27rem, 0.85fr);
+  min-height: 34rem;
+}
+
+.clanSelection {
+  min-width: 0;
+  padding: 1.25rem 1.8rem 1.4rem;
+  border-right: 1px solid rgb(108 72 52 / 35%);
+}
+
+.clanSelection > header h2 {
+  width: fit-content;
+  margin: 0;
+  padding-right: 4rem;
+  border-bottom: 1px solid #2d2723;
+  color: #211b18;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 560;
+  letter-spacing: 0.03em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.clanSelection > header p {
+  margin: 0.7rem 0 1rem;
+  color: #4c423c;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1rem;
+}
+
+.clanGrid,
+.otherOriginsGrid {
+  display: grid;
+  padding: 0;
+  border: 0;
+}
+
+.clanGrid {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.otherOriginsGrid {
+  grid-template-columns: repeat(2, minmax(8rem, 10rem));
+  gap: 0.55rem;
+}
+
+.clanCard {
+  --clan-accent: #841a25;
+
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 7.25rem;
+  padding: 0.65rem 0.25rem 0.55rem;
+  border: 1px solid rgb(99 74 61 / 25%);
+  background: rgb(249 243 231 / 18%);
+  color: #302723;
+  cursor: pointer;
+  place-items: center;
+  align-content: center;
+  transition:
+    border-color 130ms ease,
+    box-shadow 130ms ease,
+    transform 130ms ease;
+}
+
+.clanCard:hover {
+  border-color: color-mix(in srgb, var(--clan-accent) 70%, #5f4439);
+  transform: translateY(-1px);
+}
+
+.clanCard:focus-within {
+  outline: 2px solid color-mix(in srgb, var(--clan-accent) 45%, transparent);
+  outline-offset: 2px;
+}
+
+.clanCard[data-selected="true"] {
+  border-color: var(--clan-accent);
+  background: color-mix(in srgb, var(--clan-accent) 7%, var(--paper));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--clan-accent) 38%, transparent),
+    0 0.35rem 0.8rem rgb(68 25 25 / 12%);
+}
+
+.clanCard input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.clanCardSymbol {
+  width: 3.55rem;
+  height: 3.55rem;
+  object-fit: contain;
+}
+
+.clanCard strong {
+  display: block;
+  max-width: 100%;
+  margin-top: 0.35rem;
+  overflow-wrap: anywhere;
+  color: color-mix(in srgb, var(--clan-accent) 70%, #211b18);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.82rem;
+  font-weight: 720;
+  line-height: 1.05;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.originWordmark {
+  display: grid;
+  min-height: 3.55rem;
+  color: var(--blood-dark);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.1rem;
+  font-weight: 760;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  place-items: center;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.otherOriginsHeading {
+  display: grid;
+  grid-template-columns: auto minmax(0, max-content) 1fr;
+  gap: 0.7rem;
+  align-items: center;
+  margin: 1rem 0 0.65rem;
+}
+
+.otherOriginsHeading span {
+  width: 2rem;
+  height: 1px;
+  background: rgb(102 72 56 / 45%);
+}
+
+.otherOriginsHeading span:last-child {
+  width: 100%;
+}
+
+.otherOriginsHeading h3 {
+  margin: 0;
+  color: var(--blood-dark);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.83rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.clanDetails {
+  --clan-accent: #841a25;
+  --clan-deep: #241b1a;
+
+  min-width: 0;
+  padding: 1.35rem 1.8rem 1.25rem;
+  background:
+    linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--clan-accent) 5%, transparent),
+      transparent 45%
+    ),
+    rgb(246 239 225 / 22%);
+}
+
+.clanDetails[data-origin-kind="CAITIFF"],
+.clanDetails[data-origin-kind="THIN_BLOOD"] {
+  background:
+    repeating-linear-gradient(112deg, transparent 0 17px, rgb(69 54 44 / 2.5%) 18px 19px),
+    rgb(246 239 225 / 36%);
+}
+
+.clanDetails[data-origin-kind="CAITIFF"] {
+  border-top: 3px double #4c4540;
+}
+
+.clanDetails[data-origin-kind="THIN_BLOOD"] {
+  border-top: 3px double #74545a;
+}
+
+.clanCard[data-origin-kind="CAITIFF"],
+.clanCard[data-origin-kind="THIN_BLOOD"] {
+  border-style: double;
+  border-width: 3px;
+  background: repeating-linear-gradient(
+    112deg,
+    rgb(249 243 231 / 24%) 0 12px,
+    rgb(87 62 50 / 5%) 13px 14px
+  );
+}
+
+.clanDetailsHeader {
+  display: flex;
+  gap: 1.1rem;
+  align-items: center;
+  min-height: 6.5rem;
+}
+
+.clanDetailsHeader img {
+  width: 6rem;
+  height: 6rem;
+  object-fit: contain;
+}
+
+.clanDetailsHeader span {
+  color: #77665d;
+  font-size: 0.73rem;
+  font-weight: 720;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.clanDetailsHeader h2 {
+  margin: 0.1rem 0 0;
+  color: var(--clan-accent);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: clamp(2.25rem, 4vw, 3.7rem);
+  font-weight: 570;
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+}
+
+.clanSummary {
+  margin: 0.75rem 0 0;
+  color: #302722;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1rem;
+  line-height: 1.48;
+}
+
+.clanSummary p {
+  margin: 0;
+}
+
+.clanSummary p + p {
+  margin-top: 0.48rem;
+}
+
+.clanDetailBlock,
+.clanSystemNotes {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgb(103 75 60 / 28%);
+}
+
+.clanDetailBlock h3,
+.clanSystemNotes h3,
+.baneCompulsionGrid h3 {
+  margin: 0;
+  color: var(--clan-accent);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.79rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.archetypeList,
+.disciplineList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.archetypeList li {
+  position: relative;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--clan-accent) 20%, #a89084);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--clan-accent) 7%, transparent);
+  color: #493c35;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.84rem;
+}
+
+.disciplineList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.disciplineList li {
+  position: relative;
+  min-width: 0;
+  padding-left: 0.8rem;
+  color: #342923;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.96rem;
+  font-weight: 650;
+}
+
+.disciplineList li::before {
+  position: absolute;
+  top: 0.48em;
+  left: 0;
+  width: 0.35rem;
+  height: 0.35rem;
+  border: 1px solid var(--clan-accent);
+  content: "";
+  transform: rotate(45deg);
+}
+
+.baneCompulsionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 0.95rem;
+}
+
+.baneCompulsionGrid section {
+  min-width: 0;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--clan-accent);
+}
+
+.baneCompulsionGrid strong {
+  display: block;
+  margin-top: 0.35rem;
+  color: #2d231f;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.82rem;
+}
+
+.baneCompulsionGrid p,
+.clanSystemNotes li {
+  margin: 0.2rem 0 0;
+  color: #52453d;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.9rem;
+  line-height: 1.42;
+}
+
+.clanSystemNotes ul {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0.45rem 0 0;
+  padding-left: 1rem;
+}
+
+.clanDetails > small {
+  display: block;
+  margin-top: 0.8rem;
+  color: #776a62;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+
+.contextTooltip {
+  position: relative;
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.contextTooltip > button {
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: help;
+  font: inherit;
+  text-align: left;
+}
+
+.archetypeList .contextTooltip > button {
+  padding: 0.35rem 0.65rem;
+}
+
+.contextTooltip > button:focus-visible {
+  border-radius: 0.2rem;
+  outline: 2px solid var(--clan-accent);
+  outline-offset: 2px;
+}
+
+.contextTooltip > [role="tooltip"] {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 50%;
+  z-index: 25;
+  display: none;
+  width: min(17rem, 72vw);
+  padding: 0.55rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--clan-accent) 45%, #6f5547);
+  background: #28211e;
+  box-shadow: 0 0.45rem 1.1rem rgb(0 0 0 / 30%);
+  color: #f4eadc;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.82rem;
+  font-weight: 430;
+  line-height: 1.35;
+  pointer-events: none;
+  text-transform: none;
+  transform: translateX(-50%);
+}
+
+.contextTooltip:hover > [role="tooltip"],
+.contextTooltip:focus-within > [role="tooltip"],
+.contextTooltip[data-open="true"] > [role="tooltip"] {
+  display: block;
+}
+
+.originMechanics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem 1rem;
+}
+
+.originMechanics h3 {
+  grid-column: 1 / -1;
+}
+
+.originMechanics div {
+  padding-left: 0.7rem;
+  border-left: 2px solid var(--clan-accent);
+}
+
+.originMechanics strong {
+  color: #2d231f;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.92rem;
+}
+
+.originMechanics p {
+  margin: 0.24rem 0 0;
+  color: #52453d;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.learnClanButton {
+  display: inline-flex;
+  gap: 1.6rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.9rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--clan-accent) 65%, #8d6e5c);
+  border-radius: 0.35rem;
+  background: rgb(250 245 235 / 40%);
+  color: var(--clan-accent);
+  cursor: pointer;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.92rem;
+  font-weight: 680;
+}
+
+.learnClanButton:hover,
+.learnClanButton:focus-visible {
+  background: color-mix(in srgb, var(--clan-accent) 7%, var(--paper));
+}
+
+.clanLoreBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 75;
+  display: grid;
+  padding: 1.5rem;
+  background: rgb(1 3 5 / 72%);
+  place-items: center;
+}
+
+.clanLoreDialog {
+  position: relative;
+  width: min(43rem, 100%);
+  max-height: min(47rem, calc(100vh - 3rem));
+  overflow: auto;
+  padding: 2.1rem 2.5rem;
+  border: 1px solid #925257;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 4px, rgb(92 57 36 / 1.7%) 5px), #f0e7d7;
+  box-shadow: 0 2rem 6rem rgb(0 0 0 / 55%);
+  color: #302621;
+}
+
+.clanLoreDialog > button {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font-size: 1.7rem;
+}
+
+.clanLoreDialog > p:first-of-type {
+  margin: 0;
+  color: var(--blood-dark);
+  font-size: 0.75rem;
+  font-weight: 740;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.clanLoreDialog h2 {
+  margin: 0.25rem 0 1rem;
+  color: var(--blood-dark);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 2.45rem;
+  font-weight: 570;
+}
+
+.clanLoreDialog p:not(:first-of-type) {
+  margin: 0.75rem 0 0;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.clanLoreDialog small {
+  display: block;
+  margin-top: 1.2rem;
+  color: #6e6058;
+  font-size: 0.74rem;
+}
+
+.clanHelpTab {
+  position: absolute;
+  top: 50%;
+  right: -2.15rem;
+  display: grid;
+  width: 2.15rem;
+  height: 4rem;
+  border: 1px solid rgb(120 82 65 / 45%);
+  border-left: 0;
+  border-radius: 0 0.8rem 0.8rem 0;
+  background: #e8decd;
+  box-shadow: 0.5rem 0.3rem 1rem rgb(0 0 0 / 20%);
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    700 1rem/1 "Newsreader",
+    serif;
+  place-items: center;
+  transform: translateY(-50%);
+}
+
+.clanHelpBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgb(1 3 5 / 58%);
+}
+
+.clanHelpDrawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(26rem, 92vw);
+  height: 100%;
+  padding: 2.2rem 2rem;
+  border-left: 1px solid #8b2a30;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 4px, rgb(92 57 36 / 1.5%) 5px), #eee4d3;
+  box-shadow: -2rem 0 5rem rgb(0 0 0 / 45%);
+  color: #2d2420;
+}
+
+.clanHelpDrawer > button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font-size: 1.6rem;
+}
+
+.clanHelpDrawer > p:first-of-type {
+  margin: 0;
+  color: var(--blood-dark);
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.clanHelpDrawer h2 {
+  margin: 0.55rem 0 1rem;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.7rem;
+}
+
+.clanHelpDrawer p:not(:first-of-type) {
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.clanHelpDrawer small {
+  display: block;
+  margin-top: 1.5rem;
+  color: #756960;
+}
+
+@media (max-width: 74rem) {
+  .clanLayout {
+    grid-template-columns: minmax(31rem, 1.05fr) minmax(23rem, 0.95fr);
+  }
+
+  .clanGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 64rem) {
+  .clanLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .clanSelection {
+    border-right: 0;
+  }
+
+  .clanDetails {
+    border-top: 1px solid rgb(108 72 52 / 35%);
+  }
+
+  .clanGrid {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .clanHelpTab {
+    position: fixed;
+    top: auto;
+    right: 0;
+    bottom: 5rem;
+    border-left: 1px solid rgb(120 82 65 / 45%);
+    transform: none;
+  }
+}
+
+@media (max-width: 42rem) {
+  .clanSelection,
+  .clanDetails {
+    padding: 1.1rem 0.8rem;
+  }
+
+  .clanGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .clanCard {
+    min-height: 6.75rem;
+  }
+
+  .otherOriginsGrid,
+  .disciplineList,
+  .baneCompulsionGrid,
+  .originMechanics {
+    grid-template-columns: 1fr;
+  }
+
+  .clanLoreDialog {
+    padding: 1.7rem 1.15rem;
+  }
+
+  .clanDetailsHeader h2 {
+    font-size: 2.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clanCard {
     transition: none;
   }
 }

@@ -16,11 +16,13 @@ import { CharacterNotAvailableError } from "../application/character-not-availab
 import { CharacterVersionConflictError } from "../application/character-version-conflict-error.js";
 import { GET_CREATION_ATTRIBUTES } from "../application/get-creation-attributes.js";
 import { GET_CREATION_CONCEPT } from "../application/get-creation-concept.js";
+import { GET_CREATION_CLAN } from "../application/get-creation-clan.js";
 import { GET_CHARACTER_SHEET } from "../application/get-character-sheet.js";
 import { LIST_PLAYER_ENTRY } from "../application/list-player-entry.js";
 import { START_CHARACTER_DRAFT } from "../application/start-character-draft.js";
 import { UPDATE_CREATION_ATTRIBUTES } from "../application/update-creation-attributes.js";
 import { UPDATE_CREATION_CONCEPT } from "../application/update-creation-concept.js";
+import { UPDATE_CREATION_CLAN } from "../application/update-creation-clan.js";
 import { UPDATE_CHARACTER_SHEET } from "../application/update-character-sheet.js";
 import { CharactersController } from "./characters.controller.js";
 
@@ -44,6 +46,7 @@ const document: CharacterSheetDocumentView = {
     accessMode: "OWNER",
     character: {
       ambition: null,
+      clanId: "clan:toreador",
       concept: null,
       desire: null,
       hunger: 2,
@@ -104,6 +107,10 @@ describe("contrato HTTP de entrada e ficha", () => {
           useValue: { execute: () => Promise.resolve(undefined) },
         },
         {
+          provide: GET_CREATION_CLAN,
+          useValue: { execute: () => Promise.resolve(undefined) },
+        },
+        {
           provide: START_CHARACTER_DRAFT,
           useValue: {
             execute: () => Promise.resolve({ characterId, created: true, version: 0 }),
@@ -115,6 +122,10 @@ describe("contrato HTTP de entrada e ficha", () => {
         },
         {
           provide: UPDATE_CREATION_CONCEPT,
+          useValue: { execute: () => Promise.resolve(undefined) },
+        },
+        {
+          provide: UPDATE_CREATION_CLAN,
           useValue: { execute: () => Promise.resolve(undefined) },
         },
         {

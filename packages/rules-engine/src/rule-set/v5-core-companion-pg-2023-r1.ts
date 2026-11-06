@@ -3,6 +3,7 @@ export const RULE_SET_PROFILE_REVISION_ID = "v5-core-companion-pg-2023-r1" as co
 export const EVALUATOR_REVISION = "basic-test-evaluator-r1" as const;
 export const CREATION_RULE_REVISIONS = [
   "RULE-CREATION-CONCEPT-001-r1",
+  "RULE-CREATION-CLAN-001-r1",
   "RULE-CREATION-ATTRIBUTES-001-r1",
 ] as const;
 
