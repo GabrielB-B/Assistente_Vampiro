@@ -17,12 +17,16 @@ import { CharacterVersionConflictError } from "../application/character-version-
 import { GET_CREATION_ATTRIBUTES } from "../application/get-creation-attributes.js";
 import { GET_CREATION_CONCEPT } from "../application/get-creation-concept.js";
 import { GET_CREATION_CLAN } from "../application/get-creation-clan.js";
+import { GET_CREATION_SKILLS } from "../application/get-creation-skills.js";
+import { GET_CREATION_DISCIPLINES } from "../application/get-creation-disciplines.js";
 import { GET_CHARACTER_SHEET } from "../application/get-character-sheet.js";
 import { LIST_PLAYER_ENTRY } from "../application/list-player-entry.js";
 import { START_CHARACTER_DRAFT } from "../application/start-character-draft.js";
 import { UPDATE_CREATION_ATTRIBUTES } from "../application/update-creation-attributes.js";
 import { UPDATE_CREATION_CONCEPT } from "../application/update-creation-concept.js";
 import { UPDATE_CREATION_CLAN } from "../application/update-creation-clan.js";
+import { UPDATE_CREATION_SKILLS } from "../application/update-creation-skills.js";
+import { UPDATE_CREATION_DISCIPLINES } from "../application/update-creation-disciplines.js";
 import { UPDATE_CHARACTER_SHEET } from "../application/update-character-sheet.js";
 import { CharactersController } from "./characters.controller.js";
 
@@ -111,6 +115,14 @@ describe("contrato HTTP de entrada e ficha", () => {
           useValue: { execute: () => Promise.resolve(undefined) },
         },
         {
+          provide: GET_CREATION_SKILLS,
+          useValue: { execute: () => Promise.resolve(undefined) },
+        },
+        {
+          provide: GET_CREATION_DISCIPLINES,
+          useValue: { execute: () => Promise.resolve(undefined) },
+        },
+        {
           provide: START_CHARACTER_DRAFT,
           useValue: {
             execute: () => Promise.resolve({ characterId, created: true, version: 0 }),
@@ -126,6 +138,19 @@ describe("contrato HTTP de entrada e ficha", () => {
         },
         {
           provide: UPDATE_CREATION_CLAN,
+          useValue: { execute: () => Promise.resolve(undefined) },
+        },
+        {
+          provide: UPDATE_CREATION_SKILLS,
+          useValue: {
+            createSpecialty: () => Promise.resolve(undefined),
+            deleteSpecialty: () => Promise.resolve(undefined),
+            execute: () => Promise.resolve(undefined),
+            updateSpecialty: () => Promise.resolve(undefined),
+          },
+        },
+        {
+          provide: UPDATE_CREATION_DISCIPLINES,
           useValue: { execute: () => Promise.resolve(undefined) },
         },
         {
@@ -200,6 +225,16 @@ describe("contrato HTTP de entrada e ficha", () => {
     const response = await request(server)
       .get("/api/v1/characters/invalido/sheet")
       .set("x-alpha-identity", "player-one");
+
+    expect(response.status).toBe(400);
+    expect(response.body).toMatchObject({ error: { code: "INVALID_REQUEST" } });
+  });
+
+  it("rejeita método de Habilidades fora do contrato público", async () => {
+    const response = await request(server)
+      .patch(`/api/v1/characters/${characterId}/creation/skills`)
+      .set("x-alpha-identity", "player-one")
+      .send({ expectedVersion: 0, methodId: "QUICK_INVENTED", skills: {} });
 
     expect(response.status).toBe(400);
     expect(response.body).toMatchObject({ error: { code: "INVALID_REQUEST" } });

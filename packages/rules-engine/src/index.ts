@@ -38,6 +38,35 @@ export {
   type CreationStepId,
   type CreationStepStatus,
 } from "./creation/context.js";
+export {
+  AUTOMATIC_SPECIALTY_SKILL_IDS,
+  CREATION_SKILL_CATALOG,
+  CREATION_SKILL_IDS,
+  CREATION_SKILL_METHODS,
+  CREATION_SKILLS_POLICY,
+  evaluateCreationSkills,
+  type CreationSkillId,
+  type CreationSkillMethodId,
+  type CreationSkillsEvaluation,
+  type CreationSkillsViolation,
+  type CreationSpecialtyOrigin,
+  type CreationSpecialtyValue,
+} from "./creation/skills.js";
+export {
+  CREATION_DISCIPLINES_POLICY_REVISION,
+  DISCIPLINE_CATALOG,
+  DISCIPLINE_CATALOG_REVISION,
+  DISCIPLINE_STRUCTURAL_MAXIMUM,
+  eligibleDisciplinePowers,
+  evaluateCreationDisciplines,
+  resolveCreationDisciplinePolicy,
+  type CreationDisciplinePolicy,
+  type CreationDisciplineState,
+  type CreationDisciplinesViolation,
+  type PowerPresentationView,
+  type PowerRuleAuditStatus,
+  type PowerRuleView,
+} from "./creation/disciplines.js";
 export type {
   BasicOutcome,
   BasicTestPreparation,

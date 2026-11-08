@@ -6,6 +6,13 @@ export type CharacterKind =
   "CLAN_VAMPIRE" | "CAITIFF" | "THIN_BLOOD" | "GHOUL" | "MORTAL";
 export type CharacterState = "draft" | "ready" | "retired";
 export type CharacterTraitKind = "ATTRIBUTE" | "SKILL";
+export type CreationSkillMethod =
+  | "QUICK_JACK_OF_ALL_TRADES"
+  | "QUICK_BALANCED"
+  | "QUICK_SPECIALIST"
+  | "DETAILED_GENERALIST"
+  | "DETAILED_SPECIALIST";
+export type CharacterSpecialtyOrigin = "CREATION_AUTOMATIC" | "CREATION_FREE";
 export type ChronicleState = "draft" | "active" | "archived";
 export type ContentVisibility = "CHRONICLE_SHARED" | "STORYTELLER_PRIVATE";
 export type GameSessionState = "scheduled" | "active" | "ended" | "cancelled";
@@ -55,6 +62,11 @@ export interface CharacterTable {
   ambition: string | null;
   clan_id: ColumnType<string | null, string | null | undefined, string | null>;
   concept: string | null;
+  creation_skill_method: ColumnType<
+    CreationSkillMethod | null,
+    CreationSkillMethod | null | undefined,
+    CreationSkillMethod | null
+  >;
   created_at: Timestamp;
   desire: string | null;
   forked_from_character_id: string | null;
@@ -68,6 +80,32 @@ export interface CharacterTable {
   state: Generated<CharacterState>;
   updated_at: Timestamp;
   version: Generated<number>;
+}
+
+export interface CharacterSpecialtyTable {
+  character_id: string;
+  created_at: Timestamp;
+  id: string;
+  label: string;
+  origin: CharacterSpecialtyOrigin;
+  position: number;
+  skill_id: string;
+  updated_at: Timestamp;
+}
+
+export interface CharacterDisciplineTable {
+  character_id: string;
+  discipline_id: string;
+  rating: number;
+  updated_at: Timestamp;
+}
+
+export interface CharacterDisciplinePowerTable {
+  acquired_at: Timestamp;
+  character_id: string;
+  discipline_id: string;
+  power_id: string;
+  power_rule_revision_id: string;
 }
 
 export interface CharacterConvictionPairTable {
@@ -224,6 +262,9 @@ export interface DatabaseSchema {
   audit_entry: AuditEntryTable;
   character: CharacterTable;
   character_conviction_pair: CharacterConvictionPairTable;
+  character_discipline: CharacterDisciplineTable;
+  character_discipline_power: CharacterDisciplinePowerTable;
+  character_specialty: CharacterSpecialtyTable;
   character_draft_request: CharacterDraftRequestTable;
   character_trait: CharacterTraitTable;
   character_binding: CharacterBindingTable;

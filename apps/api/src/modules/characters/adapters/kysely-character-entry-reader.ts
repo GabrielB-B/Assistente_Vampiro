@@ -4,6 +4,7 @@ import type {
 } from "@assistente-vampiro/contracts";
 import type { Database } from "@assistente-vampiro/database";
 import { sql } from "kysely";
+import { DISCIPLINE_CATALOG } from "@assistente-vampiro/rules-engine";
 
 import type { MembershipRole } from "../../identity-access/application/authorization-context.js";
 import type {
@@ -231,6 +232,24 @@ export class KyselyCharacterEntryReader implements CharacterEntryReader {
       .where("character_id", "=", reference.characterId)
       .orderBy("position")
       .execute();
+    const specialtiesPromise = this.database
+      .selectFrom("character_specialty")
+      .select(["id", "label", "origin", "skill_id"])
+      .where("character_id", "=", reference.characterId)
+      .orderBy("position")
+      .execute();
+    const disciplinesPromise = this.database
+      .selectFrom("character_discipline")
+      .select(["discipline_id", "rating"])
+      .where("character_id", "=", reference.characterId)
+      .orderBy("discipline_id")
+      .execute();
+    const disciplinePowersPromise = this.database
+      .selectFrom("character_discipline_power")
+      .select(["discipline_id", "power_id", "power_rule_revision_id"])
+      .where("character_id", "=", reference.characterId)
+      .orderBy("power_id")
+      .execute();
     const contextPromise =
       reference.chronicleId === undefined
         ? Promise.resolve(undefined)
@@ -242,10 +261,21 @@ export class KyselyCharacterEntryReader implements CharacterEntryReader {
             .where("binding.chronicle_id", "=", reference.chronicleId)
             .where("binding.state", "=", "active")
             .executeTakeFirst();
-    const [core, traits, convictionPairs, chronicle] = await Promise.all([
+    const [
+      core,
+      traits,
+      convictionPairs,
+      specialties,
+      disciplines,
+      disciplinePowers,
+      chronicle,
+    ] = await Promise.all([
       corePromise,
       traitsPromise,
       convictionPairsPromise,
+      specialtiesPromise,
+      disciplinesPromise,
+      disciplinePowersPromise,
       contextPromise,
     ]);
 
@@ -284,7 +314,43 @@ export class KyselyCharacterEntryReader implements CharacterEntryReader {
           version: core.version,
         },
         convictionPairs,
+        disciplines: disciplines.map((item) => {
+          const catalogEntry = DISCIPLINE_CATALOG.find(
+            (entry) => entry.id === item.discipline_id,
+          );
+          return {
+            disciplineId: item.discipline_id as NonNullable<
+              CharacterSheetDocumentView["sheet"]["disciplines"]
+            >[number]["disciplineId"],
+            ...(catalogEntry === undefined ? {} : { namePtBr: catalogEntry.namePtBr }),
+            rating: item.rating,
+            structuralMaximum: 5 as const,
+          };
+        }),
+        disciplinePowers: disciplinePowers.map((item) => {
+          const catalogPower = DISCIPLINE_CATALOG.flatMap((entry) => entry.powers).find(
+            (power) => power.id === item.power_id,
+          );
+          return {
+            disciplineId: item.discipline_id as NonNullable<
+              CharacterSheetDocumentView["sheet"]["disciplinePowers"]
+            >[number]["disciplineId"],
+            ...(catalogPower === undefined ? {} : { namePtBr: catalogPower.namePtBr }),
+            powerId: item.power_id as NonNullable<
+              CharacterSheetDocumentView["sheet"]["disciplinePowers"]
+            >[number]["powerId"],
+            powerRuleRevisionId: item.power_rule_revision_id,
+          };
+        }),
         ruleSetProfileRevisionId: core.rule_set_profile_revision_id,
+        specialties: specialties.map((specialty) => ({
+          id: specialty.id,
+          label: specialty.label,
+          origin: specialty.origin,
+          skillId: specialty.skill_id as NonNullable<
+            CharacterSheetDocumentView["sheet"]["specialties"]
+          >[number]["skillId"],
+        })),
         traits: traits.map((trait) => ({
           kind: trait.kind,
           traitId: trait.trait_id,

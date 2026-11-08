@@ -81,7 +81,7 @@ function dependencies(
         ],
         family: "CLAN",
         originId: "clan:toreador",
-        selectionRules: "NOT_FORMALIZED",
+        selectionRules: "TWO_AND_ONE_FROM_ANY_TWO",
       },
       identity: { concept: "Investigadora", name: "Noemi Vale" },
       origin: {

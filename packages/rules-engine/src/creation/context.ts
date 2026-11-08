@@ -25,7 +25,7 @@ export type CreationDisciplinePolicyProjection =
       readonly allowedDisciplines: readonly CreationDisciplineId[];
       readonly family: "CLAN";
       readonly originId: CreationOriginId;
-      readonly selectionRules: "NOT_FORMALIZED";
+      readonly selectionRules: "TWO_AND_ONE_FROM_ANY_TWO";
     }
   | {
       readonly family: "CAITIFF";
@@ -35,7 +35,7 @@ export type CreationDisciplinePolicyProjection =
   | {
       readonly family: "THIN_BLOOD";
       readonly hasIntrinsicClanDisciplines: false;
-      readonly selectionRules: "NOT_FORMALIZED";
+      readonly selectionRules: "NONE_UNLESS_THIN_BLOOD_ALCHEMIST_MERIT";
     };
 
 export interface CreationProgressInput {
@@ -44,6 +44,10 @@ export interface CreationProgressInput {
   readonly clanComplete: boolean;
   readonly conceptComplete: boolean;
   readonly conceptStarted: boolean;
+  readonly skillsComplete?: boolean;
+  readonly skillsStarted?: boolean;
+  readonly disciplinesComplete?: boolean;
+  readonly disciplinesStarted?: boolean;
 }
 
 export interface CreationOriginChangeImpact {
@@ -68,7 +72,7 @@ export function projectCreationDisciplinePolicy(
     return {
       family: "THIN_BLOOD",
       hasIntrinsicClanDisciplines: false,
-      selectionRules: "NOT_FORMALIZED",
+      selectionRules: "NONE_UNLESS_THIN_BLOOD_ALCHEMIST_MERIT",
     };
   }
   const origin = resolveCreationOrigin(originId);
@@ -79,7 +83,7 @@ export function projectCreationDisciplinePolicy(
     allowedDisciplines: origin.disciplines,
     family: "CLAN",
     originId,
-    selectionRules: "NOT_FORMALIZED",
+    selectionRules: "TWO_AND_ONE_FROM_ANY_TWO",
   };
 }
 
@@ -97,6 +101,16 @@ export function evaluateCreationProgress(
     : input.attributesStarted
       ? "in_progress"
       : "not_started";
+  const skillsStatus = input.skillsComplete
+    ? "complete"
+    : input.skillsStarted
+      ? "in_progress"
+      : "not_started";
+  const disciplinesStatus = input.disciplinesComplete
+    ? "complete"
+    : input.disciplinesStarted
+      ? "in_progress"
+      : "not_started";
   return CREATION_STEP_IDS.map((id) => ({
     id,
     status:
@@ -106,7 +120,11 @@ export function evaluateCreationProgress(
           ? clanStatus
           : id === "attributes"
             ? attributesStatus
-            : "not_started",
+            : id === "skills"
+              ? skillsStatus
+              : id === "disciplines"
+                ? disciplinesStatus
+                : "not_started",
   }));
 }
 

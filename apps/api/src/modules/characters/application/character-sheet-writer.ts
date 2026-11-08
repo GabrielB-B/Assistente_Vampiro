@@ -4,6 +4,11 @@ import type {
   CreationConceptStepView,
   CreationOriginId,
   CharacterKind,
+  CreationSkillId,
+  CreationSkillMethodId,
+  CreationSpecialtyView,
+  CharacterDisciplinePowerView,
+  CharacterDisciplineView,
 } from "@assistente-vampiro/contracts";
 
 export interface UpdateCharacterIdentityCommand {
@@ -47,6 +52,11 @@ export interface CharacterSheetWriter {
     readonly creationProfileRevisionId: string | null;
     readonly identity: CreationConceptStepView["identity"];
     readonly kind: CharacterKind | null;
+    readonly skillMethodId?: CreationSkillMethodId | null;
+    readonly skills?: Readonly<Partial<Record<CreationSkillId, number>>>;
+    readonly specialties?: readonly CreationSpecialtyView[];
+    readonly disciplines?: readonly CharacterDisciplineView[];
+    readonly disciplinePowers?: readonly CharacterDisciplinePowerView[];
     readonly version: number;
   }>;
   readCreationClan(characterId: string): Promise<{
@@ -77,6 +87,12 @@ export interface CharacterSheetWriter {
   ): Promise<CharacterSheetWriteResult>;
   updateCreationConcept(
     command: UpdateCreationConceptWriteCommand,
+  ): Promise<CharacterSheetWriteResult>;
+  updateCreationSkills?(
+    command: UpdateCreationSkillsWriteCommand,
+  ): Promise<CharacterSheetWriteResult>;
+  updateCreationDisciplines?(
+    command: UpdateCreationDisciplinesWriteCommand,
   ): Promise<CharacterSheetWriteResult>;
   updateIdentity(
     command: UpdateCharacterIdentityCommand,
@@ -112,4 +128,25 @@ export interface UpdateCreationClanWriteCommand {
   readonly kind: Extract<CharacterKind, "CAITIFF" | "CLAN_VAMPIRE" | "THIN_BLOOD">;
   readonly originId: CreationOriginId;
   readonly potentialImpactedSteps: readonly string[];
+}
+
+export interface UpdateCreationSkillsWriteCommand {
+  readonly actorAccountId: string;
+  readonly auditEntryId: string;
+  readonly characterId: string;
+  readonly correlationId: string;
+  readonly expectedVersion: number;
+  readonly methodId: CreationSkillMethodId;
+  readonly skills: Readonly<Record<CreationSkillId, number>>;
+  readonly specialties: readonly CreationSpecialtyView[];
+}
+
+export interface UpdateCreationDisciplinesWriteCommand {
+  readonly actorAccountId: string;
+  readonly auditEntryId: string;
+  readonly characterId: string;
+  readonly correlationId: string;
+  readonly disciplines: readonly CharacterDisciplineView[];
+  readonly expectedVersion: number;
+  readonly powers: readonly CharacterDisciplinePowerView[];
 }

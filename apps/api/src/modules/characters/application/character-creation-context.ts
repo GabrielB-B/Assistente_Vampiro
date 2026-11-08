@@ -8,6 +8,9 @@ import {
   evaluateCreationAttributes,
   evaluateCreationConcept,
   evaluateCreationProgress,
+  evaluateCreationSkills,
+  evaluateCreationDisciplines,
+  resolveCreationDisciplinePolicy,
   projectCreationDisciplinePolicy,
   type CreationAttributeValues,
 } from "@assistente-vampiro/rules-engine";
@@ -46,6 +49,22 @@ export function projectCharacterCreationContext(
     "CREATION_STEP",
   );
   const originId = selectedCreationOrigin(persisted.clanId, persisted.kind);
+  const skillEvaluation = evaluateCreationSkills(
+    persisted.skills ?? {},
+    persisted.skillMethodId ?? null,
+    persisted.specialties ?? [],
+    "CREATION_STEP",
+  );
+  const disciplineEvaluation =
+    originId === null
+      ? null
+      : evaluateCreationDisciplines(
+          {
+            disciplines: persisted.disciplines ?? [],
+            powers: persisted.disciplinePowers ?? [],
+          },
+          resolveCreationDisciplinePolicy(originId),
+        );
   const steps = evaluateCreationProgress({
     attributesComplete: attributeEvaluation.complete,
     attributesStarted: attributeEvaluation.incrementsSpent > 0,
@@ -54,6 +73,13 @@ export function projectCharacterCreationContext(
     conceptStarted:
       Object.values(persisted.identity).some(hasText) ||
       persisted.convictionPairs.length > 0,
+    skillsComplete: skillEvaluation.complete,
+    skillsStarted:
+      (persisted.skillMethodId ?? null) !== null || skillEvaluation.pointsAllocated > 0,
+    disciplinesComplete: disciplineEvaluation?.complete ?? false,
+    disciplinesStarted:
+      (persisted.disciplines ?? []).some((item) => item.rating > 0) ||
+      (persisted.disciplinePowers ?? []).length > 0,
   });
   const origin =
     originId === null ||

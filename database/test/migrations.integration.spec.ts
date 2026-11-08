@@ -67,7 +67,7 @@ describe("migrações de produção", () => {
     }
   });
 
-  it("registra as sete migrações como aplicadas", async () => {
+  it("registra as oito migrações como aplicadas", async () => {
     const status = await readMigrationStatus(config);
 
     expect(status.map((migration) => migration.name)).toEqual([
@@ -78,6 +78,8 @@ describe("migrações de produção", () => {
       "005_character_draft_request",
       "006_character_concept",
       "007_character_clan",
+      "008_character_skills",
+      "009_character_disciplines",
     ]);
     expect(status.every((migration) => migration.executedAt !== undefined)).toBe(true);
   });
@@ -245,7 +247,10 @@ describe("migrações de produção", () => {
           and table_name in (
             'account',
             'character_conviction_pair',
+            'character_discipline',
+            'character_discipline_power',
             'character_draft_request',
+            'character_specialty',
             'character_trait',
             'session_event'
           )
@@ -256,17 +261,18 @@ describe("migrações de produção", () => {
         "account",
         "character_conviction_pair",
         "character_draft_request",
+        "character_specialty",
         "character_trait",
         "session_event",
       ]);
-      const clanColumn = await sql<{ column_name: string }>`
+      const skillMethodColumn = await sql<{ column_name: string }>`
         select column_name
         from information_schema.columns
         where table_schema = ${config.schema}
           and table_name = 'character'
-          and column_name = 'clan_id'
+          and column_name = 'creation_skill_method'
       `.execute(database);
-      expect(clanColumn.rows).toEqual([]);
+      expect(skillMethodColumn.rows).toEqual([{ column_name: "creation_skill_method" }]);
     } finally {
       await database.destroy();
     }

@@ -20,12 +20,14 @@ import { GetCharacterSheet } from "../src/modules/characters/application/get-cha
 import { GetCreationConcept } from "../src/modules/characters/application/get-creation-concept.js";
 import { GetCreationClan } from "../src/modules/characters/application/get-creation-clan.js";
 import { GetCreationAttributes } from "../src/modules/characters/application/get-creation-attributes.js";
+import { GetCreationSkills } from "../src/modules/characters/application/get-creation-skills.js";
 import { ListPlayerEntry } from "../src/modules/characters/application/list-player-entry.js";
 import { StartCharacterDraft } from "../src/modules/characters/application/start-character-draft.js";
 import { UpdateCharacterSheet } from "../src/modules/characters/application/update-character-sheet.js";
 import { UpdateCreationAttributes } from "../src/modules/characters/application/update-creation-attributes.js";
 import { UpdateCreationConcept } from "../src/modules/characters/application/update-creation-concept.js";
 import { UpdateCreationClan } from "../src/modules/characters/application/update-creation-clan.js";
+import { UpdateCreationSkills } from "../src/modules/characters/application/update-creation-skills.js";
 import { AlphaIdentityProvider } from "../src/modules/identity-access/adapters/alpha-identity-provider.js";
 import { KyselyAccessContextReader } from "../src/modules/identity-access/adapters/kysely-access-context-reader.js";
 
@@ -43,6 +45,14 @@ const clanDraftId = "019a0000-0000-7000-8000-000000000025";
 const clanAuditIds = [
   "019a0000-0000-7000-8000-000000000077",
   "019a0000-0000-7000-8000-000000000078",
+] as const;
+const skillsDraftId = "019a0000-0000-7000-8000-000000000026";
+const skillsSpecialtyId = "019a0000-0000-7000-8000-000000000079";
+const skillsAuditIds = [
+  "019a0000-0000-7000-8000-000000000080",
+  "019a0000-0000-7000-8000-000000000081",
+  "019a0000-0000-7000-8000-000000000082",
+  "019a0000-0000-7000-8000-000000000083",
 ] as const;
 
 function createTestConfig(): DatabaseConfig {
@@ -92,6 +102,22 @@ describe("entrada e ficha mínima persistidas", () => {
         name: "",
         owner_account_id: ALPHA_FIXTURE_IDS.accounts.playerOne,
         rule_set_profile_revision_id: null,
+        state: "draft",
+        version: 0,
+      })
+      .execute();
+    await database
+      .insertInto("character")
+      .values({
+        clan_id: "clan:toreador",
+        concept: "Investigadora da própria noite",
+        forked_from_character_id: null,
+        hunger: null,
+        id: skillsDraftId,
+        kind: "CLAN_VAMPIRE",
+        name: "Noemi Vale",
+        owner_account_id: ALPHA_FIXTURE_IDS.accounts.playerOne,
+        rule_set_profile_revision_id: ALPHA_FIXTURE_IDS.ruleProfileRevision,
         state: "draft",
         version: 0,
       })
@@ -517,5 +543,99 @@ describe("entrada e ficha mínima persistidas", () => {
       { action: "character.creation.clan.updated" },
       { action: "character.creation.clan.updated" },
     ]);
+  });
+
+  it("persiste método, pontos e Especialização e os retoma após nova leitura", async () => {
+    const actor = await identities.resolve("player-one");
+    const getSkills = new GetCreationSkills(accessReader, sheetWriter);
+    const ids = [
+      skillsAuditIds[0],
+      skillsAuditIds[1],
+      skillsSpecialtyId,
+      skillsAuditIds[2],
+      skillsAuditIds[3],
+    ];
+    const updateSkills = new UpdateCreationSkills(accessReader, sheetWriter, {
+      next: () => ids.shift() ?? "unexpected-id",
+    });
+
+    await expect(getSkills.execute(actor, skillsDraftId)).resolves.toMatchObject({
+      methodId: null,
+      version: 0,
+    });
+    await expect(
+      updateSkills.execute(actor, {
+        characterId: skillsDraftId,
+        correlationId,
+        expectedVersion: 0,
+        methodId: "QUICK_BALANCED",
+        skills: {},
+      }),
+    ).resolves.toMatchObject({ methodId: "QUICK_BALANCED", version: 1 });
+    await expect(
+      updateSkills.execute(actor, {
+        characterId: skillsDraftId,
+        correlationId,
+        expectedVersion: 1,
+        skills: { "skill:science": 1 },
+      }),
+    ).resolves.toMatchObject({
+      evaluation: { automaticSpecialtiesPending: ["skill:science"] },
+      skills: { "skill:science": 1 },
+      version: 2,
+    });
+    await expect(
+      updateSkills.createSpecialty(actor, {
+        characterId: skillsDraftId,
+        correlationId,
+        expectedVersion: 2,
+        label: "Química",
+        origin: "CREATION_AUTOMATIC",
+        skillId: "skill:science",
+      }),
+    ).resolves.toMatchObject({
+      specialties: [
+        {
+          id: skillsSpecialtyId,
+          label: "Química",
+          origin: "CREATION_AUTOMATIC",
+          skillId: "skill:science",
+        },
+      ],
+      version: 3,
+    });
+
+    await expect(
+      updateSkills.execute(actor, {
+        characterId: skillsDraftId,
+        correlationId,
+        expectedVersion: 3,
+        methodId: "QUICK_SPECIALIST",
+        skills: {},
+      }),
+    ).resolves.toMatchObject({
+      methodId: "QUICK_SPECIALIST",
+      skills: { "skill:science": 1 },
+      specialties: [{ id: skillsSpecialtyId, label: "Química" }],
+      version: 4,
+    });
+
+    await expect(getSkills.execute(actor, skillsDraftId)).resolves.toMatchObject({
+      methodId: "QUICK_SPECIALIST",
+      skills: { "skill:science": 1 },
+      specialties: [{ id: skillsSpecialtyId, label: "Química" }],
+      version: 4,
+    });
+    await expect(
+      database
+        .selectFrom("character_specialty")
+        .select(["label", "origin", "skill_id"])
+        .where("id", "=", skillsSpecialtyId)
+        .executeTakeFirstOrThrow(),
+    ).resolves.toEqual({
+      label: "Química",
+      origin: "CREATION_AUTOMATIC",
+      skill_id: "skill:science",
+    });
   });
 });

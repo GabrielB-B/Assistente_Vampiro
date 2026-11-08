@@ -333,11 +333,15 @@ function EssentialSheet({
   attributeGroups,
   hunger,
   onSkillSelect,
+  sheet,
+  specialties,
   skillGroups,
 }: {
   readonly attributeGroups: readonly TraitGroup[];
   readonly hunger: number;
   readonly onSkillSelect: (skill: AvailableTrait) => void;
+  readonly sheet: CharacterSheetView;
+  readonly specialties: NonNullable<CharacterSheetView["specialties"]>;
   readonly skillGroups: readonly TraitGroup[];
 }) {
   return (
@@ -382,22 +386,51 @@ function EssentialSheet({
           >
             <h3>{group.title}</h3>
             {group.traits.map((trait) => (
-              <TraitRow key={trait.name} onSelect={onSkillSelect} trait={trait} />
+              <div className="sheet-skill-entry" key={trait.name}>
+                <TraitRow onSelect={onSkillSelect} trait={trait} />
+                {specialties
+                  .filter((item) => item.skillId === trait.id)
+                  .map((item) => (
+                    <small key={item.id}>✦ {item.label}</small>
+                  ))}
+              </div>
             ))}
           </section>
         ))}
       </div>
 
       <SectionHeading eyebrow="03" title="Disciplinas" />
-      <div aria-label="Disciplinas não carregadas" className="discipline-ledger">
-        {Array.from({ length: 3 }, (_, column) => (
-          <div className="discipline-column" key={`discipline-${column}`}>
-            <RatingDots label={`Disciplina ${column + 1}`} value={0} />
-            {Array.from({ length: 5 }, (_, row) => (
-              <span aria-hidden="true" key={`discipline-${column}-${row}`} />
-            ))}
-          </div>
-        ))}
+      <div aria-label="Disciplinas da personagem" className="discipline-ledger">
+        {(sheet.disciplines ?? []).filter((item) => item.rating > 0).length === 0
+          ? Array.from({ length: 3 }, (_, column) => (
+              <div className="discipline-column" key={`discipline-${column}`}>
+                <RatingDots label={`Disciplina ${column + 1}`} value={0} />
+                {Array.from({ length: 5 }, (_, row) => (
+                  <span aria-hidden="true" key={`discipline-${column}-${row}`} />
+                ))}
+              </div>
+            ))
+          : (sheet.disciplines ?? [])
+              .filter((item) => item.rating > 0)
+              .map((discipline) => (
+                <div className="discipline-column" key={discipline.disciplineId}>
+                  <strong>
+                    {discipline.namePtBr ??
+                      discipline.disciplineId.replace("discipline:", "")}
+                  </strong>
+                  <RatingDots
+                    label={discipline.namePtBr ?? discipline.disciplineId}
+                    value={discipline.rating}
+                  />
+                  {(sheet.disciplinePowers ?? [])
+                    .filter((power) => power.disciplineId === discipline.disciplineId)
+                    .map((power) => (
+                      <span key={power.powerId}>
+                        {power.namePtBr ?? power.powerId.replace("power:", "")}
+                      </span>
+                    ))}
+                </div>
+              ))}
       </div>
 
       <p className="sheet-data-note">
@@ -933,6 +966,8 @@ export function CharacterSheetPrototype({
                   attributeGroups={attributeGroups}
                   hunger={hunger}
                   onSkillSelect={openSkill}
+                  sheet={sheet}
+                  specialties={sheet.specialties ?? []}
                   skillGroups={skillGroups}
                 />
               ) : null}

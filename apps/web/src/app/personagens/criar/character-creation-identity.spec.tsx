@@ -22,7 +22,7 @@ function context(
             allowedDisciplines: [],
             family: "CLAN",
             originId: id,
-            selectionRules: "NOT_FORMALIZED",
+            selectionRules: "TWO_AND_ONE_FROM_ANY_TWO",
           }
         : kind === "CAITIFF"
           ? {
@@ -33,7 +33,7 @@ function context(
           : {
               family: "THIN_BLOOD",
               hasIntrinsicClanDisciplines: false,
-              selectionRules: "NOT_FORMALIZED",
+              selectionRules: "NONE_UNLESS_THIN_BLOOD_ALCHEMIST_MERIT",
             },
     identity: { concept: "Investigadora", name: "Noemi Vale" },
     origin: {

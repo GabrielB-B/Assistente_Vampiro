@@ -4,6 +4,8 @@ import type {
   CreationAttributesMutationView,
   CreationAttributesStepView,
   CreationClanStepView,
+  CreationSkillsStepView,
+  CreationDisciplinesStepView,
   CharacterSheetDocumentView,
   CharacterSheetMutationView,
   PlayerEntryView,
@@ -12,13 +14,16 @@ import type {
 } from "@assistente-vampiro/contracts";
 import {
   CREATION_ATTRIBUTE_IDS,
+  CREATION_DISCIPLINE_IDS,
   CREATION_ORIGIN_IDS,
+  CREATION_SKILL_IDS,
 } from "@assistente-vampiro/contracts";
 import {
   BadRequestException,
   Body,
   ConflictException,
   Controller,
+  Delete,
   Get,
   Headers,
   Inject,
@@ -51,6 +56,14 @@ import {
   type GetCreationClan,
 } from "../application/get-creation-clan.js";
 import {
+  GET_CREATION_SKILLS,
+  type GetCreationSkills,
+} from "../application/get-creation-skills.js";
+import {
+  GET_CREATION_DISCIPLINES,
+  type GetCreationDisciplines,
+} from "../application/get-creation-disciplines.js";
+import {
   GET_CHARACTER_SHEET,
   type GetCharacterSheet,
 } from "../application/get-character-sheet.js";
@@ -80,6 +93,19 @@ import {
   type UpdateCreationClan,
   type UpdateCreationClanCommand,
 } from "../application/update-creation-clan.js";
+import {
+  UPDATE_CREATION_SKILLS,
+  type CreateCreationSpecialtyCommand,
+  type DeleteCreationSpecialtyCommand,
+  type UpdateCreationSkills,
+  type UpdateCreationSkillsCommand,
+  type UpdateCreationSpecialtyCommand,
+} from "../application/update-creation-skills.js";
+import {
+  UPDATE_CREATION_DISCIPLINES,
+  type UpdateCreationDisciplines,
+  type UpdateCreationDisciplinesCommand,
+} from "../application/update-creation-disciplines.js";
 import {
   UPDATE_CHARACTER_SHEET,
   type UpdateCharacterSheet,
@@ -263,6 +289,177 @@ function readClanCommand(
   };
 }
 
+const skillMethods = [
+  "QUICK_JACK_OF_ALL_TRADES",
+  "QUICK_BALANCED",
+  "QUICK_SPECIALIST",
+  "DETAILED_GENERALIST",
+  "DETAILED_SPECIALIST",
+] as const;
+const specialtyOrigins = ["CREATION_AUTOMATIC", "CREATION_FREE"] as const;
+
+function readSkillsCommand(
+  characterId: string,
+  correlationId: string,
+  body: unknown,
+): UpdateCreationSkillsCommand | undefined {
+  if (
+    !isRecord(body) ||
+    !isRecord(body.skills) ||
+    Object.keys(body).some(
+      (key) => !["expectedVersion", "methodId", "skills"].includes(key),
+    ) ||
+    !Number.isInteger(body.expectedVersion) ||
+    Number(body.expectedVersion) < 0
+  )
+    return undefined;
+  const entries = Object.entries(body.skills);
+  if (
+    entries.some(
+      ([key, value]) =>
+        !CREATION_SKILL_IDS.includes(key as (typeof CREATION_SKILL_IDS)[number]) ||
+        !Number.isInteger(value),
+    ) ||
+    (body.methodId !== undefined &&
+      (typeof body.methodId !== "string" ||
+        !skillMethods.includes(body.methodId as (typeof skillMethods)[number])))
+  )
+    return undefined;
+  return {
+    characterId,
+    correlationId,
+    expectedVersion: Number(body.expectedVersion),
+    ...(body.methodId === undefined ? {} : { methodId: body.methodId }),
+    skills: Object.fromEntries(entries),
+  } as UpdateCreationSkillsCommand;
+}
+
+function readCreateSpecialtyCommand(
+  characterId: string,
+  correlationId: string,
+  body: unknown,
+): CreateCreationSpecialtyCommand | undefined {
+  if (
+    !isRecord(body) ||
+    Object.keys(body).some(
+      (key) => !["expectedVersion", "label", "origin", "skillId"].includes(key),
+    ) ||
+    Object.keys(body).length !== 4 ||
+    !Number.isInteger(body.expectedVersion) ||
+    typeof body.label !== "string" ||
+    typeof body.origin !== "string" ||
+    !specialtyOrigins.includes(body.origin as (typeof specialtyOrigins)[number]) ||
+    typeof body.skillId !== "string" ||
+    !CREATION_SKILL_IDS.includes(body.skillId as (typeof CREATION_SKILL_IDS)[number])
+  )
+    return undefined;
+  return {
+    characterId,
+    correlationId,
+    expectedVersion: Number(body.expectedVersion),
+    label: body.label,
+    origin: body.origin as CreateCreationSpecialtyCommand["origin"],
+    skillId: body.skillId as CreateCreationSpecialtyCommand["skillId"],
+  };
+}
+
+function readDisciplinesCommand(
+  characterId: string,
+  correlationId: string,
+  body: unknown,
+): UpdateCreationDisciplinesCommand | undefined {
+  if (
+    !isRecord(body) ||
+    !Array.isArray(body.disciplines) ||
+    !Array.isArray(body.powerIds) ||
+    !Number.isInteger(body.expectedVersion) ||
+    Number(body.expectedVersion) < 0 ||
+    Object.keys(body).some(
+      (key) =>
+        ![
+          "confirmPowerInvalidation",
+          "disciplines",
+          "expectedVersion",
+          "powerIds",
+          "previewOnly",
+        ].includes(key),
+    ) ||
+    (body.confirmPowerInvalidation !== undefined &&
+      typeof body.confirmPowerInvalidation !== "boolean") ||
+    (body.previewOnly !== undefined && typeof body.previewOnly !== "boolean")
+  )
+    return undefined;
+  const disciplines = body.disciplines;
+  if (
+    disciplines.some(
+      (item) =>
+        !isRecord(item) ||
+        Object.keys(item).some((key) => !["disciplineId", "rating"].includes(key)) ||
+        typeof item.disciplineId !== "string" ||
+        !CREATION_DISCIPLINE_IDS.includes(
+          item.disciplineId as (typeof CREATION_DISCIPLINE_IDS)[number],
+        ) ||
+        !Number.isInteger(item.rating) ||
+        Number(item.rating) < 0 ||
+        Number(item.rating) > 5,
+    )
+  )
+    return undefined;
+  if (
+    body.powerIds.some(
+      (item) => typeof item !== "string" || !/^power:[a-z][a-z0-9-]{1,95}$/u.test(item),
+    )
+  )
+    return undefined;
+  return {
+    characterId,
+    ...(body.confirmPowerInvalidation === undefined
+      ? {}
+      : { confirmPowerInvalidation: body.confirmPowerInvalidation }),
+    correlationId,
+    disciplines: disciplines.map((item) => ({
+      disciplineId: String(
+        (item as Record<string, unknown>).disciplineId,
+      ) as UpdateCreationDisciplinesCommand["disciplines"][number]["disciplineId"],
+      rating: Number((item as Record<string, unknown>).rating),
+    })),
+    expectedVersion: Number(body.expectedVersion),
+    powerIds: body.powerIds as UpdateCreationDisciplinesCommand["powerIds"],
+    ...(body.previewOnly === undefined ? {} : { previewOnly: body.previewOnly }),
+  };
+}
+
+function readSpecialtyMutationCommand(
+  characterId: string,
+  specialtyId: string,
+  correlationId: string,
+  body: unknown,
+): UpdateCreationSpecialtyCommand | DeleteCreationSpecialtyCommand | undefined {
+  if (
+    !uuidPattern.test(specialtyId) ||
+    !isRecord(body) ||
+    !Number.isInteger(body.expectedVersion) ||
+    Number(body.expectedVersion) < 0
+  )
+    return undefined;
+  if (Object.keys(body).length === 1)
+    return {
+      characterId,
+      correlationId,
+      expectedVersion: Number(body.expectedVersion),
+      specialtyId,
+    };
+  if (Object.keys(body).length === 2 && typeof body.label === "string")
+    return {
+      characterId,
+      correlationId,
+      expectedVersion: Number(body.expectedVersion),
+      label: body.label,
+      specialtyId,
+    };
+  return undefined;
+}
+
 @Controller()
 export class CharactersController {
   constructor(
@@ -276,6 +473,10 @@ export class CharactersController {
     private readonly getCreationConcept: GetCreationConcept,
     @Inject(GET_CREATION_CLAN)
     private readonly getCreationClan: GetCreationClan,
+    @Inject(GET_CREATION_SKILLS)
+    private readonly getCreationSkills: GetCreationSkills,
+    @Inject(GET_CREATION_DISCIPLINES)
+    private readonly getCreationDisciplines: GetCreationDisciplines,
     @Inject(UPDATE_CHARACTER_SHEET)
     private readonly updateCharacterSheet: UpdateCharacterSheet,
     @Inject(START_CHARACTER_DRAFT)
@@ -286,6 +487,10 @@ export class CharactersController {
     private readonly updateCreationConcept: UpdateCreationConcept,
     @Inject(UPDATE_CREATION_CLAN)
     private readonly updateCreationClan: UpdateCreationClan,
+    @Inject(UPDATE_CREATION_SKILLS)
+    private readonly updateCreationSkills: UpdateCreationSkills,
+    @Inject(UPDATE_CREATION_DISCIPLINES)
+    private readonly updateCreationDisciplines: UpdateCreationDisciplines,
     @Inject(CorrelationContext) private readonly correlationContext: CorrelationContext,
   ) {}
 
@@ -426,6 +631,210 @@ export class CharactersController {
       );
     }
     return view;
+  }
+
+  @Get("characters/:characterId/creation/skills")
+  async getSkills(
+    @Headers("x-alpha-identity") identityHeader: unknown,
+    @Param("characterId") characterId: string,
+  ): Promise<CreationSkillsStepView> {
+    if (!uuidPattern.test(characterId))
+      throw new BadRequestException(
+        this.error("INVALID_REQUEST", "O identificador informado é inválido."),
+      );
+    const view = await this.getCreationSkills.execute(
+      await this.resolveActor(identityHeader),
+      characterId,
+    );
+    if (view === undefined)
+      throw new NotFoundException(
+        this.error(
+          "RESOURCE_NOT_AVAILABLE",
+          "A etapa solicitada não está disponível para esta identidade.",
+        ),
+      );
+    return view;
+  }
+
+  @Get("characters/:characterId/creation/disciplines")
+  async getDisciplines(
+    @Headers("x-alpha-identity") identityHeader: unknown,
+    @Param("characterId") characterId: string,
+  ): Promise<CreationDisciplinesStepView> {
+    if (!uuidPattern.test(characterId))
+      throw new BadRequestException(
+        this.error("INVALID_REQUEST", "O identificador informado é inválido."),
+      );
+    const view = await this.getCreationDisciplines.execute(
+      await this.resolveActor(identityHeader),
+      characterId,
+    );
+    if (view === undefined)
+      throw new NotFoundException(
+        this.error(
+          "RESOURCE_NOT_AVAILABLE",
+          "A etapa de Disciplinas não está disponível para esta personagem.",
+        ),
+      );
+    return view;
+  }
+
+  @Patch("characters/:characterId/creation/disciplines")
+  async patchDisciplines(
+    @Headers("x-alpha-identity") identityHeader: unknown,
+    @Param("characterId") characterId: string,
+    @Body() body: unknown,
+  ): Promise<CreationDisciplinesStepView> {
+    const command = uuidPattern.test(characterId)
+      ? readDisciplinesCommand(
+          characterId,
+          this.correlationContext.getCorrelationId() ??
+            "00000000-0000-7000-8000-000000000000",
+          body,
+        )
+      : undefined;
+    if (command === undefined)
+      throw new BadRequestException(
+        this.error("INVALID_REQUEST", "A alteração de Disciplinas é inválida."),
+      );
+    try {
+      return await this.updateCreationDisciplines.execute(
+        await this.resolveActor(identityHeader),
+        command,
+      );
+    } catch (error) {
+      if (error instanceof CharacterNotAvailableError)
+        throw new NotFoundException(
+          this.error(
+            "RESOURCE_NOT_AVAILABLE",
+            "A etapa solicitada não está disponível para esta identidade.",
+          ),
+        );
+      if (error instanceof CharacterVersionConflictError)
+        throw new ConflictException(
+          this.error(
+            "VERSION_CONFLICT",
+            "A ficha foi alterada em outro lugar. Recarregue antes de salvar.",
+          ),
+        );
+      if (error instanceof InvalidCharacterCreationError)
+        throw new UnprocessableEntityException(
+          this.error(
+            "INVALID_REQUEST",
+            "Essa escolha não respeita a política de Disciplinas ou precisa de confirmação antes de remover Poderes.",
+          ),
+        );
+      throw error;
+    }
+  }
+
+  @Patch("characters/:characterId/creation/skills")
+  async patchSkills(
+    @Headers("x-alpha-identity") identityHeader: unknown,
+    @Param("characterId") characterId: string,
+    @Body() body: unknown,
+  ): Promise<CreationSkillsStepView> {
+    const command = uuidPattern.test(characterId)
+      ? readSkillsCommand(
+          characterId,
+          this.correlationContext.getCorrelationId() ??
+            "00000000-0000-7000-8000-000000000000",
+          body,
+        )
+      : undefined;
+    if (command === undefined)
+      throw new BadRequestException(
+        this.error("INVALID_REQUEST", "A alteração de Habilidades é inválida."),
+      );
+    return this.executeSkillsMutation(async () =>
+      this.updateCreationSkills.execute(await this.resolveActor(identityHeader), command),
+    );
+  }
+
+  @Post("characters/:characterId/creation/skills/specialties")
+  async createSpecialty(
+    @Headers("x-alpha-identity") identityHeader: unknown,
+    @Param("characterId") characterId: string,
+    @Body() body: unknown,
+  ): Promise<CreationSkillsStepView> {
+    const command = uuidPattern.test(characterId)
+      ? readCreateSpecialtyCommand(
+          characterId,
+          this.correlationContext.getCorrelationId() ??
+            "00000000-0000-7000-8000-000000000000",
+          body,
+        )
+      : undefined;
+    if (command === undefined)
+      throw new BadRequestException(
+        this.error("INVALID_REQUEST", "A Especialização informada é inválida."),
+      );
+    return this.executeSkillsMutation(async () =>
+      this.updateCreationSkills.createSpecialty(
+        await this.resolveActor(identityHeader),
+        command,
+      ),
+    );
+  }
+
+  @Patch("characters/:characterId/creation/skills/specialties/:specialtyId")
+  async patchSpecialty(
+    @Headers("x-alpha-identity") identityHeader: unknown,
+    @Param("characterId") characterId: string,
+    @Param("specialtyId") specialtyId: string,
+    @Body() body: unknown,
+  ): Promise<CreationSkillsStepView> {
+    const command = uuidPattern.test(characterId)
+      ? readSpecialtyMutationCommand(
+          characterId,
+          specialtyId,
+          this.correlationContext.getCorrelationId() ??
+            "00000000-0000-7000-8000-000000000000",
+          body,
+        )
+      : undefined;
+    if (
+      command === undefined ||
+      !("label" in command) ||
+      typeof command.label !== "string"
+    )
+      throw new BadRequestException(
+        this.error("INVALID_REQUEST", "A alteração da Especialização é inválida."),
+      );
+    return this.executeSkillsMutation(async () =>
+      this.updateCreationSkills.updateSpecialty(
+        await this.resolveActor(identityHeader),
+        command as UpdateCreationSpecialtyCommand,
+      ),
+    );
+  }
+
+  @Delete("characters/:characterId/creation/skills/specialties/:specialtyId")
+  async deleteSpecialty(
+    @Headers("x-alpha-identity") identityHeader: unknown,
+    @Param("characterId") characterId: string,
+    @Param("specialtyId") specialtyId: string,
+    @Body() body: unknown,
+  ): Promise<CreationSkillsStepView> {
+    const command = uuidPattern.test(characterId)
+      ? readSpecialtyMutationCommand(
+          characterId,
+          specialtyId,
+          this.correlationContext.getCorrelationId() ??
+            "00000000-0000-7000-8000-000000000000",
+          body,
+        )
+      : undefined;
+    if (command === undefined || "label" in command)
+      throw new BadRequestException(
+        this.error("INVALID_REQUEST", "A remoção da Especialização é inválida."),
+      );
+    return this.executeSkillsMutation(async () =>
+      this.updateCreationSkills.deleteSpecialty(
+        await this.resolveActor(identityHeader),
+        command,
+      ),
+    );
   }
 
   @Patch("characters/:characterId/sheet")
@@ -644,6 +1053,37 @@ export class CharactersController {
         message,
       },
     };
+  }
+
+  private async executeSkillsMutation(
+    operation: () => Promise<CreationSkillsStepView>,
+  ): Promise<CreationSkillsStepView> {
+    try {
+      return await operation();
+    } catch (error) {
+      if (error instanceof CharacterNotAvailableError)
+        throw new NotFoundException(
+          this.error(
+            "RESOURCE_NOT_AVAILABLE",
+            "A etapa solicitada não está disponível para esta identidade.",
+          ),
+        );
+      if (error instanceof CharacterVersionConflictError)
+        throw new ConflictException(
+          this.error(
+            "VERSION_CONFLICT",
+            "A ficha foi alterada em outro lugar. Recarregue antes de salvar.",
+          ),
+        );
+      if (error instanceof InvalidCharacterCreationError)
+        throw new UnprocessableEntityException(
+          this.error(
+            "INVALID_REQUEST",
+            "Essa escolha não cabe na política de Habilidades e Especializações.",
+          ),
+        );
+      throw error;
+    }
   }
 
   private async resolveActor(identityHeader: unknown) {

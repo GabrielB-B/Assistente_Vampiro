@@ -2146,3 +2146,1764 @@
     transition: none;
   }
 }
+
+.skillsDocument {
+  width: min(100%, 83rem);
+}
+
+.skillsDocument .guidedMasthead {
+  grid-template-columns: 4rem minmax(0, 1fr) minmax(11rem, 13rem) 8rem;
+  padding-block: 1rem 0.8rem;
+}
+
+.skillsDocument .guidedMasthead > svg {
+  width: 1.75rem;
+  height: 3rem;
+  margin-left: 0.2rem;
+}
+
+.skillsDocument .characterCreationIdentity {
+  justify-self: center;
+  gap: 0.7rem;
+  width: max-content;
+  max-width: 13rem;
+  padding: 0;
+  border: 0;
+  text-align: left;
+}
+
+.skillsDocument .characterCreationIdentity img {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+
+.skillsDocument .characterCreationIdentity > span {
+  gap: 0.08rem;
+}
+
+.skillsDocument .characterCreationIdentity small {
+  color: #3f342f;
+  font-size: 0.76rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.skillsDocument .characterCreationIdentity i {
+  display: none;
+}
+
+.skillsDocument .characterCreationIdentity strong {
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.skillsDocument .guidedMasthead > p {
+  justify-self: end;
+}
+
+.skillsLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 17.25rem;
+}
+
+.skillsStage {
+  min-width: 0;
+  padding: 0.9rem 1.5rem 0.85rem;
+}
+
+.methodSelector {
+  display: grid;
+  grid-template-columns: auto repeat(3, minmax(9rem, 1fr));
+  gap: 0.55rem;
+  align-items: stretch;
+  margin: 0.75rem 0 0.85rem;
+  padding: 0;
+  border: 0;
+}
+
+.methodSelector legend {
+  align-self: center;
+  color: var(--blood-dark);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.78rem;
+  font-weight: 720;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.methodSelector[data-detailed="true"] {
+  grid-template-columns: auto 1fr;
+}
+
+.methodSelector label {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+  padding: 0.43rem 0.55rem;
+  border: 1px solid transparent;
+  border-radius: 0.35rem;
+  color: #322923;
+  cursor: pointer;
+  transition:
+    border-color 140ms ease,
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.methodSelector label:hover {
+  border-color: rgb(108 72 52 / 28%);
+  background: rgb(255 250 240 / 42%);
+  color: #211a17;
+}
+
+.methodSelector label:focus-within {
+  outline: 2px solid color-mix(in srgb, var(--blood) 70%, white);
+  outline-offset: 2px;
+}
+
+.methodSelector label[data-selected="true"] {
+  border-color: rgb(143 17 29 / 18%);
+  background: rgb(143 17 29 / 7%);
+  color: var(--blood-dark);
+}
+
+.methodSelector label[data-busy="true"] {
+  cursor: wait;
+  opacity: 0.64;
+}
+
+.methodSelector input {
+  display: grid;
+  place-content: center;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.1rem;
+  appearance: none;
+  border: 1px solid #65574f;
+  border-radius: 50%;
+  background: transparent;
+  accent-color: var(--blood);
+}
+
+.methodSelector input::before {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--blood);
+  content: "";
+  transform: scale(0);
+}
+
+.methodSelector input:checked {
+  border-color: var(--blood);
+}
+
+.methodSelector input:checked::before {
+  transform: scale(1);
+}
+
+.methodSelector span,
+.selectedMethod {
+  display: grid;
+}
+
+.methodSelector strong,
+.selectedMethod strong {
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.95rem;
+}
+
+.methodSelector small,
+.selectedMethod span {
+  margin-top: 0.12rem;
+  color: #675950;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.78rem;
+}
+
+.methodModeSwitch {
+  grid-column: 2 / -1;
+  justify-self: start;
+  padding: 0.15rem 0;
+  border: 0;
+  border-bottom: 1px dotted rgb(143 17 29 / 45%);
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    650 0.75rem/1.25 "Newsreader",
+    "Iowan Old Style",
+    serif;
+  text-align: left;
+}
+
+.methodModeSwitch span {
+  color: #675950;
+  font-weight: 400;
+}
+
+.methodModeSwitch:hover,
+.methodModeSwitch:focus-visible {
+  color: var(--blood);
+  outline: 2px solid rgb(143 17 29 / 26%);
+  outline-offset: 3px;
+}
+
+.detailedMethodOptions {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 0.7rem;
+  align-items: center;
+}
+
+.detailedMethodOptions > p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #675950;
+  font:
+    0.78rem "Newsreader",
+    "Iowan Old Style",
+    serif;
+}
+
+.detailedMethodOptions > div {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.detailedMethodOptions .methodModeSwitch {
+  grid-column: auto;
+}
+
+.skillColumns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+}
+
+.skillColumns > section {
+  min-width: 0;
+  padding: 0 1rem;
+  border-left: 1px solid rgb(91 69 56 / 28%);
+}
+
+.skillColumns > section:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.skillColumns > section:last-child {
+  padding-right: 0;
+}
+
+.skillColumns h3 {
+  margin: 0 0 0.55rem;
+  color: #302723;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 550;
+  text-align: center;
+}
+
+.skillRow {
+  position: relative;
+  border-bottom: 1px dotted rgb(91 69 56 / 20%);
+}
+
+.skillRow[data-expanded="true"] {
+  margin-inline: -0.25rem;
+  padding-inline: 0.25rem;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(143 17 29 / 34%);
+  background: rgb(255 250 240 / 28%);
+}
+
+.skillRow[data-free-eligible="true"] {
+  background: transparent;
+}
+
+.skillLine {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 1.35rem;
+  gap: 0.38rem;
+  align-items: start;
+  min-height: 2rem;
+  padding-block: 0.28rem;
+}
+
+.skillRating {
+  display: flex;
+  gap: 0.22rem;
+  padding-top: 0.12rem;
+}
+
+.skillRating > button {
+  width: 0.72rem;
+  height: 0.72rem;
+  padding: 0;
+  border: 1px solid #55483f;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.skillRating > button[aria-pressed="true"] {
+  border-color: var(--blood-dark);
+  background: var(--blood);
+  box-shadow: inset 0 0 0 2px #efe3d2;
+}
+
+.skillRating > button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.skillLabel {
+  position: relative;
+  min-width: 0;
+}
+
+.skillLabel > button {
+  display: grid;
+  gap: 0.08rem;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #322923;
+  cursor: pointer;
+  font:
+    0.88rem "Newsreader",
+    "Iowan Old Style",
+    serif;
+  text-align: left;
+}
+
+.skillLabel > button > small {
+  color: #765b50;
+  font:
+    500 0.68rem/1.15 "Newsreader",
+    serif;
+  letter-spacing: 0.02em;
+}
+
+.skillLabel > button:hover,
+.skillLabel > button:focus-visible {
+  color: var(--blood-dark);
+  text-decoration: underline dotted rgb(143 17 29 / 48%);
+  text-underline-offset: 0.2rem;
+}
+
+.skillLabel > [role="tooltip"] {
+  position: absolute;
+  bottom: calc(100% + 0.45rem);
+  left: 0;
+  z-index: 30;
+  display: none;
+  width: min(17rem, 70vw);
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #9b6d5d;
+  background: #2a221e;
+  box-shadow: 0 0.6rem 1.4rem rgb(0 0 0 / 30%);
+  color: #f4eadc;
+  font:
+    0.8rem/1.35 "Newsreader",
+    serif;
+}
+
+.skillLabel > [role="tooltip"] strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: #fff5e7;
+  font-size: 0.85rem;
+}
+
+.skillLabel:hover > [role="tooltip"],
+.skillLabel:focus-within > [role="tooltip"],
+.skillLabel[data-open="true"] > [role="tooltip"] {
+  display: block;
+}
+
+.specialtyAction {
+  position: relative;
+  display: flex;
+  gap: 0.1rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.specialtyAction > button {
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #76645b;
+  cursor: pointer;
+  font:
+    1rem/1 "Newsreader",
+    serif;
+  opacity: 0.32;
+}
+
+.skillRow:hover .specialtyAction > button,
+.specialtyAction > button:focus-visible,
+.specialtyAction > button[data-pending="true"],
+.skillRow[data-free-eligible="true"] .specialtyAction > button {
+  color: var(--blood-dark);
+  opacity: 1;
+}
+
+.skillRow[data-free-eligible="true"] .specialtyAction > button {
+  outline: 1px solid rgb(143 17 29 / 55%);
+  outline-offset: 1px;
+  background: rgb(143 17 29 / 7%);
+}
+
+.specialtyAction > button:focus-visible {
+  outline: 2px solid rgb(143 17 29 / 45%);
+  outline-offset: 2px;
+}
+
+.specialtyAction > button:disabled,
+.specialtyAction > button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.14;
+}
+
+.specialtyAction > button[aria-disabled="true"]:focus-visible {
+  opacity: 0.72;
+}
+
+.specialtyAction > [role="tooltip"] {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.3rem);
+  z-index: 30;
+  display: none;
+  width: max-content;
+  max-width: 13rem;
+  padding: 0.38rem 0.5rem;
+  border: 1px solid #9b6d5d;
+  background: #2a221e;
+  color: #f4eadc;
+  font:
+    0.72rem/1.25 "Newsreader",
+    serif;
+}
+
+.specialtyAction:focus-within > [role="tooltip"],
+.specialtyAction:hover > [role="tooltip"] {
+  display: block;
+}
+
+.specialtyAction > i {
+  position: absolute;
+  top: -0.18rem;
+  right: -0.22rem;
+  display: grid;
+  place-items: center;
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 50%;
+  background: var(--blood-dark);
+  color: #f6ead8;
+  font:
+    700 0.55rem/1 "Newsreader",
+    serif;
+}
+
+.specialtyEditor {
+  display: grid;
+  gap: 0.38rem;
+  margin-left: 0.5rem;
+  padding: 0.45rem 0.25rem 0.5rem 0.55rem;
+  border-top: 1px solid rgb(143 17 29 / 18%);
+  border-left: 1px solid rgb(143 17 29 / 35%);
+}
+
+.specialtyChip,
+.specialtyAdd {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.specialtyChip > label,
+.specialtyAdd > label {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: 0.12rem;
+}
+
+.specialtyChip > label > span,
+.specialtyAdd > label > span {
+  color: #6c554c;
+  font:
+    650 0.61rem "Newsreader",
+    serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.specialtyChip input,
+.specialtyAdd input {
+  min-width: 0;
+  flex: 1;
+  padding: 0.25rem 0.35rem;
+  border: 0;
+  border-bottom: 1px solid #a78072;
+  background: rgb(255 250 240 / 62%);
+  color: #322923;
+  font:
+    0.72rem "Newsreader",
+    serif;
+}
+
+.specialtyChip input:focus,
+.specialtyAdd input:focus {
+  border-bottom-color: var(--blood-dark);
+  outline: 0;
+  box-shadow: 0 1px 0 rgb(143 17 29 / 38%);
+}
+
+.specialtyChip button,
+.specialtyAdd button {
+  padding: 0.2rem 0.3rem;
+  border: 0;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    0.73rem "Newsreader",
+    serif;
+}
+
+.specialtyChip > div,
+.specialtyAdd > div {
+  display: flex;
+  gap: 0.45rem;
+  justify-content: flex-end;
+}
+
+.specialtyChip .specialtyRemove {
+  margin-right: auto;
+  color: #765b50;
+  font-size: 0.68rem;
+  text-decoration: underline dotted rgb(118 91 80 / 55%);
+  text-underline-offset: 0.18rem;
+}
+
+.specialtyError {
+  margin: 0.15rem 0 0;
+  color: var(--blood-dark);
+  font:
+    600 0.68rem/1.3 "Newsreader",
+    serif;
+}
+
+.specialtyAdd {
+  padding: 0;
+}
+
+.addSpecialtyButton {
+  width: 100%;
+  padding: 0.35rem 0.45rem;
+  border: 0;
+  border-bottom: 1px dotted rgb(143 17 29 / 38%);
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    720 0.76rem "Newsreader",
+    serif;
+  text-align: left;
+}
+
+.addSpecialtyButton:hover,
+.addSpecialtyButton:focus-visible {
+  background: rgb(143 17 29 / 7%);
+  outline: 1px solid rgb(143 17 29 / 30%);
+  outline-offset: 2px;
+}
+
+.specialtyEditor > small {
+  color: #766860;
+  font-size: 0.68rem;
+}
+
+.skillsRulePanel {
+  padding: 1rem 1.15rem;
+  border-left: 1px solid rgb(108 72 52 / 38%);
+  background: rgb(236 225 207 / 36%);
+  color: #342a25;
+}
+
+.skillsRulePanel > section {
+  margin-top: 0.65rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgb(119 76 58 / 28%);
+}
+
+.skillsRulePanel > .firstRuleSection {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.selectedMethod h3 {
+  margin-bottom: 0.42rem;
+}
+
+.skillsRulePanel h3 {
+  margin: 0;
+  color: var(--blood-dark);
+  font:
+    720 0.82rem "Newsreader",
+    serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.skillsRulePanel p,
+.skillsRulePanel li,
+.skillsRulePanel dd {
+  color: #56483f;
+  font:
+    0.82rem/1.35 "Newsreader",
+    serif;
+}
+
+.skillsRulePanel dl {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0.55rem 0;
+}
+
+.skillsRulePanel dl div {
+  text-align: center;
+}
+
+.skillsRulePanel dt {
+  color: var(--blood);
+  font:
+    1.7rem "Newsreader",
+    serif;
+}
+
+.skillsRulePanel dd {
+  margin: 0;
+}
+
+.skillsRulePanel ul {
+  margin: 0.65rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.distributionRemaining {
+  display: grid;
+  gap: 0.38rem;
+}
+
+.distributionRemaining li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.05rem 0.65rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px dotted rgb(91 69 56 / 25%);
+}
+
+.distributionRemaining li strong {
+  color: var(--blood-dark);
+  font-weight: 720;
+}
+
+.distributionRemaining li[data-complete="true"] strong {
+  color: #526044;
+}
+
+.ruleWarning {
+  padding-left: 0.55rem;
+  border-left: 2px solid var(--blood);
+  color: #702b2d !important;
+}
+
+.specialtySummary {
+  display: grid;
+  gap: 0.32rem;
+  margin-top: 0.55rem;
+}
+
+.specialtySummary p {
+  margin: 0;
+}
+
+.specialtySummary button {
+  width: 100%;
+  padding: 0.3rem 0;
+  border: 0;
+  border-bottom: 1px dotted rgb(143 17 29 / 35%);
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    700 0.82rem/1.3 "Newsreader",
+    serif;
+  text-align: left;
+}
+
+.specialtySummary button:hover,
+.specialtySummary button:focus-visible {
+  background: rgb(143 17 29 / 6%);
+  outline: 1px solid rgb(143 17 29 / 30%);
+  outline-offset: 2px;
+}
+
+.specialtySummary button:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+.completionSummary p {
+  margin-bottom: 0;
+}
+
+.freeSpecialtyInstruction {
+  padding: 0.35rem 0.45rem;
+  border-left: 2px solid rgb(143 17 29 / 48%);
+  background: rgb(143 17 29 / 5%);
+  color: #5b302e !important;
+  font-weight: 650 !important;
+}
+
+@media (max-width: 64rem) {
+  .skillsLayout {
+    grid-template-columns: 1fr;
+  }
+  .skillsRulePanel {
+    border-top: 1px solid rgb(108 72 52 / 38%);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 48rem) {
+  .skillsDocument .guidedMasthead {
+    grid-template-columns: 2rem 1fr;
+  }
+
+  .skillsDocument .guidedMasthead > svg {
+    width: 1.35rem;
+    height: 2.35rem;
+    margin-left: 0;
+  }
+
+  .skillsDocument .characterCreationIdentity,
+  .skillsDocument .guidedMasthead > p {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  .skillsDocument .characterCreationIdentity img {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .skillsStage {
+    padding: 1rem 0.75rem;
+  }
+  .methodSelector {
+    grid-template-columns: 1fr;
+  }
+  .methodSelector legend,
+  .methodSelector[data-detailed="true"],
+  .methodSelector {
+    grid-template-columns: 1fr;
+  }
+  .methodModeSwitch,
+  .detailedMethodOptions,
+  .detailedMethodOptions .methodModeSwitch {
+    grid-column: auto;
+  }
+  .detailedMethodOptions,
+  .detailedMethodOptions > div {
+    display: grid;
+  }
+  .skillColumns {
+    grid-template-columns: 1fr;
+  }
+  .skillColumns > section,
+  .skillColumns > section:first-child,
+  .skillColumns > section:last-child {
+    padding: 0.75rem 0;
+    border-top: 1px solid rgb(91 69 56 / 28%);
+    border-left: 0;
+  }
+  .skillLabel > button {
+    min-height: 2.4rem;
+  }
+  .specialtyAction > button {
+    width: 2.25rem;
+    height: 2.25rem;
+    opacity: 0.72;
+  }
+  .skillLine > div > button {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* Disciplinas preserva a mesma folha editorial das etapas aprovadas. */
+.disciplinesDocument {
+  width: min(100%, 83rem);
+}
+
+.disciplinesDocument .guidedMasthead {
+  grid-template-columns: 4rem minmax(0, 1fr) minmax(11rem, 13rem) 8rem;
+  padding-block: 1rem 0.8rem;
+}
+
+.disciplinesDocument .guidedMasthead > svg {
+  width: 1.75rem;
+  height: 3rem;
+  margin-left: 0.2rem;
+}
+
+.disciplinesDocument .characterCreationIdentity {
+  justify-self: center;
+  gap: 0.7rem;
+  width: max-content;
+  max-width: 13rem;
+  padding: 0;
+  border: 0;
+  text-align: left;
+}
+
+.disciplinesDocument .characterCreationIdentity img {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+
+.disciplinesDocument .characterCreationIdentity > span {
+  gap: 0.08rem;
+}
+
+.disciplinesDocument .characterCreationIdentity small {
+  color: #3f342f;
+  font-size: 0.76rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.disciplinesDocument .characterCreationIdentity i {
+  display: none;
+}
+
+.disciplinesDocument .characterCreationIdentity strong {
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.disciplinesDocument .guidedMasthead > p {
+  justify-self: end;
+}
+
+.disciplinesLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20rem;
+  min-height: 34rem;
+}
+
+.disciplinesStage {
+  min-width: 0;
+  padding: 0.9rem 1.55rem 1.1rem;
+}
+
+.disciplineSelector {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 0.8rem 0 1rem;
+  padding: 0;
+  border: 0;
+}
+
+.disciplineSelector legend {
+  grid-column: 1 / -1;
+  margin-bottom: 0.35rem;
+  color: var(--blood-dark);
+  font:
+    720 0.82rem "Newsreader",
+    serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.disciplineSelectorIntro {
+  grid-column: 1 / -1;
+  margin: -0.2rem 0 0.25rem;
+  color: #675950;
+  font:
+    0.86rem/1.35 "Newsreader",
+    serif;
+}
+
+.disciplineSelector label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.75rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid rgb(108 72 52 / 30%);
+  background: rgb(255 250 240 / 15%);
+  color: #322923;
+  cursor: pointer;
+  font:
+    700 1.12rem "Newsreader",
+    serif;
+  text-align: center;
+}
+
+.disciplineSelector input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.disciplineSelector label:hover,
+.disciplineSelector label:focus-within {
+  border-color: rgb(143 17 29 / 55%);
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 2px rgb(143 17 29 / 12%);
+}
+
+.disciplineSelector label[data-selected="true"] {
+  border-color: var(--blood);
+  background: rgb(143 17 29 / 7%);
+  color: var(--blood-dark);
+  box-shadow: inset 0 -2px 0 rgb(143 17 29 / 45%);
+}
+
+.disciplineSelector label[data-selected="true"] strong {
+  letter-spacing: 0.035em;
+}
+
+.disciplineSelector:has(> label:nth-of-type(4)) {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.thinBloodNotice {
+  grid-column: 1 / -1;
+  max-width: 45rem;
+  margin: 0.4rem auto;
+  padding: 1.2rem 1.4rem;
+  border-block: 1px solid rgb(108 72 52 / 30%);
+  color: #4d4038;
+  font:
+    1rem/1.55 "Newsreader",
+    serif;
+  text-align: center;
+}
+
+.disciplineChoiceArea {
+  border-top: 1px solid rgb(108 72 52 / 24%);
+}
+
+.disciplineRating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 0.35rem;
+  border-bottom: 1px solid rgb(108 72 52 / 24%);
+}
+
+.disciplineRating h3,
+.disciplineEmptyState h3,
+.acquiredPowers h3,
+.pendingPowers h3 {
+  margin: 0 0 0.35rem;
+  color: var(--blood-dark);
+  font:
+    720 0.88rem "Newsreader",
+    serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.disciplineRatingHeading {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+  min-width: 21rem;
+}
+
+.disciplineRating .disciplineRatingHeading > button {
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0.1rem 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--blood-dark);
+  font:
+    700 0.75rem "Newsreader",
+    serif;
+}
+
+.disciplineRating .disciplineRatingHeading > button:disabled {
+  cursor: default;
+  opacity: 0.38;
+}
+
+.disciplineDots {
+  display: flex;
+  align-items: center;
+  min-height: 1.8rem;
+}
+
+.disciplineRating button {
+  position: relative;
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-right: 0.55rem;
+  border: 1.5px solid #4c4039;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.disciplineRating button:focus-visible {
+  outline: 2px solid var(--blood);
+  outline-offset: 3px;
+}
+
+.disciplineRating button[aria-pressed="true"] {
+  border-color: var(--blood);
+  background: var(--blood);
+  box-shadow: inset 0 0 0 3px #f4ead8;
+}
+
+.disciplineRating button[data-state="unavailable"] {
+  border-style: dashed;
+  cursor: not-allowed;
+  opacity: 0.68;
+}
+
+.disciplineRating button[data-state="unavailable"]::after {
+  position: absolute;
+  top: 50%;
+  left: 14%;
+  width: 72%;
+  border-top: 1px solid currentColor;
+  content: "";
+  transform: rotate(-42deg);
+}
+
+.disciplineRating em {
+  padding-left: 1.4rem;
+  border-left: 1px solid rgb(108 72 52 / 32%);
+  color: #4b3e37;
+  font:
+    italic 0.95rem "Newsreader",
+    serif;
+}
+
+.acquiredPowers,
+.pendingPowers {
+  padding: 0.95rem 0.35rem 0;
+}
+
+.disciplineContextError {
+  margin: 0.65rem 0.35rem 0;
+  padding: 0.55rem 0.7rem;
+  border-left: 2px solid var(--blood);
+  background: rgb(143 17 29 / 6%);
+  color: var(--blood-dark);
+  font:
+    0.84rem/1.4 "Newsreader",
+    serif;
+}
+
+.disciplineAdjustment {
+  margin: 0.75rem 0.35rem 0;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgb(143 17 29 / 38%);
+  border-left: 3px solid var(--blood);
+  background: rgb(143 17 29 / 6%);
+}
+
+.disciplineAdjustment header {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.disciplineAdjustment h3,
+.disciplineAdjustment p {
+  margin: 0;
+}
+
+.disciplineAdjustment h3 {
+  color: var(--blood-dark);
+  font:
+    720 0.84rem "Newsreader",
+    serif;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.disciplineAdjustment p {
+  margin-top: 0.2rem;
+  color: #51443d;
+  font:
+    0.85rem/1.4 "Newsreader",
+    serif;
+}
+
+.disciplineAdjustment button {
+  flex: 0 0 auto;
+  border: 0;
+  border-bottom: 1px solid currentcolor;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    700 0.78rem "Newsreader",
+    serif;
+}
+
+.disciplineEmptyState {
+  margin: 0.95rem 0.35rem 0;
+  padding: 1rem 0 0.35rem;
+  border-top: 1px solid rgb(108 72 52 / 20%);
+}
+
+.disciplineEmptyState p {
+  max-width: 38rem;
+  margin: 0;
+  color: #6a5a50;
+  font:
+    0.9rem/1.45 "Newsreader",
+    serif;
+}
+
+.acquiredPowers header,
+.pendingPowers header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.acquiredPowers header span,
+.pendingPowers header p,
+.acquiredPowers > p {
+  color: #6a5a50;
+  font:
+    0.82rem/1.4 "Newsreader",
+    serif;
+}
+
+.powerLevelGroup {
+  margin-top: 0.7rem;
+}
+
+.powerLevelGroup h4 {
+  margin: 0 0 0.35rem;
+  color: #51443d;
+  font:
+    italic 700 0.83rem "Newsreader",
+    serif;
+}
+
+.acquiredPowerRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 0.65rem;
+  align-items: center;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgb(108 72 52 / 20%);
+}
+
+.acquiredPowerRow > span {
+  color: #6a5a50;
+  font:
+    700 0.68rem "Newsreader",
+    serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.acquiredPowerRow[data-incompatible="true"] {
+  background: rgb(143 17 29 / 5%);
+}
+
+.acquiredPowerRow small {
+  margin-top: 0.12rem;
+  color: var(--blood);
+  font:
+    700 0.72rem/1.3 "Newsreader",
+    serif;
+}
+
+.acquiredPowers p,
+.acquiredPowers small {
+  display: block;
+  margin: 0;
+}
+
+.acquiredPowers button,
+.pendingPowers button {
+  border: 0;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    700 0.8rem "Newsreader",
+    serif;
+}
+
+.acquiredPowers button:focus-visible,
+.pendingPowers button:focus-visible,
+.disciplineEditorialPanel > button:focus-visible {
+  outline: 2px solid var(--blood);
+  outline-offset: 3px;
+}
+
+.pendingPowers {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid rgb(108 72 52 / 24%);
+}
+
+.pendingPowerGuidance {
+  margin: -0.1rem 0 0;
+  color: #51443d;
+  font:
+    0.86rem/1.4 "Newsreader",
+    serif;
+}
+
+.availablePowersTitle {
+  margin: 0.55rem 0 0;
+  color: var(--blood-dark);
+  font:
+    720 0.8rem "Newsreader",
+    serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.availablePowerLevels {
+  display: flex;
+  gap: 0.2rem;
+  align-items: stretch;
+  margin-top: 0.2rem;
+  border-bottom: 1px solid rgb(108 72 52 / 28%);
+}
+
+.availablePowerLevels button {
+  min-width: 6.4rem;
+  padding: 0.45rem 0.75rem 0.5rem;
+  border-bottom: 2px solid transparent;
+  color: #66564d;
+  text-align: left;
+}
+
+.availablePowerLevels button:hover:not(:disabled) {
+  background: rgb(143 17 29 / 4%);
+  color: var(--blood-dark);
+}
+
+.availablePowerLevels button[aria-pressed="true"] {
+  border-bottom-color: var(--blood);
+  background: rgb(143 17 29 / 6%);
+  color: var(--blood-dark);
+}
+
+.availablePowerLevels button > span {
+  font:
+    700 0.86rem "Newsreader",
+    serif;
+}
+
+.availablePowerLevels button > small {
+  margin-top: 0.08rem;
+  color: inherit;
+  font:
+    0.7rem/1.2 "Newsreader",
+    serif;
+}
+
+.visiblePowerLevel {
+  margin-top: 0.45rem;
+}
+
+.availablePowerLevelHeading {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.availablePowerLevelHeading h4 {
+  margin: 0;
+}
+
+.availablePowerLevelHeading > span {
+  color: #6a5a50;
+  font:
+    0.75rem/1.3 "Newsreader",
+    serif;
+}
+
+.pendingPowerOptions {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.pendingPowers label {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.7rem;
+  align-items: center;
+  padding: 0.65rem 0.7rem;
+  border: 1px solid rgb(108 72 52 / 25%);
+  cursor: pointer;
+}
+
+.pendingPowers label:focus-within,
+.pendingPowers label:hover {
+  border-color: rgb(143 17 29 / 50%);
+  background: rgb(143 17 29 / 4%);
+}
+
+.pendingPowers input {
+  accent-color: var(--blood);
+}
+
+.pendingPowers span,
+.pendingPowers small {
+  display: block;
+}
+
+.pendingPowers small {
+  margin-top: 0.18rem;
+  color: #675950;
+  font:
+    0.78rem/1.3 "Newsreader",
+    serif;
+}
+
+.lockedPowerPreview {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgb(108 72 52 / 22%);
+}
+
+.lockedPowerPreview > header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.lockedPowerPreview > header span,
+.lockedPowerPreview article > span {
+  color: #75665c;
+  font:
+    700 0.67rem/1.2 "Newsreader",
+    serif;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.lockedPowerPreview > p {
+  max-width: 47rem;
+  margin: 0.15rem 0 0.65rem;
+  color: #675950;
+  font:
+    0.8rem/1.4 "Newsreader",
+    serif;
+}
+
+.lockedPowerPreview article {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.7rem;
+  align-items: center;
+  padding: 0.65rem 0.7rem;
+  border: 1px dashed rgb(108 72 52 / 34%);
+  background: rgb(91 73 62 / 3%);
+}
+
+.lockedPowerPreview article > div {
+  min-width: 0;
+}
+
+.lockedPowerPreview article button:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.disciplineEditorialPanel {
+  padding: 1.25rem 1.35rem;
+  border-left: 1px solid rgb(108 72 52 / 38%);
+  background: rgb(236 225 207 / 32%);
+}
+
+.disciplineEditorialPanel > span,
+.disciplineEditorialPanel h3 {
+  color: var(--blood-dark);
+  font:
+    720 0.79rem "Newsreader",
+    serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.disciplineEditorialPanel h2 {
+  margin: 0.28rem 0 0.65rem;
+  color: var(--blood-dark);
+  font:
+    700 1.55rem "Newsreader",
+    serif;
+  text-transform: uppercase;
+}
+
+.disciplineEditorialPanel p,
+.disciplineEditorialPanel li {
+  color: #443730;
+  font:
+    0.92rem/1.48 "Newsreader",
+    serif;
+}
+
+.disciplineEditorialPanel h3 {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgb(108 72 52 / 28%);
+}
+
+.disciplineEditorialPanel ul {
+  padding-left: 1.1rem;
+}
+
+.disciplineProgress {
+  margin-top: 0.9rem;
+}
+
+.disciplineProgress h3 {
+  margin-bottom: 0.35rem;
+}
+
+.disciplineProgressRule {
+  margin: 0 0 0.5rem;
+  color: #675950;
+  font:
+    0.78rem/1.35 "Newsreader",
+    serif;
+}
+
+.disciplineProgressRating {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0;
+  padding: 0.28rem 0;
+  border-bottom: 1px dotted rgb(108 72 52 / 28%);
+}
+
+.disciplineProgressEmpty {
+  margin: 0;
+  padding: 0.28rem 0;
+}
+
+.disciplineProgress strong {
+  color: var(--blood-dark);
+  font-size: 1rem;
+}
+
+.disciplineProgressStatus {
+  display: block;
+  margin-top: 0.55rem;
+  color: var(--blood-dark);
+  font:
+    700 0.76rem "Newsreader",
+    serif;
+}
+
+.disciplineEditorialPanel > button {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.65rem 0.7rem;
+  border: 1px solid rgb(108 72 52 / 50%);
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    700 0.9rem "Newsreader",
+    serif;
+}
+
+.disciplineDetailLayer {
+  position: fixed;
+  z-index: 80;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background: rgb(8 10 14 / 76%);
+}
+
+.disciplineDetailDialog {
+  width: min(54rem, 100%);
+  max-height: 88vh;
+  overflow: auto;
+  padding: 1.4rem 1.6rem 1.8rem;
+  border: 1px solid #7b302f;
+  background: #f3eadb;
+  box-shadow: 0 1.5rem 5rem rgb(0 0 0 / 55%);
+  color: #2d2521;
+  scrollbar-color: rgb(120 41 46 / 58%) transparent;
+}
+
+.disciplineDetailDialog > header {
+  position: sticky;
+  z-index: 2;
+  top: -1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgb(108 72 52 / 28%);
+  color: var(--blood-dark);
+  font:
+    720 0.78rem "Newsreader",
+    serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  background: #f3eadb;
+}
+
+.disciplineDetailDialog > header button {
+  border: 0;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font-size: 1.8rem;
+}
+
+.disciplineDetailDialog h2 {
+  margin-bottom: 0.45rem;
+  color: var(--blood-dark);
+  font:
+    700 2rem "Newsreader",
+    serif;
+}
+
+.detailLead {
+  max-width: 45rem;
+  font:
+    1rem/1.55 "Newsreader",
+    serif;
+}
+
+.powerDescription .detailLead + .detailLead {
+  margin-top: 0.7rem;
+}
+
+.disciplineGeneralRules,
+.powerDescription {
+  margin-top: 1rem;
+  padding: 0.8rem 0;
+  border-block: 1px solid rgb(108 72 52 / 24%);
+}
+
+.disciplineGeneralRules h3,
+.powerDescription h3,
+.powerSectionTitle {
+  margin: 0 0 0.35rem;
+  color: var(--blood-dark);
+  font:
+    700 0.78rem "Newsreader",
+    serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.disciplineGeneralRules p,
+.powerDescription p {
+  margin: 0;
+}
+
+.powerDetailEyebrow {
+  margin: 1.1rem 0 0;
+  color: var(--blood-dark);
+  font:
+    700 0.78rem "Newsreader",
+    serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.powerOriginalName {
+  margin: -0.2rem 0 0;
+  color: #77655a;
+  font:
+    italic 0.86rem "Newsreader",
+    serif;
+}
+
+.powerSectionTitle {
+  margin-top: 1.15rem;
+}
+
+.powerLevels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem 1.4rem;
+  margin-top: 1rem;
+}
+
+.powerLevels section {
+  border-top: 1px solid rgb(108 72 52 / 30%);
+}
+
+.powerLevels h3 {
+  color: var(--blood-dark);
+  font:
+    700 0.9rem "Newsreader",
+    serif;
+  text-transform: uppercase;
+}
+
+.powerLevels p {
+  margin-top: 0.2rem;
+  color: #5b4b42;
+  font:
+    0.82rem/1.4 "Newsreader",
+    serif;
+}
+
+.powerLevels small {
+  display: block;
+  margin-top: 0.15rem;
+  color: #7c6b60;
+  font:
+    0.7rem/1.35 "Newsreader",
+    serif;
+}
+
+.powerMechanics {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: 0;
+  margin-top: 0.35rem;
+  border-top: 1px solid rgb(108 72 52 / 30%);
+}
+
+.powerMechanics dt,
+.powerMechanics dd {
+  margin: 0;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgb(108 72 52 / 20%);
+  font:
+    0.88rem/1.4 "Newsreader",
+    serif;
+}
+
+.powerMechanics dt {
+  color: var(--blood-dark);
+  font-weight: 700;
+}
+
+.powerMechanics dd p {
+  margin: 0;
+}
+
+.powerMechanics dd p + p {
+  margin-top: 0.6rem;
+}
+
+@media (max-width: 64rem) {
+  .disciplinesLayout {
+    grid-template-columns: 1fr;
+  }
+  .disciplineEditorialPanel {
+    border-top: 1px solid rgb(108 72 52 / 38%);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 48rem) {
+  .disciplinesDocument .guidedMasthead {
+    grid-template-columns: 2rem 1fr;
+  }
+  .disciplinesDocument .characterCreationIdentity,
+  .disciplinesDocument .guidedMasthead > p {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+  .disciplineSelector,
+  .disciplineSelector:has(> label:nth-of-type(4)) {
+    grid-template-columns: 1fr;
+  }
+  .disciplineRating {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .disciplineRating em {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .disciplineRatingHeading {
+    min-width: 0;
+  }
+  .availablePowerLevels {
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+  .availablePowerLevels button {
+    flex: 1 0 6.4rem;
+  }
+  .powerLevels {
+    grid-template-columns: 1fr;
+  }
+  .disciplineDetailLayer {
+    padding: 0.5rem;
+  }
+  .disciplineDetailDialog {
+    max-height: calc(100dvh - 1rem);
+    padding: 1rem 1rem 1.4rem;
+  }
+  .disciplineDetailDialog > header {
+    top: -1rem;
+  }
+  .powerMechanics {
+    grid-template-columns: 1fr;
+  }
+  .powerMechanics dt {
+    padding-bottom: 0.08rem;
+    border-bottom: 0;
+  }
+  .powerMechanics dd {
+    padding-top: 0.15rem;
+  }
+}

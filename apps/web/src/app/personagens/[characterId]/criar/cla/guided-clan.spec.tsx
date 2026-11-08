@@ -101,14 +101,14 @@ function context(
         ? {
             family: "THIN_BLOOD",
             hasIntrinsicClanDisciplines: false,
-            selectionRules: "NOT_FORMALIZED",
+            selectionRules: "NONE_UNLESS_THIN_BLOOD_ALCHEMIST_MERIT",
           }
         : selectedOriginId?.startsWith("clan:")
           ? {
               allowedDisciplines: selected?.disciplines ?? [],
               family: "CLAN",
               originId: selectedOriginId,
-              selectionRules: "NOT_FORMALIZED",
+              selectionRules: "TWO_AND_ONE_FROM_ANY_TWO",
             }
           : { family: "ORIGIN_REQUIRED" };
   return {

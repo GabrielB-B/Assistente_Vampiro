@@ -16,7 +16,7 @@ describe("contexto progressivo da criação", () => {
       ],
       family: "CLAN",
       originId: "clan:toreador",
-      selectionRules: "NOT_FORMALIZED",
+      selectionRules: "TWO_AND_ONE_FROM_ANY_TWO",
     });
     expect(projectCreationDisciplinePolicy("origin:caitiff")).toEqual({
       family: "CAITIFF",
@@ -26,7 +26,7 @@ describe("contexto progressivo da criação", () => {
     expect(projectCreationDisciplinePolicy("origin:thin-blood")).toEqual({
       family: "THIN_BLOOD",
       hasIntrinsicClanDisciplines: false,
-      selectionRules: "NOT_FORMALIZED",
+      selectionRules: "NONE_UNLESS_THIN_BLOOD_ALCHEMIST_MERIT",
     });
   });
 

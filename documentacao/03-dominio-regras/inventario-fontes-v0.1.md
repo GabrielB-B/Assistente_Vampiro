@@ -30,6 +30,10 @@ Este inventário registra metadados e decisões próprias. Ele não reproduz o c
 | SRC-0003 | `89b49c22eb8dea3443cf1bd9bffe568b74476e88a7eb8778d24333590e632329` |
 | SRC-0004 | `25577325c50f995c3ccfaa6c627c6a1352fb4a8f109b14927ecbc811ba7415d5` |
 
+### Cópia técnica recertificada de SRC-0004
+
+Em 7 de novembro de 2026, a cópia local disponível do Players Guide apresentou SHA-256 `e7dd30b61ac5fd637485810741865dd084e2c35353cc6114b5024de5aace0a9a`. A inspeção de capa, créditos, ISBN, paginação física (250 páginas), sumário e páginas normativas confirmou a mesma publicação Renegade de 2023. Metadados indicam reprocessamento do contêiner PDF; por isso o hash não substitui o original acima, mas passa a ser aceito como cópia técnica recertificada para cotejo privado. A decisão e as páginas consultadas são registradas nas especificações, nunca inferidas apenas pelo nome do arquivo.
+
 Os três originais foram preservados sem alteração. Cada página foi inventariada. As extrações são camadas de busca e cotejo, nunca a autoridade normativa.
 
 ## 4. Perfil de regras aprovado

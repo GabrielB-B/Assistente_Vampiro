@@ -83,6 +83,9 @@ As formas abaixo foram confirmadas em `SRC-0001`. O Companion (`SRC-0003`) confi
 | TERM-GAME-035 | Protean | Proteanismo | oficial | SRC-0001, p. 74, 154–155 | Disciplina |
 | TERM-GAME-036 | Obfuscate | Ofuscação | oficial | SRC-0001, p. 81, 86, 154–155 | Disciplina |
 | TERM-GAME-037 | Thin-Blood Alchemy | Alquimia Sangue-Ralo | oficial | SRC-0001, p. 155, 390 | manter esta forma enquanto não houver decisão editorial posterior |
+| TERM-GAME-038 | Discipline Power | Poder de Disciplina | oficial/controlado | SRC-0001, p. 244–287; SRC-0004, p. 69–106 | `Poder` na interface quando o contexto já identifica a Disciplina |
+| TERM-GAME-039 | Amalgam | Amálgama | oficial/controlado | SRC-0001, p. 244+; SRC-0004, p. 69–106 | requisito de rating em outra Disciplina; não é uma Disciplina separada |
+| TERM-GAME-040 | rating / dot | nível / ponto | controlado | SRC-0001, p. 149–150, 244+ | `nível` na leitura da UI e `ponto` ao explicar distribuição |
 
 ---
 

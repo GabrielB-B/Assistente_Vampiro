@@ -19,6 +19,14 @@ import {
 } from "./application/get-creation-attributes.js";
 import { GET_CREATION_CLAN, GetCreationClan } from "./application/get-creation-clan.js";
 import {
+  GET_CREATION_SKILLS,
+  GetCreationSkills,
+} from "./application/get-creation-skills.js";
+import {
+  GET_CREATION_DISCIPLINES,
+  GetCreationDisciplines,
+} from "./application/get-creation-disciplines.js";
+import {
   GET_CHARACTER_SHEET,
   GetCharacterSheet,
 } from "./application/get-character-sheet.js";
@@ -39,6 +47,14 @@ import {
   UPDATE_CREATION_CLAN,
   UpdateCreationClan,
 } from "./application/update-creation-clan.js";
+import {
+  UPDATE_CREATION_SKILLS,
+  UpdateCreationSkills,
+} from "./application/update-creation-skills.js";
+import {
+  UPDATE_CREATION_DISCIPLINES,
+  UpdateCreationDisciplines,
+} from "./application/update-creation-disciplines.js";
 import {
   UPDATE_CHARACTER_SHEET,
   UpdateCharacterSheet,
@@ -90,6 +106,22 @@ import {
       ) => new GetCreationClan(accessContextReader, writer),
     },
     {
+      inject: [ACCESS_CONTEXT_READER, CHARACTER_SHEET_WRITER],
+      provide: GET_CREATION_SKILLS,
+      useFactory: (
+        accessContextReader: ConstructorParameters<typeof GetCreationSkills>[0],
+        writer: KyselyCharacterSheetWriter,
+      ) => new GetCreationSkills(accessContextReader, writer),
+    },
+    {
+      inject: [ACCESS_CONTEXT_READER, CHARACTER_SHEET_WRITER],
+      provide: GET_CREATION_DISCIPLINES,
+      useFactory: (
+        accessContextReader: ConstructorParameters<typeof GetCreationDisciplines>[0],
+        writer: KyselyCharacterSheetWriter,
+      ) => new GetCreationDisciplines(accessContextReader, writer),
+    },
+    {
       inject: [ACCESS_CONTEXT_READER, CHARACTER_ENTRY_READER],
       provide: GET_CHARACTER_SHEET,
       useFactory: (
@@ -138,6 +170,28 @@ import {
           writer,
           new NodeUuidV7Generator(),
           getCreationClan,
+        ),
+    },
+    {
+      inject: [ACCESS_CONTEXT_READER, CHARACTER_SHEET_WRITER],
+      provide: UPDATE_CREATION_SKILLS,
+      useFactory: (
+        accessContextReader: ConstructorParameters<typeof UpdateCreationSkills>[0],
+        writer: KyselyCharacterSheetWriter,
+      ) =>
+        new UpdateCreationSkills(accessContextReader, writer, new NodeUuidV7Generator()),
+    },
+    {
+      inject: [ACCESS_CONTEXT_READER, CHARACTER_SHEET_WRITER],
+      provide: UPDATE_CREATION_DISCIPLINES,
+      useFactory: (
+        accessContextReader: ConstructorParameters<typeof UpdateCreationDisciplines>[0],
+        writer: KyselyCharacterSheetWriter,
+      ) =>
+        new UpdateCreationDisciplines(
+          accessContextReader,
+          writer,
+          new NodeUuidV7Generator(),
         ),
     },
     {

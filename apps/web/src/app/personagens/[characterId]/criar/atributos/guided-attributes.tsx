@@ -362,13 +362,18 @@ export function GuidedAttributes({ characterId }: { readonly characterId: string
             <Link href={`/ficha/${characterId}?identity=player-one&mode=direct`}>
               Preencher diretamente
             </Link>
-            <button
-              className={styles.continueButton}
-              disabled={!step.evaluation.complete}
-              type="button"
-            >
-              Continuar →
-            </button>
+            {step.evaluation.complete ? (
+              <Link
+                className={styles.continueButton}
+                href={`/personagens/${characterId}/criar/habilidades`}
+              >
+                Continuar →
+              </Link>
+            ) : (
+              <button className={styles.continueButton} disabled type="button">
+                Continuar →
+              </button>
+            )}
           </div>
         </footer>
         <p aria-live="polite" className={styles.guidedMessage}>

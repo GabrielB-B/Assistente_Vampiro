@@ -2639,6 +2639,14 @@ button:disabled {
   text-align: right;
 }
 
+.sheet-skill-entry > small {
+  display: block;
+  margin: -0.15rem 0 0.2rem 1.15rem;
+  color: var(--sheet-blood, #7d151d);
+  font-size: 0.66rem;
+  line-height: 1.2;
+}
+
 .sheet-footer-stats {
   gap: 1.7rem;
   margin-top: 1rem;
