@@ -20,6 +20,6 @@
     "eslint": "catalog:",
     "eslint-config-prettier": "10.1.8",
     "typescript": "catalog:",
-    "typescript-eslint": "8.71.1"
+    "typescript-eslint": "8.73.0"
   }
 }

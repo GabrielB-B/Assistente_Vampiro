@@ -27,7 +27,7 @@ limitado e houver responsável, prazo e controles compensatórios.
 
 ### Correção e controles
 
-- o único uso de `fast-glob` em `@next/eslint-plugin-next@16.4.2` foi substituído
+- o único uso de `fast-glob` em `@next/eslint-plugin-next@16.4.5` foi substituído
   por resolução de diretórios explícitos, sem interpretação de glob;
 - o patch e o hook se aplicam somente quando nome, versão do plugin e versão da
   dependência correspondem exatamente ao artefato revisado;
@@ -54,3 +54,4 @@ limitado e houver responsável, prazo e controles compensatórios.
 | 23/10/2026 | dependência não utilizada removida da resolução; exceção de auditoria eliminada |
 | 23/10/2026 | revisão aprovada; auditoria completa sem vulnerabilidades conhecidas e VS01-02 encerrado |
 | 24/10/2026 | advisories altos de `body-parser`, `multer` e `undici` detectados pela CI/auditoria e corrigidos por overrides para `2.4.0`, `2.5.0` e `8.12.2`; nenhuma exceção aceita |
+| 20/11/2026 | Next.js corrigido para `16.4.5`; patch e hook revalidados para o plugin correspondente; `typescript-eslint` atualizado para `8.73.0`; `fast-glob` removido e auditorias de produção e do grafo completo sem vulnerabilidades conhecidas |

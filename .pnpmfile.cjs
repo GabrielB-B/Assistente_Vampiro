@@ -1,6 +1,6 @@
 /**
  * Ajusta o manifesto do plugin que também recebe o patch versionado em
- * patches/@next__eslint-plugin-next@16.4.2.patch.
+ * patches/@next__eslint-plugin-next@16.4.5.patch.
  *
  * O patch remove o uso de fast-glob do código distribuído. Este hook remove a
  * mesma dependência da resolução, pois o pnpm calcula o grafo antes de aplicar
@@ -13,7 +13,7 @@ function readPackage(packageManifest) {
 
   if (
     packageManifest.name !== "@next/eslint-plugin-next" ||
-    packageManifest.version !== "16.4.2" ||
+    packageManifest.version !== "16.4.5" ||
     fastGlobVersion !== "3.3.1"
   ) {
     return packageManifest;
