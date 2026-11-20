@@ -23,6 +23,8 @@ Os nove Atributos começam com valor mínimo 1. Ao concluir a etapa, a distribui
 
 Nenhum Atributo pode ficar abaixo de 1 ou acima de 4 durante esta etapa de criação. As categorias Físicos, Sociais e Mentais organizam a ficha, mas não possuem suborçamentos independentes.
 
+A escala estrutural da ficha possui cinco posições (`structuralMaximum = 5`). O limite `maximum = 4` pertence somente à distribuição inicial: a quinta posição deve permanecer visível na interface como parte da escala do Atributo, mas indisponível para seleção durante esta etapa.
+
 ## Identificadores canônicos
 
 - Físicos: `attribute:strength`, `attribute:dexterity`, `attribute:stamina`.

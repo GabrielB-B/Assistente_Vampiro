@@ -1,6 +1,7 @@
 import type { CreationDisciplinesStepView } from "@assistente-vampiro/contracts";
 import {
   DISCIPLINE_CATALOG,
+  V5_TRAIT_STRUCTURAL_MAXIMUM,
   evaluateCreationDisciplines,
   resolveCreationDisciplinePolicy,
 } from "@assistente-vampiro/rules-engine";
@@ -29,7 +30,7 @@ export function projectCreationDisciplinesStep(
       persistedById.get(disciplineId) ?? {
         disciplineId,
         rating: 0,
-        structuralMaximum: 5 as const,
+        structuralMaximum: V5_TRAIT_STRUCTURAL_MAXIMUM,
       },
   );
   const powers = (persisted.disciplinePowers ?? []).filter((item) =>

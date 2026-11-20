@@ -206,7 +206,7 @@ export function GuidedSkills({ characterId }: { readonly characterId: string }) 
   }
 
   function chooseRating(skillId: CreationSkillId, requested: number) {
-    if (step === null) return;
+    if (step === null || requested > step.policy.maximumRating) return;
     const value =
       step.skills[skillId] === requested ? Math.max(0, requested - 1) : requested;
     const relatedSpecialties = step.specialties.filter(
@@ -534,18 +534,42 @@ export function GuidedSkills({ characterId }: { readonly characterId: string }) 
                               className={styles.skillRating}
                             >
                               {Array.from(
-                                { length: step.policy.maximumRating },
+                                { length: step.policy.structuralMaximum },
                                 (_, index) => index + 1,
-                              ).map((rating) => (
-                                <button
-                                  aria-label={`Definir ${skill.labelPtBr} em ${rating}`}
-                                  aria-pressed={rating <= value}
-                                  disabled={pending || step.methodId === null}
-                                  key={rating}
-                                  onClick={() => chooseRating(skill.id, rating)}
-                                  type="button"
-                                />
-                              ))}
+                              ).map((rating) => {
+                                const unavailableDuringCreation =
+                                  rating > step.policy.maximumRating;
+
+                                return (
+                                  <button
+                                    aria-disabled={
+                                      unavailableDuringCreation ||
+                                      pending ||
+                                      step.methodId === null
+                                    }
+                                    aria-label={
+                                      unavailableDuringCreation
+                                        ? `${skill.labelPtBr}: ponto ${rating} indisponível na criação inicial`
+                                        : `Definir ${skill.labelPtBr} em ${rating}`
+                                    }
+                                    aria-pressed={rating <= value}
+                                    data-creation-locked={unavailableDuringCreation}
+                                    disabled={pending || step.methodId === null}
+                                    key={rating}
+                                    onClick={
+                                      unavailableDuringCreation
+                                        ? undefined
+                                        : () => chooseRating(skill.id, rating)
+                                    }
+                                    title={
+                                      unavailableDuringCreation
+                                        ? "O quinto ponto existe na escala, mas não pode ser escolhido na criação inicial."
+                                        : undefined
+                                    }
+                                    type="button"
+                                  />
+                                );
+                              })}
                             </div>
                             <span className={styles.specialtyAction}>
                               <button

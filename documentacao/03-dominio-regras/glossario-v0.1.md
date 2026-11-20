@@ -86,6 +86,12 @@ As formas abaixo foram confirmadas em `SRC-0001`. O Companion (`SRC-0003`) confi
 | TERM-GAME-038 | Discipline Power | Poder de Disciplina | oficial/controlado | SRC-0001, p. 244–287; SRC-0004, p. 69–106 | `Poder` na interface quando o contexto já identifica a Disciplina |
 | TERM-GAME-039 | Amalgam | Amálgama | oficial/controlado | SRC-0001, p. 244+; SRC-0004, p. 69–106 | requisito de rating em outra Disciplina; não é uma Disciplina separada |
 | TERM-GAME-040 | rating / dot | nível / ponto | controlado | SRC-0001, p. 149–150, 244+ | `nível` na leitura da UI e `ponto` ao explicar distribuição |
+| TERM-GAME-041 | Blood Sorcery Ritual | Ritual de Feitiçaria de Sangue | oficial | SRC-0001, p. 272, 274–281 | não é Poder de Disciplina |
+| TERM-GAME-042 | Oblivion Ceremony | Cerimônia do Oblívio | controlado | SRC-0004, p. 91–98 | exige Poder de Oblívio associado |
+| TERM-GAME-043 | Thin-Blood Alchemy Formula | Fórmula de Alquimia Sangue-Ralo | oficial/controlado | SRC-0001, p. 282–287; SRC-0004, p. 103–106 | não projetar como Poder comum |
+| TERM-GAME-044 | Athanor Corporis | Athanor Corporis | oficial | SRC-0001, p. 284 | método de destilação no próprio corpo |
+| TERM-GAME-045 | Calcinatio | Calcinatio | oficial | SRC-0001, p. 284 | método de destilação em recipiente humano |
+| TERM-GAME-046 | Fixatio | Fixatio | oficial | SRC-0001, p. 284 | método de destilação em equipamento alquímico |
 
 ---
 

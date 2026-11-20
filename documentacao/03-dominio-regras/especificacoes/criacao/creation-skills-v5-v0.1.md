@@ -53,6 +53,8 @@ Rótulos PT-BR: Erudição, Percepção, Finanças, Investigação, Medicina, Oc
 
 Habilidades não incluídas na distribuição permanecem em zero.
 
+A escala estrutural de cada Habilidade possui cinco posições (`structuralMaximum = 5`). O teto `maximumRating = 4` pertence somente às distribuições desta criação inicial: a quinta posição permanece visível na interface, mas indisponível para seleção nesta etapa.
+
 ### Método detalhado
 
 O método detalhado organiza as escolhas pela história de vida, sem criar um segundo modelo de dados:

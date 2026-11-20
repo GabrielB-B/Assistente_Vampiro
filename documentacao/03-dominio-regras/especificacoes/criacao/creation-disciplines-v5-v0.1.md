@@ -1,6 +1,6 @@
 # Criação — Disciplinas V5 v0.1
 
-**Status:** regra de criação executável; auditoria mecânica profunda concluída para Auspícios, Celeridade e Presença
+**Status:** regra de criação executável; fundação normativa integral auditada
 
 **Revisão:** `RULE-CREATION-DISCIPLINES-001-r1`
 
@@ -66,6 +66,14 @@ estruturada de mecânica.
 | `ONGOING_EDIT` | não aplica o teto inicial; exige autorização e preserva revisões adquiridas |
 | `FUTURE_XP_PROGRESSION` | reutilizará catálogo e elegibilidade; custo/compra não são implementados aqui |
 
+### 4.1 Subescolhas normativas
+
+- Feitiçaria de Sangue com rating 1 ou 2 na criação concede um Ritual de nível 1, separado dos Poderes. A política está em `BLOOD_SORCERY_RITUAL_ACQUISITION_POLICY` (`SRC-0001`, p. 272).
+- Oblívio concede uma Cerimônia de nível 1 somente quando a personagem possui o Poder pré-requisito correspondente. A política está em `OBLIVION_CEREMONY_ACQUISITION_POLICY` (`SRC-0004`, p. 91–92).
+- Cada ponto de Alquimia Sangue-Ralo concede uma Fórmula, vinculada a um método de destilação. Fórmulas não integram `DisciplinePowerCatalog`.
+- `projectCreationDisciplineSubchoices` projeta, sem persistir, a próxima escolha de Ritual, Cerimônia, método ou Fórmula a partir dos ratings e itens já conhecidos. Rating 1 e rating 2 de Feitiçaria de Sangue projetam a mesma e única escolha inicial de Ritual de nível 1.
+- Essas subescolhas estão formalizadas no domínio, mas não receberam UI nesta tarefa; qualquer composição nova continua sujeita ao gate visual.
+
 ## 5. Origens
 
 ### Vampiro de Clã
@@ -112,22 +120,22 @@ Guided creation / ficha / consulta futura
 
 ## 7. Matriz de auditoria do perfil
 
-Contagens abaixo abrangem Poderes de Disciplina do catálogo vigente. Rituais de Feitiçaria de Sangue e Cerimônias do Oblívio são subsistemas adquiridos separadamente e não são contados como Poderes de rating; deverão usar catálogos próprios quando suas etapas forem implementadas.
+Contagens abaixo abrangem a projeção compatível de 161 itens da tela atual. O catálogo canônico contém 144 Poderes; as 17 entradas de Alquimia são Fórmulas com tipo próprio. Rituais e Cerimônias também possuem catálogos e políticas independentes.
 
 | Disciplina | Fonte principal | Páginas | PG comparado | Companion comparado | Poderes | Termo PT-BR | Estado |
 |---|---|---:|---|---|---:|---|---|
-| Animalismo | SRC-0001/SRC-0004 | 244–249 / 69–71 | inventário conferido | comparado | 14 | conferido | PENDING — mecânica profunda |
+| Animalismo | SRC-0001/SRC-0004 | 244–249 / 69–71 | sim | comparado | 14 | conferido | VERIFIED |
 | Auspícios | SRC-0001/SRC-0003/SRC-0004 | 249–252 / 24–28 / 71–72 | sim | sim | 13 | conferido | CONFLICT_REVIEWED |
 | Celeridade | SRC-0001/SRC-0004 | 252–255 / 72–73 | sim | sim, sem adição vigente | 13 | conferido | VERIFIED |
-| Dominação | SRC-0001/SRC-0003/SRC-0004 | 255–258 / 24–28 / 73–74 | inventário conferido | comparado | 13 | conferido | PENDING — mecânica profunda |
-| Fortitude | SRC-0001/SRC-0003/SRC-0004 | 258–261 / 24–28 / 74–76 | inventário conferido | comparado | 13 | conferido | PENDING — mecânica profunda |
-| Ofuscação | SRC-0001/SRC-0003/SRC-0004 | 261–264 / 24–28 / 76–79 | inventário conferido | comparado | 13 | conferido | PENDING — mecânica profunda |
-| Potência | SRC-0001/SRC-0004 | 264–267 / 79–80 | inventário conferido | comparado | 13 | conferido | PENDING — mecânica profunda |
+| Dominação | SRC-0001/SRC-0003/SRC-0004 | 255–258 / 24–28 / 73–74 | sim | comparado | 13 | conferido | CONFLICT_REVIEWED |
+| Fortitude | SRC-0001/SRC-0003/SRC-0004 | 258–261 / 24–28 / 74–76 | sim | comparado | 13 | conferido | CONFLICT_REVIEWED |
+| Ofuscação | SRC-0001/SRC-0003/SRC-0004 | 261–264 / 24–28 / 76–79 | sim | comparado | 13 | conferido | CONFLICT_REVIEWED |
+| Potência | SRC-0001/SRC-0004 | 264–267 / 79–80 | sim | comparado | 13 | conferido | VERIFIED |
 | Presença | SRC-0001/SRC-0004 | 267–270 / 80–81 | sim | sim, sem adição vigente | 13 | conferido | VERIFIED |
-| Proteanismo | SRC-0001/SRC-0003/SRC-0004 | 270–273 / 24–28 / 81–84 | inventário conferido | comparado | 12 | conferido | PENDING — mecânica profunda |
-| Oblívio | SRC-0004 | 84–97 | inventário conferido | consolidado no PG | 18 | glossário controlado | PENDING — mecânica profunda |
-| Feitiçaria de Sangue | SRC-0001/SRC-0004 | 273–282 / 98–103 | inventário conferido | comparado | 9 | conferido | PENDING — mecânica profunda |
-| Alquimia Sangue-Ralo | SRC-0001/SRC-0004 | 282–287 / 103–106 | inventário conferido | comparado | 17 | glossário controlado | PENDING — mecânica profunda |
+| Proteanismo | SRC-0001/SRC-0003/SRC-0004 | 270–273 / 24–28 / 81–84 | sim | comparado | 12 | conferido | CONFLICT_REVIEWED |
+| Oblívio | SRC-0004 | 84–97 | sim | consolidado no PG | 18 | glossário controlado | VERIFIED |
+| Feitiçaria de Sangue | SRC-0001/SRC-0004 | 272–281 / 98–103 | sim | comparado | 9 | conferido | VERIFIED |
+| Alquimia Sangue-Ralo | SRC-0001/SRC-0004 | 282–287 / 103–106 | sim | comparado | 17 Fórmulas | glossário controlado | VERIFIED |
 
 ## 8. Conflitos e precedência
 

@@ -6,6 +6,7 @@ import type {
 } from "@assistente-vampiro/contracts";
 import {
   DISCIPLINE_CATALOG,
+  V5_TRAIT_STRUCTURAL_MAXIMUM,
   evaluateCreationDisciplines,
   resolveCreationDisciplinePolicy,
 } from "@assistente-vampiro/rules-engine";
@@ -70,7 +71,7 @@ export class UpdateCreationDisciplines {
       rating:
         command.disciplines.find((item) => item.disciplineId === disciplineId)?.rating ??
         0,
-      structuralMaximum: 5 as const,
+      structuralMaximum: V5_TRAIT_STRUCTURAL_MAXIMUM,
     }));
     const powers: CharacterDisciplinePowerView[] = command.powerIds.map((powerId) => {
       const catalogPower = POWER_BY_ID.get(powerId);

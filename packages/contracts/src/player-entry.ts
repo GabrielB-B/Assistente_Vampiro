@@ -282,6 +282,7 @@ export interface CreationAttributesStepView extends CreationAttributesMutationVi
       readonly rating: number;
     }[];
     readonly ruleRevision: string;
+    readonly structuralMaximum: 5;
     readonly totalIncrements: number;
   };
 }
@@ -567,6 +568,7 @@ export interface CreationSkillsStepView extends CharacterSheetMutationView {
     readonly maximumRating: number;
     readonly methods: readonly CreationSkillMethodView[];
     readonly ruleRevision: string;
+    readonly structuralMaximum: 5;
   };
   readonly skills: Readonly<Record<CreationSkillId, number>>;
   readonly specialties: readonly CreationSpecialtyView[];

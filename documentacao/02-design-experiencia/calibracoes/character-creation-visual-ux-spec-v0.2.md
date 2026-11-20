@@ -153,6 +153,10 @@ Ela revela e edita partes dessa mesma linguagem progressivamente.
 
 `Preencher Ficha` abre diretamente essa superfície em branco/editável.
 
+### Invariante das escalas V5
+
+Atributos, Habilidades, Disciplinas e toda futura representação de traço graduado da Ficha V5 exibem sempre cinco posições. Limites próprios da criação controlam quais posições podem ser escolhidas, mas nunca encurtam visualmente a escala. Posições temporariamente indisponíveis continuam visíveis, distinguíveis e acessíveis como bloqueadas.
+
 ---
 
 # 3. Continuidade com o Character Gateway

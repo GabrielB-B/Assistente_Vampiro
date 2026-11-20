@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   CREATION_SKILL_IDS,
   CREATION_SKILL_METHODS,
+  CREATION_SKILLS_POLICY,
   evaluateCreationSkills,
   type CreationSkillId,
   type CreationSkillMethodId,
@@ -22,6 +23,13 @@ function valuesFor(methodId: CreationSkillMethodId): Record<CreationSkillId, num
 }
 
 describe("política de criação de Habilidades V5", () => {
+  it("separa a escala estrutural do limite da distribuição inicial", () => {
+    expect(CREATION_SKILLS_POLICY).toMatchObject({
+      maximumRating: 4,
+      structuralMaximum: 5,
+    });
+  });
+
   for (const method of CREATION_SKILL_METHODS) {
     it(`aceita a distribuição completa de ${method.id}`, () => {
       const skills = valuesFor(method.id);

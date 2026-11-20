@@ -7,7 +7,10 @@ import {
   type CreationDisciplineId,
   type DisciplinePowerId,
 } from "@assistente-vampiro/contracts";
-import { RULE_SET_PROFILE_REVISION_ID } from "@assistente-vampiro/rules-engine";
+import {
+  RULE_SET_PROFILE_REVISION_ID,
+  V5_TRAIT_STRUCTURAL_MAXIMUM,
+} from "@assistente-vampiro/rules-engine";
 import { sql } from "kysely";
 
 import type {
@@ -129,7 +132,7 @@ export class KyselyCharacterSheetWriter implements CharacterSheetWriter {
       disciplines: disciplines.map((item) => ({
         disciplineId: item.discipline_id as CreationDisciplineId,
         rating: item.rating,
-        structuralMaximum: 5 as const,
+        structuralMaximum: V5_TRAIT_STRUCTURAL_MAXIMUM,
       })),
       disciplinePowers: disciplinePowers.map((item) => ({
         disciplineId: item.discipline_id as CreationDisciplineId,

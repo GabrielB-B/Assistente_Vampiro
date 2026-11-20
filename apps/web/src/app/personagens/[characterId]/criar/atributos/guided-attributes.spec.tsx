@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { GuidedAttributes } from "./guided-attributes";
@@ -68,6 +68,7 @@ vi.mock("../../../criar/creation-client", () => ({
         { count: 1, rating: 1 },
       ],
       ruleRevision: "RULE-CREATION-ATTRIBUTES-001-r1",
+      structuralMaximum: 5,
       totalIncrements: 13,
     },
     version: 0,
@@ -120,5 +121,18 @@ describe("GuidedAttributes", () => {
     fireEvent.keyDown(trigger, { key: "Escape" });
     await waitFor(() => expect(trigger).toHaveAttribute("aria-expanded", "false"));
     expect(tooltip).toBeInTheDocument();
+  });
+
+  it("mostra a escala estrutural de cinco pontos sem liberar o quinto na criação inicial", async () => {
+    render(<GuidedAttributes characterId="character-one" />);
+
+    const strengthTrack = await screen.findByLabelText("Força: 1");
+    const dots = within(strengthTrack).getAllByRole("button");
+
+    expect(dots).toHaveLength(5);
+    expect(dots[4]).toHaveAttribute("aria-disabled", "true");
+    expect(dots[4]).toHaveAccessibleName(
+      "Força: ponto 5 indisponível na criação inicial",
+    );
   });
 });

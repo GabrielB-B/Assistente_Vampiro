@@ -132,7 +132,7 @@ export function GuidedAttributes({ characterId }: { readonly characterId: string
   }, [preview]);
 
   async function choose(attributeId: CreationAttributeId, value: number) {
-    if (step === null || pending !== null) return;
+    if (step === null || pending !== null || value > step.policy.maximum) return;
     setPending(attributeId);
     setMessage("");
     try {
@@ -264,18 +264,40 @@ export function GuidedAttributes({ characterId }: { readonly characterId: string
                         </span>
                         <div aria-label={`${attribute.label}: ${current}`}>
                           {Array.from(
-                            { length: step.policy.maximum },
+                            { length: step.policy.structuralMaximum },
                             (_, index) => index + 1,
-                          ).map((rating) => (
-                            <button
-                              aria-label={`Definir ${attribute.label} em ${rating}`}
-                              aria-pressed={rating <= current}
-                              disabled={pending !== null}
-                              key={rating}
-                              onClick={() => void choose(attribute.id, rating)}
-                              type="button"
-                            />
-                          ))}
+                          ).map((rating) => {
+                            const unavailableDuringCreation =
+                              rating > step.policy.maximum;
+
+                            return (
+                              <button
+                                aria-disabled={
+                                  unavailableDuringCreation || pending !== null
+                                }
+                                aria-label={
+                                  unavailableDuringCreation
+                                    ? `${attribute.label}: ponto ${rating} indisponível na criação inicial`
+                                    : `Definir ${attribute.label} em ${rating}`
+                                }
+                                aria-pressed={rating <= current}
+                                data-creation-locked={unavailableDuringCreation}
+                                disabled={pending !== null}
+                                key={rating}
+                                onClick={
+                                  unavailableDuringCreation
+                                    ? undefined
+                                    : () => void choose(attribute.id, rating)
+                                }
+                                title={
+                                  unavailableDuringCreation
+                                    ? "O quinto ponto existe na escala, mas não pode ser escolhido na criação inicial."
+                                    : undefined
+                                }
+                                type="button"
+                              />
+                            );
+                          })}
                         </div>
                       </div>
                     );

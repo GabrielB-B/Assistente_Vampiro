@@ -4,7 +4,10 @@ import type {
 } from "@assistente-vampiro/contracts";
 import type { Database } from "@assistente-vampiro/database";
 import { sql } from "kysely";
-import { DISCIPLINE_CATALOG } from "@assistente-vampiro/rules-engine";
+import {
+  DISCIPLINE_CATALOG,
+  V5_TRAIT_STRUCTURAL_MAXIMUM,
+} from "@assistente-vampiro/rules-engine";
 
 import type { MembershipRole } from "../../identity-access/application/authorization-context.js";
 import type {
@@ -324,7 +327,7 @@ export class KyselyCharacterEntryReader implements CharacterEntryReader {
             >[number]["disciplineId"],
             ...(catalogEntry === undefined ? {} : { namePtBr: catalogEntry.namePtBr }),
             rating: item.rating,
-            structuralMaximum: 5 as const,
+            structuralMaximum: V5_TRAIT_STRUCTURAL_MAXIMUM,
           };
         }),
         disciplinePowers: disciplinePowers.map((item) => {

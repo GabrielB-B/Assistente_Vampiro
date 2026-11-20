@@ -2,7 +2,7 @@ import type {
   CreationSkillId,
   CreationSkillsStepView,
 } from "@assistente-vampiro/contracts";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
@@ -172,6 +172,7 @@ function step(overrides: Partial<CreationSkillsStepView> = {}): CreationSkillsSt
         },
       ],
       ruleRevision: "RULE-CREATION-SKILLS-001-r1",
+      structuralMaximum: 5,
     },
     skills: { ...skills },
     specialties: [],
@@ -212,6 +213,20 @@ describe("GuidedSkills", () => {
     );
     expect(screen.getByText("7 restantes")).toBeVisible();
     expect(screen.getByRole("button", { name: "Definir Atletismo em 1" })).toBeEnabled();
+  });
+
+  it("mantém cinco espaços estruturais sem liberar o quinto na criação inicial", async () => {
+    vi.mocked(loadCreationSkills).mockResolvedValue(step({ methodId: "QUICK_BALANCED" }));
+    render(<GuidedSkills characterId="character-one" />);
+
+    const athleticsTrack = await screen.findByLabelText("Atletismo: 0");
+    const dots = within(athleticsTrack).getAllByRole("button");
+
+    expect(dots).toHaveLength(5);
+    expect(dots[4]).toHaveAttribute("aria-disabled", "true");
+    expect(dots[4]).toHaveAccessibleName(
+      "Atletismo: ponto 5 indisponível na criação inicial",
+    );
   });
 
   it("reconcilia uma seleção salva quando a confirmação da rede falha", async () => {

@@ -738,10 +738,13 @@ export function GuidedDisciplines({ characterId }: { readonly characterId: strin
                       </button>
                     </div>
                     <div
-                      aria-label={`${selected.namePtBr}: ${selectedState?.rating ?? 0} de 5`}
+                      aria-label={`${selected.namePtBr}: ${selectedState?.rating ?? 0} de ${step.policy.structuralMaximum}`}
                       className={styles.disciplineDots}
                     >
-                      {[1, 2, 3, 4, 5].map((rating) => (
+                      {Array.from(
+                        { length: step.policy.structuralMaximum },
+                        (_, index) => index + 1,
+                      ).map((rating) => (
                         <button
                           aria-label={`Definir ${selected.namePtBr} em ${rating}`}
                           aria-pressed={rating <= (selectedState?.rating ?? 0)}

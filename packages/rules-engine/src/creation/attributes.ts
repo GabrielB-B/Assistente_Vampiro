@@ -1,3 +1,5 @@
+import { V5_TRAIT_STRUCTURAL_MAXIMUM } from "./trait-ratings.js";
+
 export const CREATION_ATTRIBUTE_IDS = [
   "attribute:strength",
   "attribute:dexterity",
@@ -19,6 +21,7 @@ export const CREATION_ATTRIBUTES_POLICY = {
     { count: 1, rating: 1 },
   ],
   ruleRevision: "RULE-CREATION-ATTRIBUTES-001-r1",
+  structuralMaximum: V5_TRAIT_STRUCTURAL_MAXIMUM,
   totalIncrements: 13,
 } as const;
 

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   CREATION_ATTRIBUTE_IDS,
+  CREATION_ATTRIBUTES_POLICY,
   evaluateCreationAttributes,
   type CreationAttributeValues,
 } from "../src/index.js";
@@ -24,6 +25,14 @@ describe("RULE-CREATION-ATTRIBUTES-001-r1", () => {
     "attribute:resolve": 2,
     "attribute:stamina": 3,
     "attribute:strength": 4,
+  });
+
+  it("separa a escala estrutural do limite da distribuição inicial", () => {
+    expect(CREATION_ATTRIBUTES_POLICY).toMatchObject({
+      maximum: 4,
+      minimum: 1,
+      structuralMaximum: 5,
+    });
   });
 
   it("aceita a distribuição final exata", () => {

@@ -3,9 +3,12 @@ import {
   type CreationDisciplineId,
   type CreationOriginId,
 } from "./clans.js";
+import { V5_TRAIT_STRUCTURAL_MAXIMUM } from "./trait-ratings.js";
 
 export type DisciplinePowerId = `power:${string}`;
 export type PowerRuleAuditStatus = "CONFLICT_REVIEWED" | "PENDING" | "VERIFIED";
+export type RuleTranslationStatus =
+  "CONTROLLED_CANDIDATE" | "OFFICIAL_PT_BR" | "ORIGINAL_LANGUAGE";
 export interface PowerPresentationView {
   readonly contentKind: "PROJECT_PARAPHRASE" | "LICENSED" | "OWNER_PROVIDED";
   readonly contentRevisionId: string;
@@ -67,9 +70,31 @@ export interface DisciplinePowerCatalogItemView {
   }[];
   readonly summaryPtBr: string;
   readonly systemPtBr?: string;
+  readonly translationStatus: RuleTranslationStatus;
   readonly rule: PowerRuleView;
 }
+
+export type ThinBloodAlchemyFormulaId = `power:tba-${string}`;
+export type ThinBloodAlchemyMethod = "ATHANOR_CORPORIS" | "CALCINATIO" | "FIXATIO";
+export interface ThinBloodAlchemyFormulaCatalogItemView {
+  readonly auditStatus: PowerRuleAuditStatus;
+  readonly descriptionPtBr: string;
+  readonly disciplineId: "discipline:thin-blood-alchemy";
+  readonly id: ThinBloodAlchemyFormulaId;
+  readonly ingredientsPtBr: readonly string[];
+  readonly level: 1 | 2 | 3 | 4 | 5;
+  readonly methods: readonly ThinBloodAlchemyMethod[];
+  readonly nameOriginal: string;
+  readonly namePtBr: string;
+  readonly presentation: PowerPresentationView;
+  readonly rule: PowerRuleView;
+  readonly ruleRevisionId: string;
+  readonly sourceRefs: DisciplinePowerCatalogItemView["sourceRefs"];
+  readonly summaryPtBr: string;
+  readonly translationStatus: RuleTranslationStatus;
+}
 export interface DisciplineCatalogItemView {
+  readonly auditStatus: Exclude<PowerRuleAuditStatus, "PENDING">;
   readonly descriptionPtBr: string;
   readonly id: CreationDisciplineId;
   readonly nameOriginal: string;
@@ -82,7 +107,7 @@ export interface DisciplineCatalogItemView {
 export interface CharacterDisciplineView {
   readonly disciplineId: CreationDisciplineId;
   readonly rating: number;
-  readonly structuralMaximum: 5;
+  readonly structuralMaximum: typeof V5_TRAIT_STRUCTURAL_MAXIMUM;
 }
 export interface CharacterDisciplinePowerView {
   readonly disciplineId: CreationDisciplineId;
@@ -124,8 +149,10 @@ export interface CreationDisciplinesEvaluationView {
 
 export const CREATION_DISCIPLINES_POLICY_REVISION = "RULE-CREATION-DISCIPLINES-001-r1";
 export const DISCIPLINE_CATALOG_REVISION = "CATALOG-V5-CORE-COMPANION-PG-2023-r1";
+export const THIN_BLOOD_ALCHEMY_FORMULA_CATALOG_REVISION =
+  "CATALOG-THIN-BLOOD-ALCHEMY-FORMULAS-V5-CORE-PG-2023-r1";
 const POWER_PRESENTATION_REVISION = "POWER-PRESENTATION-PTBR-PARAPHRASE-r1";
-export const DISCIPLINE_STRUCTURAL_MAXIMUM = 5 as const;
+export const DISCIPLINE_STRUCTURAL_MAXIMUM = V5_TRAIT_STRUCTURAL_MAXIMUM;
 
 type PowerSeed = readonly [
   slug: string,
@@ -141,6 +168,14 @@ const source = (sourceId: "SRC-0001" | "SRC-0003" | "SRC-0004", ...pages: number
 const POWER_SOURCE_OVERRIDES: Readonly<
   Record<string, DisciplinePowerCatalogItemView["sourceRefs"]>
 > = {
+  "animalism-bond-famulus": [source("SRC-0001", 245)],
+  "animalism-sense-the-beast": [source("SRC-0001", 245)],
+  "animalism-feral-whispers": [source("SRC-0001", 245, 246)],
+  "animalism-animal-succulence": [source("SRC-0001", 246)],
+  "animalism-quell-the-beast": [source("SRC-0001", 246)],
+  "animalism-subsume-the-spirit": [source("SRC-0001", 246, 247)],
+  "animalism-animal-dominion": [source("SRC-0001", 247)],
+  "animalism-drawing-out-the-beast": [source("SRC-0001", 247, 248)],
   "auspex-heightened-senses": [source("SRC-0001", 249)],
   "auspex-sense-the-unseen": [source("SRC-0001", 249)],
   "auspex-premonition": [source("SRC-0001", 249)],
@@ -159,15 +194,67 @@ const POWER_SOURCE_OVERRIDES: Readonly<
   "celerity-unerring-aim": [source("SRC-0001", 254)],
   "celerity-lightning-strike": [source("SRC-0001", 254)],
   "celerity-split-second": [source("SRC-0001", 254)],
-  "presence-awe": [source("SRC-0001", 267)],
-  "presence-daunt": [source("SRC-0001", 267)],
-  "presence-lingering-kiss": [source("SRC-0001", 267)],
-  "presence-dread-gaze": [source("SRC-0001", 267, 268)],
-  "presence-entrancement": [source("SRC-0001", 268)],
-  "presence-irresistible-voice": [source("SRC-0001", 268)],
+  "dominate-cloud-memory": [source("SRC-0001", 255)],
+  "dominate-compel": [source("SRC-0001", 256)],
+  "dominate-mesmerize": [source("SRC-0001", 256)],
+  "dominate-dementation": [source("SRC-0001", 256)],
+  "dominate-forgetful-mind": [source("SRC-0001", 257)],
+  "dominate-submerged-directive": [source("SRC-0001", 257)],
+  "dominate-rationalize": [source("SRC-0001", 257)],
+  "dominate-mass-manipulation": [source("SRC-0001", 257, 258)],
+  "dominate-terminal-decree": [source("SRC-0001", 257)],
+  "fortitude-resilience": [source("SRC-0001", 258)],
+  "fortitude-unswayable-mind": [source("SRC-0001", 258)],
+  "fortitude-enduring-beasts": [source("SRC-0001", 258)],
+  "fortitude-toughness": [source("SRC-0001", 258)],
+  "fortitude-defy-bane": [source("SRC-0001", 259)],
+  "fortitude-fortify-inner-facade": [source("SRC-0001", 259)],
+  "fortitude-draught-of-endurance": [source("SRC-0001", 259, 260)],
+  "fortitude-flesh-of-marble": [source("SRC-0001", 260)],
+  "fortitude-prowess-from-pain": [source("SRC-0001", 260)],
+  "obfuscate-cloak-of-shadows": [source("SRC-0001", 261)],
+  "obfuscate-silence-of-death": [source("SRC-0001", 261)],
+  "obfuscate-unseen-passage": [source("SRC-0001", 261)],
+  "obfuscate-ghost-in-machine": [source("SRC-0001", 261, 262)],
+  "obfuscate-mask-thousand-faces": [source("SRC-0001", 262)],
+  "obfuscate-conceal": [source("SRC-0001", 262)],
+  "obfuscate-vanish": [source("SRC-0001", 262)],
+  "obfuscate-cloak-gathering": [source("SRC-0001", 263)],
+  "obfuscate-impostors-guise": [source("SRC-0001", 263)],
+  "potence-lethal-body": [source("SRC-0001", 264)],
+  "potence-soaring-leap": [source("SRC-0001", 264)],
+  "potence-prowess": [source("SRC-0001", 264)],
+  "potence-brutal-feed": [source("SRC-0001", 264, 265)],
+  "potence-spark-of-rage": [source("SRC-0001", 265)],
+  "potence-uncanny-grip": [source("SRC-0001", 265)],
+  "potence-draught-of-might": [source("SRC-0001", 265)],
+  "potence-earthshock": [source("SRC-0001", 265, 266)],
+  "potence-fist-of-caine": [source("SRC-0001", 265)],
+  "presence-awe": [source("SRC-0001", 266)],
+  "presence-daunt": [source("SRC-0001", 266)],
+  "presence-lingering-kiss": [source("SRC-0001", 266, 267)],
+  "presence-dread-gaze": [source("SRC-0001", 267)],
+  "presence-entrancement": [source("SRC-0001", 267)],
+  "presence-irresistible-voice": [source("SRC-0001", 267, 268)],
   "presence-summon": [source("SRC-0001", 268)],
-  "presence-majesty": [source("SRC-0001", 268, 269)],
-  "presence-star-magnetism": [source("SRC-0001", 269)],
+  "presence-majesty": [source("SRC-0001", 268)],
+  "presence-star-magnetism": [source("SRC-0001", 268)],
+  "protean-eyes-beast": [source("SRC-0001", 269)],
+  "protean-weight-feather": [source("SRC-0001", 269)],
+  "protean-feral-weapons": [source("SRC-0001", 270)],
+  "protean-earth-meld": [source("SRC-0001", 270)],
+  "protean-shapechange": [source("SRC-0001", 271)],
+  "protean-metamorphosis": [source("SRC-0001", 271)],
+  "protean-mist-form": [source("SRC-0001", 271, 272)],
+  "protean-unfettered-heart": [source("SRC-0001", 272)],
+  "blood-sorcery-corrosive-vitae": [source("SRC-0001", 272)],
+  "blood-sorcery-taste-for-blood": [source("SRC-0001", 272)],
+  "blood-sorcery-extinguish-vitae": [source("SRC-0001", 273)],
+  "blood-sorcery-blood-potency": [source("SRC-0001", 273)],
+  "blood-sorcery-scorpions-touch": [source("SRC-0001", 273)],
+  "blood-sorcery-theft-vitae": [source("SRC-0001", 274)],
+  "blood-sorcery-baals-caress": [source("SRC-0001", 274)],
+  "blood-sorcery-cauldron-blood": [source("SRC-0001", 274)],
   "animalism-animal-messenger": [source("SRC-0004", 69)],
   "animalism-messengers-command": [source("SRC-0004", 69)],
   "animalism-plague-of-beasts": [source("SRC-0004", 69)],
@@ -220,7 +307,7 @@ const POWER_SOURCE_OVERRIDES: Readonly<
   "tba-moment-clarity": [source("SRC-0004", 106)],
   "tba-mercurian-tongue": [source("SRC-0004", 103)],
   "tba-plug-in": [source("SRC-0004", 103, 104)],
-  "tba-profane-hieros-gamos": [source("SRC-0001", 285)],
+  "tba-profane-hieros-gamos": [source("SRC-0001", 286, 287)],
   "tba-rumor": [source("SRC-0004", 105)],
   "tba-short-circuit": [source("SRC-0004", 105)],
   "tba-tank": [source("SRC-0004", 105)],
@@ -2061,12 +2148,6 @@ const DISCIPLINE_DESCRIPTIONS = {
     "Alquimia Sangue-Ralo transforma a instabilidade do sangue diluído em experimentação sobrenatural. Fórmulas, métodos de destilação e ingredientes específicos permitem produzir efeitos que o alquimista não sustentaria naturalmente, inclusive imitações limitadas de outras Disciplinas. Cada resultado depende de preparo e conhecimento; Alquimia não é uma Disciplina intrínseca comum e sua obtenção durante a criação permanece ligada à Qualidade apropriada.",
 } satisfies Readonly<Record<CreationDisciplineId, string>>;
 
-const AUDITED_DISCIPLINE_IDS = new Set<CreationDisciplineId>([
-  "discipline:auspex",
-  "discipline:celerity",
-  "discipline:presence",
-]);
-
 function power(
   disciplineId: CreationDisciplineId,
   seed: PowerSeed,
@@ -2079,11 +2160,8 @@ function power(
       >
     > = {},
 ): DisciplinePowerCatalogItemView {
-  const auditStatus: PowerRuleAuditStatus = AUDITED_DISCIPLINE_IDS.has(disciplineId)
-    ? sourceRefs.length > 1
-      ? "CONFLICT_REVIEWED"
-      : "VERIFIED"
-    : "PENDING";
+  const auditStatus: PowerRuleAuditStatus =
+    sourceRefs.length > 1 ? "CONFLICT_REVIEWED" : "VERIFIED";
   const descriptionPtBr = POWER_DESCRIPTIONS[seed[0]] ?? seed[4];
   const amalgamRequirements = extra.amalgamRequirements ?? [];
   const prerequisites = extra.prerequisites ?? [];
@@ -2107,6 +2185,11 @@ function power(
     effectPtBr: seed[4],
     summaryPtBr: seed[4],
   };
+  const translationStatus: RuleTranslationStatus = sourceRefs.some(
+    (reference) => reference.sourceId === "SRC-0001" || reference.sourceId === "SRC-0003",
+  )
+    ? "OFFICIAL_PT_BR"
+    : "CONTROLLED_CANDIDATE";
   const rule: PowerRuleView = {
     activationPtBr: extra.activationPtBr ?? null,
     amalgamRequirements,
@@ -2146,6 +2229,7 @@ function power(
     ruleRevisions,
     sourceRefs,
     summaryPtBr: seed[4],
+    translationStatus,
     ...(extra.cost === undefined ? {} : { cost: extra.cost }),
     ...(extra.dicePool === undefined ? {} : { dicePool: extra.dicePool }),
     ...(extra.difficulty === undefined ? {} : { difficulty: extra.difficulty }),
@@ -2186,6 +2270,9 @@ function discipline(
     ).values(),
   ];
   return {
+    auditStatus: powers.some((entry) => entry.auditStatus === "CONFLICT_REVIEWED")
+      ? "CONFLICT_REVIEWED"
+      : "VERIFIED",
     descriptionPtBr: DISCIPLINE_DESCRIPTIONS[id],
     id,
     nameOriginal,
@@ -3298,7 +3385,7 @@ const THIN_BLOOD_ALCHEMY: readonly PowerSeed[] = [
   ],
   [
     "tba-profane-hieros-gamos",
-    1,
+    3,
     "Hieros Gamos Profano",
     "Profane Hieros Gamos",
     "Remodela de modo permanente características corporais do alquimista.",
@@ -3312,7 +3399,7 @@ const THIN_BLOOD_ALCHEMY: readonly PowerSeed[] = [
   ],
   [
     "tba-rumor",
-    4,
+    3,
     "Rumor",
     "Rumor",
     "Leva um alvo a aceitar uma declaração do alquimista como se fosse uma conclusão própria.",
@@ -3455,9 +3542,208 @@ export const DISCIPLINE_CATALOG: readonly DisciplineCatalogItemView[] = [
   ),
 ] as const;
 
-const POWER_BY_ID = new Map(
-  DISCIPLINE_CATALOG.flatMap((entry) => entry.powers).map((entry) => [entry.id, entry]),
-);
+/**
+ * Catálogo canônico de Poderes de Disciplina. Fórmulas preservam os IDs
+ * históricos `power:tba-*`, mas não pertencem semanticamente a este catálogo.
+ * `DISCIPLINE_CATALOG` continua sendo a projeção compatível usada pela criação
+ * já publicada; novos casos de uso devem consultar os catálogos separados.
+ */
+export const DISCIPLINE_POWER_CATALOG: readonly DisciplinePowerCatalogItemView[] =
+  DISCIPLINE_CATALOG.filter(
+    (disciplineEntry) => disciplineEntry.id !== "discipline:thin-blood-alchemy",
+  ).flatMap((disciplineEntry) => disciplineEntry.powers);
+
+const ALL_ALCHEMY_METHODS = [
+  "ATHANOR_CORPORIS",
+  "CALCINATIO",
+  "FIXATIO",
+] as const satisfies readonly ThinBloodAlchemyMethod[];
+
+const FORMULA_INGREDIENTS: Readonly<
+  Record<ThinBloodAlchemyFormulaId, readonly string[]>
+> = {
+  "power:tba-airborne-momentum": [
+    "Vitae do alquimista",
+    "Sangue humano colérico e sanguíneo",
+    "Hélio",
+    "Extrato de escopolamina",
+  ],
+  "power:tba-awaken-sleeper": [
+    "Vitae do alquimista",
+    "Sangue humano colérico ou sanguíneo",
+    "Adrenalina",
+    "Carbonato de amônio",
+    "Estimulante adequado e melatonina",
+  ],
+  "power:tba-blooming-amaranth": [
+    "Vitae do alquimista e dos Sangues-Ralos participantes",
+    "Suco de amaranto vermelho cultivado com sangue",
+    "Sanguessugas pulverizadas",
+    "Sulfeto de hidrogênio e néon",
+  ],
+  "power:tba-defractionate": [
+    "Vitae do alquimista",
+    "Sangue humano melancólico ou sanguíneo",
+    "Sangue humano O negativo",
+    "Espinafre mofado, café quente e octanoato de sódio",
+  ],
+  "power:tba-envelop": [
+    "Vitae do alquimista",
+    "Sangue humano melancólico ou fleumático",
+    "Cloreto de potássio",
+    "Poluição ou gás halon",
+  ],
+  "power:tba-far-reach": [
+    "Vitae do alquimista",
+    "Sangue humano colérico",
+    "Náilon derretido, ímã triturado ou nootrópico apropriado",
+  ],
+  "power:tba-friends-list": [
+    "Vitae do alquimista",
+    "Sangue humano fleumático",
+    "Olhos de ave noturna",
+    "Fio de prata",
+  ],
+  "power:tba-haze": [
+    "Vitae do alquimista",
+    "Sangue humano fleumático",
+    "Gelo seco ou fumaça de combustão",
+  ],
+  "power:tba-mandragloire": [
+    "Vitae do alquimista",
+    "Sangue humano fleumático",
+    "Gordura humana, cera e éter",
+    "Óleo de gergelim, sulfato de ferro ou verdete e bórax",
+  ],
+  "power:tba-mercurian-tongue": [
+    "Vitae do alquimista",
+    "Sangue de mortal com outro idioma nativo",
+    "Língua de peixe ou ave",
+    "Molho picante estrangeiro e limalha de cobre",
+  ],
+  "power:tba-moment-clarity": [
+    "Vitae do alquimista",
+    "Sangue humano fleumático",
+    "Cádmio e nootrópicos",
+    "Cinzas de texto significativo para o alquimista",
+  ],
+  "power:tba-plug-in": [
+    "Vitae do alquimista",
+    "Sangue humano sanguíneo",
+    "Nitrogênio líquido",
+    "Limalha de tungstênio e bateria quebrada",
+  ],
+  "power:tba-profane-hieros-gamos": [
+    "Vitae do alquimista",
+    "Sangue humano melancólico ou fleumático",
+    "Substâncias enteógenas",
+  ],
+  "power:tba-rumor": [
+    "Vitae do alquimista",
+    "Sangue humano fleumático",
+    "Pimenta e óleo",
+    "Grafite ou mercúrio",
+  ],
+  "power:tba-short-circuit": [
+    "Vitae do alquimista",
+    "Sangue humano melancólico",
+    "Ácido de bateria e água salgada",
+  ],
+  "power:tba-tank": [
+    "Vitae do alquimista",
+    "Sangue humano colérico",
+    "Vinho envelhecido em carvalho ou bourbon",
+    "Fibras de Kevlar, cimento ou casco de tartaruga moído",
+  ],
+  "power:tba-toxic-personality": [
+    "Vitae do alquimista",
+    "Sangue humano colérico",
+    "Potassa ou soda cáustica",
+    "Baço animal, gaze e iodo",
+  ],
+};
+
+export const THIN_BLOOD_ALCHEMY_FORMULA_CATALOG: readonly ThinBloodAlchemyFormulaCatalogItemView[] =
+  DISCIPLINE_CATALOG.find(
+    (disciplineEntry) => disciplineEntry.id === "discipline:thin-blood-alchemy",
+  )!.powers.map((formula) => ({
+    auditStatus: formula.auditStatus,
+    descriptionPtBr: formula.descriptionPtBr,
+    disciplineId: "discipline:thin-blood-alchemy",
+    id: formula.id as ThinBloodAlchemyFormulaId,
+    ingredientsPtBr: FORMULA_INGREDIENTS[formula.id as ThinBloodAlchemyFormulaId]!,
+    level: formula.level,
+    methods: ALL_ALCHEMY_METHODS,
+    nameOriginal: formula.nameOriginal,
+    namePtBr: formula.namePtBr,
+    presentation: formula.presentation,
+    rule: {
+      ...formula.rule,
+      ruleRevisionId: THIN_BLOOD_ALCHEMY_FORMULA_CATALOG_REVISION,
+      ruleRevisions: [
+        {
+          id: THIN_BLOOD_ALCHEMY_FORMULA_CATALOG_REVISION,
+          sourceRefs: formula.sourceRefs,
+          status: "ACTIVE",
+        },
+      ],
+    },
+    ruleRevisionId: THIN_BLOOD_ALCHEMY_FORMULA_CATALOG_REVISION,
+    sourceRefs: formula.sourceRefs,
+    summaryPtBr: formula.summaryPtBr,
+    translationStatus: formula.translationStatus,
+  }));
+
+export const THIN_BLOOD_ALCHEMY_ACQUISITION_POLICY = {
+  formulaGrant: {
+    formulaePerAlchemyRating: 1,
+    sourceRefs: [source("SRC-0001", 283)],
+  },
+  additionalFormulae: {
+    experienceCostFormula: "nível da Fórmula × 3",
+    maximumLevelFormula: "rating do método de Alquimia Sangue-Ralo",
+    requiresResearchAndExperimentation: true,
+    sourceRefs: [source("SRC-0001", 151, 283)],
+  },
+  methods: {
+    chooseWhenFirstRatingIsAcquired: true,
+    eachMethodHasIndependentRatingAndFormulaKnowledge: true,
+    ids: ALL_ALCHEMY_METHODS,
+    sourceRefs: [source("SRC-0001", 284)],
+  },
+  temporaryDisciplineAccess: {
+    persistsAsPermanentRating: false,
+    resonanceCanGrantTemporaryPowerAccess: true,
+    ritualsAreNeverGrantedByTemporaryBloodSorceryAccess: true,
+    sourceRefs: [source("SRC-0001", 226, 272, 282)],
+  },
+} as const;
+
+export const THIN_BLOOD_ALCHEMY_EXECUTION_POLICY = {
+  activationCost: "Definido pela Fórmula ou pelo efeito de Disciplina reproduzido",
+  baseIngredients: ["Vitae do alquimista", "Sangue humano com a Ressonância apropriada"],
+  distillationCost: "Uma Checagem de Sangue, além do custo de ativação",
+  methods: {
+    ATHANOR_CORPORIS: {
+      dicePool: "Vigor + Alquimia Sangue-Ralo",
+      formulaCapacity: 1,
+      vessel: "O corpo do próprio alquimista",
+    },
+    CALCINATIO: {
+      dicePool: "Manipulação + Alquimia Sangue-Ralo",
+      formulaCapacityPerVessel: 1,
+      vessel: "O corpo de um mortal condicionado",
+    },
+    FIXATIO: {
+      dicePool: "Inteligência + Alquimia Sangue-Ralo",
+      storageDependsOnLaboratory: true,
+      vessel: "Equipamento alquímico e recipiente de laboratório",
+    },
+  },
+  sourceRefs: [source("SRC-0001", 282, 283, 284)],
+} as const;
+
+const POWER_BY_ID = new Map(DISCIPLINE_POWER_CATALOG.map((entry) => [entry.id, entry]));
 
 export interface CreationDisciplineState {
   readonly disciplines: readonly CharacterDisciplineView[];
@@ -3470,7 +3756,7 @@ export interface CreationDisciplinePolicy {
   readonly hasIntrinsicDisciplines: boolean;
   readonly requiredRatings: readonly number[];
   readonly ruleRevision: string;
-  readonly structuralMaximum: 5;
+  readonly structuralMaximum: typeof V5_TRAIT_STRUCTURAL_MAXIMUM;
 }
 
 const STANDARD_DISCIPLINES = DISCIPLINE_CATALOG.map((entry) => entry.id).filter(
@@ -3489,7 +3775,7 @@ export function resolveCreationDisciplinePolicy(
       hasIntrinsicDisciplines: true,
       requiredRatings: [2, 1],
       ruleRevision: CREATION_DISCIPLINES_POLICY_REVISION,
-      structuralMaximum: 5,
+      structuralMaximum: V5_TRAIT_STRUCTURAL_MAXIMUM,
     };
   }
   if (origin.kind === "CAITIFF") {
@@ -3499,7 +3785,7 @@ export function resolveCreationDisciplinePolicy(
       hasIntrinsicDisciplines: true,
       requiredRatings: [2, 1],
       ruleRevision: CREATION_DISCIPLINES_POLICY_REVISION,
-      structuralMaximum: 5,
+      structuralMaximum: V5_TRAIT_STRUCTURAL_MAXIMUM,
     };
   }
   return {
@@ -3508,7 +3794,7 @@ export function resolveCreationDisciplinePolicy(
     hasIntrinsicDisciplines: false,
     requiredRatings: [],
     ruleRevision: CREATION_DISCIPLINES_POLICY_REVISION,
-    structuralMaximum: 5,
+    structuralMaximum: V5_TRAIT_STRUCTURAL_MAXIMUM,
   };
 }
 

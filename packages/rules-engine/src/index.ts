@@ -52,11 +52,17 @@ export {
   type CreationSpecialtyOrigin,
   type CreationSpecialtyValue,
 } from "./creation/skills.js";
+export { V5_TRAIT_STRUCTURAL_MAXIMUM } from "./creation/trait-ratings.js";
 export {
   CREATION_DISCIPLINES_POLICY_REVISION,
   DISCIPLINE_CATALOG,
   DISCIPLINE_CATALOG_REVISION,
+  DISCIPLINE_POWER_CATALOG,
   DISCIPLINE_STRUCTURAL_MAXIMUM,
+  THIN_BLOOD_ALCHEMY_ACQUISITION_POLICY,
+  THIN_BLOOD_ALCHEMY_EXECUTION_POLICY,
+  THIN_BLOOD_ALCHEMY_FORMULA_CATALOG,
+  THIN_BLOOD_ALCHEMY_FORMULA_CATALOG_REVISION,
   eligibleDisciplinePowers,
   evaluateCreationDisciplines,
   resolveCreationDisciplinePolicy,
@@ -66,7 +72,29 @@ export {
   type PowerPresentationView,
   type PowerRuleAuditStatus,
   type PowerRuleView,
+  type RuleTranslationStatus,
+  type ThinBloodAlchemyFormulaCatalogItemView,
+  type ThinBloodAlchemyFormulaId,
+  type ThinBloodAlchemyMethod,
 } from "./creation/disciplines.js";
+export {
+  BLOOD_SORCERY_RITUAL_ACQUISITION_POLICY,
+  BLOOD_SORCERY_RITUAL_CATALOG,
+  BLOOD_SORCERY_RITUAL_CATALOG_REVISION,
+  BLOOD_SORCERY_RITUAL_EXECUTION_POLICY,
+  OBLIVION_CEREMONY_ACQUISITION_POLICY,
+  OBLIVION_CEREMONY_CATALOG,
+  OBLIVION_CEREMONY_CATALOG_REVISION,
+  OBLIVION_CEREMONY_EXECUTION_POLICY,
+  projectCreationDisciplineSubchoices,
+  type BloodSorceryRitualCatalogItem,
+  type BloodSorceryRitualId,
+  type CreationDisciplineSubsystemState,
+  type DisciplineSubsystemSourceRef,
+  type OblivionCeremonyCatalogItem,
+  type OblivionCeremonyId,
+  type PendingCreationDisciplineSubchoice,
+} from "./creation/discipline-subsystems.js";
 export type {
   BasicOutcome,
   BasicTestPreparation,

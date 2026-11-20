@@ -1,4 +1,5 @@
 import type { CreationValidationContext } from "./attributes.js";
+import { V5_TRAIT_STRUCTURAL_MAXIMUM } from "./trait-ratings.js";
 
 export const CREATION_SKILL_CATALOG = [
   {
@@ -257,6 +258,7 @@ export const CREATION_SKILLS_POLICY = {
   maximumRating: 4,
   methods: CREATION_SKILL_METHODS,
   ruleRevision: "RULE-CREATION-SKILLS-001-r1",
+  structuralMaximum: V5_TRAIT_STRUCTURAL_MAXIMUM,
 } as const;
 
 export interface CreationSpecialtyValue {

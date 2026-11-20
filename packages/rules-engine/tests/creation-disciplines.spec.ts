@@ -1,9 +1,20 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  BLOOD_SORCERY_RITUAL_ACQUISITION_POLICY,
+  BLOOD_SORCERY_RITUAL_CATALOG,
+  BLOOD_SORCERY_RITUAL_EXECUTION_POLICY,
   DISCIPLINE_CATALOG,
+  DISCIPLINE_POWER_CATALOG,
+  OBLIVION_CEREMONY_ACQUISITION_POLICY,
+  OBLIVION_CEREMONY_CATALOG,
+  OBLIVION_CEREMONY_EXECUTION_POLICY,
+  THIN_BLOOD_ALCHEMY_ACQUISITION_POLICY,
+  THIN_BLOOD_ALCHEMY_EXECUTION_POLICY,
+  THIN_BLOOD_ALCHEMY_FORMULA_CATALOG,
   eligibleDisciplinePowers,
   evaluateCreationDisciplines,
+  projectCreationDisciplineSubchoices,
   resolveCreationDisciplinePolicy,
 } from "../src/index.js";
 
@@ -49,7 +60,10 @@ describe("Disciplinas na criação V5", () => {
       ),
     ).toBe(true);
     expect(powers.every((power) => power.sourceRefs.length > 0)).toBe(true);
-    expect(powers.every((power) => power.auditStatus !== undefined)).toBe(true);
+    expect(DISCIPLINE_CATALOG.map((discipline) => discipline.auditStatus)).not.toContain(
+      "PENDING",
+    );
+    expect(powers.every((power) => power.auditStatus !== "PENDING")).toBe(true);
     expect(
       powers.every(
         (power) =>
@@ -92,9 +106,250 @@ describe("Disciplinas na criação V5", () => {
     expect(powers.every((power) => power.rule.auditStatus !== "PENDING")).toBe(true);
     expect(powers.every((power) => power.rule.systemStepsPtBr.length >= 2)).toBe(true);
     expect(
-      DISCIPLINE_CATALOG.filter((discipline) => !toreadorDisciplineIds.has(discipline.id))
-        .flatMap((discipline) => discipline.powers)
-        .every((power) => power.rule.auditStatus === "PENDING"),
+      DISCIPLINE_CATALOG.flatMap((discipline) => discipline.powers).every(
+        (power) => power.rule.auditStatus !== "PENDING",
+      ),
+    ).toBe(true);
+  });
+
+  it("separa Poderes, Rituais, Cerimônias e Fórmulas sem duplicar IDs", () => {
+    expect(DISCIPLINE_POWER_CATALOG).toHaveLength(144);
+    expect(BLOOD_SORCERY_RITUAL_CATALOG).toHaveLength(38);
+    expect(OBLIVION_CEREMONY_CATALOG).toHaveLength(9);
+    expect(THIN_BLOOD_ALCHEMY_FORMULA_CATALOG).toHaveLength(17);
+    expect(
+      DISCIPLINE_POWER_CATALOG.every(
+        (item) => item.disciplineId !== "discipline:thin-blood-alchemy",
+      ),
+    ).toBe(true);
+    expect(
+      THIN_BLOOD_ALCHEMY_FORMULA_CATALOG.every(
+        (item) => item.disciplineId === "discipline:thin-blood-alchemy",
+      ),
+    ).toBe(true);
+
+    for (const catalog of [
+      DISCIPLINE_POWER_CATALOG,
+      BLOOD_SORCERY_RITUAL_CATALOG,
+      OBLIVION_CEREMONY_CATALOG,
+      THIN_BLOOD_ALCHEMY_FORMULA_CATALOG,
+    ]) {
+      expect(new Set(catalog.map((item) => item.id)).size).toBe(catalog.length);
+      expect(catalog.every((item) => item.auditStatus !== "PENDING")).toBe(true);
+      expect(
+        catalog.every((item) => item.sourceRefs.every((ref) => ref.pages.length > 0)),
+      ).toBe(true);
+      expect(catalog.every((item) => item.ruleRevisionId.length > 0)).toBe(true);
+    }
+  });
+
+  it("fecha o inventário de Rituais e Cerimônias por nível", () => {
+    const countLevels = (items: readonly { level: number }[]) =>
+      [1, 2, 3, 4, 5].map((level) => items.filter((item) => item.level === level).length);
+
+    expect(countLevels(BLOOD_SORCERY_RITUAL_CATALOG)).toEqual([7, 9, 8, 8, 6]);
+    expect(countLevels(OBLIVION_CEREMONY_CATALOG)).toEqual([2, 2, 2, 2, 1]);
+    expect(
+      OBLIVION_CEREMONY_CATALOG.every((ceremony) =>
+        DISCIPLINE_POWER_CATALOG.some(
+          (power) => power.id === ceremony.prerequisitePowerId,
+        ),
+      ),
+    ).toBe(true);
+  });
+
+  it("formaliza aquisição inicial e posterior dos três subsistemas", () => {
+    expect(BLOOD_SORCERY_RITUAL_ACQUISITION_POLICY.creation).toMatchObject({
+      grantedChoices: 1,
+      maximumLevel: 1,
+      minimumBloodSorceryRating: 1,
+    });
+    expect(BLOOD_SORCERY_RITUAL_ACQUISITION_POLICY.duringPlay).toMatchObject({
+      experienceCostFormula: "nível do Ritual × 3",
+      maximumLevelFormula: "rating de Feitiçaria de Sangue",
+    });
+    expect(OBLIVION_CEREMONY_ACQUISITION_POLICY.creation).toMatchObject({
+      grantedChoices: 1,
+      maximumLevel: 1,
+      requiresAnyMatchingPrerequisitePower: true,
+    });
+    expect(
+      THIN_BLOOD_ALCHEMY_ACQUISITION_POLICY.formulaGrant.formulaePerAlchemyRating,
+    ).toBe(1);
+    expect(
+      THIN_BLOOD_ALCHEMY_ACQUISITION_POLICY.temporaryDisciplineAccess
+        .persistsAsPermanentRating,
+    ).toBe(false);
+  });
+
+  it.each([1, 2])(
+    "projeta exatamente um Ritual inicial de nível 1 com Feitiçaria de Sangue %i",
+    (rating) => {
+      const pending = projectCreationDisciplineSubchoices({
+        bloodSorceryRitualIds: [],
+        disciplines: [
+          {
+            disciplineId: "discipline:blood-sorcery",
+            rating,
+            structuralMaximum: 5,
+          },
+        ],
+        oblivionCeremonyIds: [],
+        powers: [],
+        thinBloodAlchemyFormulaIds: [],
+        thinBloodAlchemyMethod: null,
+      });
+
+      expect(pending).toHaveLength(1);
+      expect(pending[0]).toMatchObject({
+        kind: "BLOOD_SORCERY_RITUAL",
+        ordinal: 1,
+      });
+      expect(pending[0]?.eligibleIds).toHaveLength(7);
+      expect(
+        pending[0]?.eligibleIds.every((id) =>
+          BLOOD_SORCERY_RITUAL_CATALOG.some(
+            (ritual) => ritual.id === id && ritual.level === 1,
+          ),
+        ),
+      ).toBe(true);
+    },
+  );
+
+  it("projeta Cerimônia somente quando existe Poder pré-requisito compatível", () => {
+    const base = {
+      bloodSorceryRitualIds: [],
+      disciplines: [
+        {
+          disciplineId: "discipline:oblivion" as const,
+          rating: 1,
+          structuralMaximum: 5 as const,
+        },
+      ],
+      oblivionCeremonyIds: [],
+      thinBloodAlchemyFormulaIds: [],
+      thinBloodAlchemyMethod: null,
+    };
+
+    expect(projectCreationDisciplineSubchoices({ ...base, powers: [] })).toEqual([]);
+    expect(
+      projectCreationDisciplineSubchoices({
+        ...base,
+        powers: [
+          {
+            disciplineId: "discipline:oblivion",
+            powerId: "power:oblivion-ashes-to-ashes",
+            powerRuleRevisionId: "test-r1",
+          },
+        ],
+      }),
+    ).toEqual([
+      {
+        eligibleIds: ["ceremony:oblivion:gift-of-false-life"],
+        kind: "OBLIVION_CEREMONY",
+        ordinal: 1,
+      },
+    ]);
+  });
+
+  it("projeta método antes da primeira Fórmula de Alquimia Sangue-Ralo", () => {
+    const base = {
+      bloodSorceryRitualIds: [],
+      disciplines: [
+        {
+          disciplineId: "discipline:thin-blood-alchemy" as const,
+          rating: 1,
+          structuralMaximum: 5 as const,
+        },
+      ],
+      oblivionCeremonyIds: [],
+      powers: [],
+      thinBloodAlchemyFormulaIds: [],
+    };
+
+    expect(
+      projectCreationDisciplineSubchoices({
+        ...base,
+        thinBloodAlchemyMethod: null,
+      }),
+    ).toEqual([
+      {
+        eligibleIds: ["ATHANOR_CORPORIS", "CALCINATIO", "FIXATIO"],
+        kind: "THIN_BLOOD_ALCHEMY_METHOD",
+        ordinal: 1,
+      },
+    ]);
+    expect(
+      projectCreationDisciplineSubchoices({
+        ...base,
+        thinBloodAlchemyMethod: "FIXATIO",
+      }),
+    ).toMatchObject([
+      {
+        kind: "THIN_BLOOD_ALCHEMY_FORMULA",
+        ordinal: 1,
+      },
+    ]);
+  });
+
+  it("formaliza a execução geral sem esconder as exceções de cada item", () => {
+    expect(BLOOD_SORCERY_RITUAL_EXECUTION_POLICY).toMatchObject({
+      castTime: "Cinco minutos por nível, salvo exceção expressa do Ritual",
+      dicePool: "Inteligência + Feitiçaria de Sangue",
+      difficultyFormula: "nível do Ritual + 1",
+    });
+    expect(BLOOD_SORCERY_RITUAL_EXECUTION_POLICY.wards).toMatchObject({
+      criticalWinDamage: "Três pontos de dano Agravado à Vitalidade",
+      forcedContactTriggersWard: false,
+      successDamage: "Um ponto de dano Agravado à Vitalidade",
+    });
+    expect(BLOOD_SORCERY_RITUAL_EXECUTION_POLICY.wardingCircles).toMatchObject({
+      cost: "Três Checagens de Sangue",
+      extendedDurationDifficultyModifier: 2,
+      radiusLimitMeters: 3,
+    });
+    expect(OBLIVION_CEREMONY_EXECUTION_POLICY).toMatchObject({
+      dicePool: "Determinação + Oblívio",
+      difficultyFormula: "nível da Cerimônia + 1",
+      requiresMatchingPrerequisitePower: true,
+    });
+    expect(THIN_BLOOD_ALCHEMY_EXECUTION_POLICY.methods).toMatchObject({
+      ATHANOR_CORPORIS: { dicePool: "Vigor + Alquimia Sangue-Ralo" },
+      CALCINATIO: { dicePool: "Manipulação + Alquimia Sangue-Ralo" },
+      FIXATIO: { dicePool: "Inteligência + Alquimia Sangue-Ralo" },
+    });
+  });
+
+  it("preserva os tempos excepcionais dos Rituais auditados", () => {
+    const castTime = (id: string) =>
+      BLOOD_SORCERY_RITUAL_CATALOG.find((ritual) => ritual.id === id)?.rule.castTime;
+
+    expect(castTime("ritual:blood-sorcery:clinging-of-the-insect")).toBe(
+      "Cinco minutos por nível",
+    );
+    expect(castTime("ritual:blood-sorcery:blood-walk")).toBe("Uma hora");
+    expect(castTime("ritual:blood-sorcery:craft-bloodstone")).toBe("Três noites");
+    expect(castTime("ritual:blood-sorcery:warding-circle-against-lupines")).toBe(
+      "Uma noite inteira",
+    );
+    expect(castTime("ritual:blood-sorcery:calix-secretus")).toBe("Uma hora");
+  });
+
+  it("mantém os níveis normativos corrigidos das Fórmulas", () => {
+    expect(
+      THIN_BLOOD_ALCHEMY_FORMULA_CATALOG.find(
+        (formula) => formula.id === "power:tba-profane-hieros-gamos",
+      )?.level,
+    ).toBe(3);
+    expect(
+      THIN_BLOOD_ALCHEMY_FORMULA_CATALOG.find(
+        (formula) => formula.id === "power:tba-rumor",
+      )?.level,
+    ).toBe(3);
+    expect(
+      THIN_BLOOD_ALCHEMY_FORMULA_CATALOG.every(
+        (formula) => formula.ingredientsPtBr.length > 0 && formula.methods.length === 3,
+      ),
     ).toBe(true);
   });
 
