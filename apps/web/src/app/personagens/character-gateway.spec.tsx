@@ -31,6 +31,10 @@ describe("CharacterGateway", () => {
   it("mantém avatares como seleção dominante e exibe apenas contexto essencial", () => {
     render(<CharacterGateway preview={preview} />);
 
+    expect(
+      screen.getByRole("link", { name: "Assistente Vampiro — início" }),
+    ).toBeVisible();
+    expect(screen.queryByText("Nocturna")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Seus personagens" })).toBeVisible();
     expect(
       screen.getByRole("button", { name: /Selecionar Noemi Vale/u }),

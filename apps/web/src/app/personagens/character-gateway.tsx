@@ -158,9 +158,9 @@ export function CharacterGateway({ preview }: CharacterGatewayProperties) {
     <main className={styles.gateway}>
       <div aria-hidden="true" className={styles.atmosphere} />
       <header className={styles.header}>
-        <Link aria-label="Nocturna — início" className={styles.brand} href="/">
+        <Link aria-label="Assistente Vampiro — início" className={styles.brand} href="/">
           <AnkhMark />
-          <span>Nocturna</span>
+          <span>Assistente Vampiro</span>
         </Link>
 
         <nav aria-label="Navegação principal" className={styles.navigation}>
