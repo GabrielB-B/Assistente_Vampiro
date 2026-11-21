@@ -7,6 +7,7 @@ personagens, segredos do Narrador e dados operacionais.
 
 - [Baseline de Segurança v0.1](./baseline-seguranca-v0.1.md)
 - [Modelo de Ameaças — VS01-02 v0.1](./modelo-ameacas-vs01-02-v0.1.md)
+- [Modelo de Ameaças — VS01-03 v0.1](./modelo-ameacas-vs01-03-v0.1.md)
 - [Registro de Riscos de Segurança v0.1](./registro-riscos-seguranca-v0.1.md)
 
 ## Regra de evolução

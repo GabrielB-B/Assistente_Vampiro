@@ -20,6 +20,7 @@ Quando uma ambiguidade for resolvida, preservar as alternativas consideradas, re
 |---|---|---|---|---|---|---|---|
 | AMB-005 | localização do Players Guide | Como rotular nomes sem edição PT-BR disponível no corpus? | manter inglês; tradução candidata; tradução oficial futura | afeta UI, não o identificador nem a mecânica | revisão editorial humana ou publicação oficial | responsável editorial | aberta, não bloqueante |
 | AMB-006 | errata posterior | Existe errata oficial posterior aplicável ao corpus de 2023? | nenhuma ingerida; errata futura; impressão revisada | pode criar nova revisão de regra | fonte oficial versionada | responsável pelo corpus | aberta, não bloqueante para o perfil fechado |
+| AMB-008 | integridade local do Players Guide | A cópia inglesa disponível corresponde editorialmente a `SRC-0004`, embora seu SHA-256 difira do inventário? | reexportação do mesmo livro; arquivo distinto; substituir pela cópia inventariada | pode afetar prova de proveniência e deltas ainda não conferidos | localizar o arquivo com hash `255773...` ou recertificar a cópia atual | responsável pelo corpus | aberta; não bloqueia Atributos porque p. 64 foi conferida e coincide com SRC-0001 |
 
 ---
 

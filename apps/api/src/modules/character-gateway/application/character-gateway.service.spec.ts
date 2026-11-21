@@ -15,10 +15,11 @@ const actor: ActorContext = {
   authenticationMethod: "alpha",
   identityAlias: "player-one",
 };
+const chronicleId = "chronicle-one";
 
 const character: CharacterGatewayItem = {
   characterId: "character-one",
-  chronicleId: "chronicle-one",
+  chronicleId,
   chronicleTitle: "Ecos sob a Chuva",
   clan: null,
   lastActivityAt: null,
@@ -30,7 +31,7 @@ const allowedContext: CharacterAccessContext = {
   character: {
     binding: {
       characterId: character.characterId,
-      chronicleId: character.chronicleId,
+      chronicleId,
       membershipId: "membership-one",
       state: "active",
     },
@@ -39,7 +40,7 @@ const allowedContext: CharacterAccessContext = {
   },
   membership: {
     accountId: actor.accountId,
-    chronicleId: character.chronicleId,
+    chronicleId,
     membershipId: "membership-one",
     roles: ["PLAYER"],
     status: "active",
@@ -56,6 +57,7 @@ function createDependencies(context: CharacterAccessContext | undefined) {
   const readCharacterAccess = vi.fn().mockResolvedValue(context);
   const reader: AccessContextReader = {
     readCharacterAccess,
+    readCharacterOwnerAccess: vi.fn(),
   };
   return {
     findAuthorized,
@@ -81,12 +83,12 @@ describe("CharacterGatewayService", () => {
     const service = new CharacterGatewayService(repository, reader);
 
     await expect(
-      service.select(actor, character.characterId, character.chronicleId),
+      service.select(actor, character.characterId, chronicleId),
     ).resolves.toEqual({ activeCharacter: character, nextPath: "/boa-noite" });
     expect(readCharacterAccess).toHaveBeenCalledWith(
       actor.accountId,
       character.characterId,
-      character.chronicleId,
+      chronicleId,
     );
   });
 
@@ -109,7 +111,7 @@ describe("CharacterGatewayService", () => {
     const service = new CharacterGatewayService(repository, reader);
 
     await expect(
-      service.select(actor, character.characterId, character.chronicleId),
+      service.select(actor, character.characterId, chronicleId),
     ).rejects.toBeInstanceOf(CharacterNotAvailableError);
     expect(findAuthorized).not.toHaveBeenCalled();
   });

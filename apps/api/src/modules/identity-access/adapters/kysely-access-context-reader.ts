@@ -10,6 +10,27 @@ import type {
 export class KyselyAccessContextReader implements AccessContextReader {
   constructor(private readonly database: Database) {}
 
+  async readCharacterOwnerAccess(
+    characterId: string,
+  ): Promise<CharacterAccessContext | undefined> {
+    const row = await this.database
+      .selectFrom("character")
+      .select(["id", "owner_account_id"])
+      .where("id", "=", characterId)
+      .executeTakeFirst();
+
+    return row === undefined
+      ? undefined
+      : {
+          character: {
+            binding: undefined,
+            characterId: row.id,
+            ownerAccountId: row.owner_account_id,
+          },
+          membership: undefined,
+        };
+  }
+
   async readCharacterAccess(
     accountId: string,
     characterId: string,

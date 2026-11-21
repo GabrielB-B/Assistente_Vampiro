@@ -1,5 +1,100 @@
 export { evaluateBasicTest } from "./basic-test/evaluate-basic-test.js";
 export { prepareBasicTest } from "./basic-test/prepare-basic-test.js";
+export {
+  CREATION_ATTRIBUTE_IDS,
+  CREATION_ATTRIBUTES_POLICY,
+  evaluateCreationAttributes,
+  type CreationAttributeId,
+  type CreationAttributesEvaluation,
+  type CreationAttributeValues,
+  type CreationAttributeViolation,
+  type CreationValidationContext,
+} from "./creation/attributes.js";
+export {
+  CREATION_CONCEPT_POLICY,
+  evaluateCreationConcept,
+  type CreationConceptEvaluation,
+  type CreationConceptPair,
+  type CreationConceptValues,
+} from "./creation/concept.js";
+export {
+  characterKindForOrigin,
+  CREATION_CLAN_POLICY,
+  CREATION_ORIGIN_CATALOG,
+  evaluateCreationClan,
+  resolveCreationOrigin,
+  type CreationOriginDefinition,
+  type CreationOriginId,
+  type CreationClanViolation,
+} from "./creation/clans.js";
+export {
+  CREATION_STEP_IDS,
+  determineCreationOriginChangeImpact,
+  evaluateCreationProgress,
+  projectCreationDisciplinePolicy,
+  type CreationDisciplinePolicyProjection,
+  type CreationOriginChangeImpact,
+  type CreationProgressInput,
+  type CreationStepId,
+  type CreationStepStatus,
+} from "./creation/context.js";
+export {
+  AUTOMATIC_SPECIALTY_SKILL_IDS,
+  CREATION_SKILL_CATALOG,
+  CREATION_SKILL_IDS,
+  CREATION_SKILL_METHODS,
+  CREATION_SKILLS_POLICY,
+  evaluateCreationSkills,
+  type CreationSkillId,
+  type CreationSkillMethodId,
+  type CreationSkillsEvaluation,
+  type CreationSkillsViolation,
+  type CreationSpecialtyOrigin,
+  type CreationSpecialtyValue,
+} from "./creation/skills.js";
+export { V5_TRAIT_STRUCTURAL_MAXIMUM } from "./creation/trait-ratings.js";
+export {
+  CREATION_DISCIPLINES_POLICY_REVISION,
+  DISCIPLINE_CATALOG,
+  DISCIPLINE_CATALOG_REVISION,
+  DISCIPLINE_POWER_CATALOG,
+  DISCIPLINE_STRUCTURAL_MAXIMUM,
+  THIN_BLOOD_ALCHEMY_ACQUISITION_POLICY,
+  THIN_BLOOD_ALCHEMY_EXECUTION_POLICY,
+  THIN_BLOOD_ALCHEMY_FORMULA_CATALOG,
+  THIN_BLOOD_ALCHEMY_FORMULA_CATALOG_REVISION,
+  eligibleDisciplinePowers,
+  evaluateCreationDisciplines,
+  resolveCreationDisciplinePolicy,
+  type CreationDisciplinePolicy,
+  type CreationDisciplineState,
+  type CreationDisciplinesViolation,
+  type PowerPresentationView,
+  type PowerRuleAuditStatus,
+  type PowerRuleView,
+  type RuleTranslationStatus,
+  type ThinBloodAlchemyFormulaCatalogItemView,
+  type ThinBloodAlchemyFormulaId,
+  type ThinBloodAlchemyMethod,
+} from "./creation/disciplines.js";
+export {
+  BLOOD_SORCERY_RITUAL_ACQUISITION_POLICY,
+  BLOOD_SORCERY_RITUAL_CATALOG,
+  BLOOD_SORCERY_RITUAL_CATALOG_REVISION,
+  BLOOD_SORCERY_RITUAL_EXECUTION_POLICY,
+  OBLIVION_CEREMONY_ACQUISITION_POLICY,
+  OBLIVION_CEREMONY_CATALOG,
+  OBLIVION_CEREMONY_CATALOG_REVISION,
+  OBLIVION_CEREMONY_EXECUTION_POLICY,
+  projectCreationDisciplineSubchoices,
+  type BloodSorceryRitualCatalogItem,
+  type BloodSorceryRitualId,
+  type CreationDisciplineSubsystemState,
+  type DisciplineSubsystemSourceRef,
+  type OblivionCeremonyCatalogItem,
+  type OblivionCeremonyId,
+  type PendingCreationDisciplineSubchoice,
+} from "./creation/discipline-subsystems.js";
 export type {
   BasicOutcome,
   BasicTestPreparation,
@@ -22,6 +117,7 @@ export type {
 } from "./errors/rule-engine-error.js";
 export {
   APPLIED_RULE_REVISIONS,
+  CREATION_RULE_REVISIONS,
   EVALUATOR_REVISION,
   PREPARATION_RULE_REVISIONS,
   RULE_SET_PROFILE_ID,

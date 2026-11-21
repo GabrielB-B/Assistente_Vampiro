@@ -12,6 +12,8 @@ strictPeerDependencies: true
 overrides:
   body-parser: 2.4.0
   multer: 2.5.0
+  qs: 6.16.1
+  typescript-eslint: 8.73.0
   undici: 8.12.2
   zod: 4.6.7
 
@@ -26,4 +28,4 @@ allowBuilds:
   pnpm: true
   unrs-resolver: true
 patchedDependencies:
-  "@next/eslint-plugin-next@16.4.2": patches/@next__eslint-plugin-next@16.4.2.patch
+  "@next/eslint-plugin-next@16.4.5": patches/@next__eslint-plugin-next@16.4.5.patch

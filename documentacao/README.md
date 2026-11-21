@@ -1,7 +1,7 @@
 # Índice da documentação
 
 **Estado do projeto:** Vertical Slice 01 em andamento; VS01-01 e VS01-02 verificados<br>
-**Atualização:** 23 de outubro de 2026<br>
+**Atualização:** 30 de outubro de 2026<br>
 **Entrada oficial:** este arquivo
 
 Esta documentação está organizada por área de conhecimento. Os prefixos numéricos mantêm uma ordem previsível; eles não representam sprints nem obrigam que as áreas evoluam isoladamente.
@@ -23,38 +23,40 @@ Esta documentação está organizada por área de conhecimento. Os prefixos num�
 1. [Fundação de Produto e Experiência v0.2](./01-produto/fundacao-produto-experiencia-v0.2.md)
 2. [Arquitetura de Produto e Fluxos Principais v0.1](./01-produto/arquitetura-produto-fluxos-principais-v0.1.md)
 3. [Calibração visual — Boa noite, Marcus v0.1](./02-design-experiencia/calibracoes/boa-noite-marcus-v0.1.md)
-4. [Inventário de Fontes v0.1](./03-dominio-regras/inventario-fontes-v0.1.md)
-5. [Linha Normativa v0.1](./03-dominio-regras/linha-normativa-v0.1.md)
-6. [Modelo de Domínio v0.1](./04-arquitetura/dominio/modelo-dominio-v0.1.md)
-7. [Opções Tecnológicas v0.1](./04-arquitetura/opcoes-tecnologicas-v0.1.md)
-8. [Pesquisa de Benchmarks de Plataformas de RPG v0.1](./04-arquitetura/pesquisa-benchmarks-plataformas-rpg-v0.1.md)
-9. [Architecture v0.1 — Arquitetura de Software](./04-arquitetura/arquitetura-software-v0.1.md)
-10. [Permissions & Visibility Matrix v0.1](./04-arquitetura/permissoes-visibilidade-v0.1.md)
-11. [Baseline de Segurança v0.1](./04-arquitetura/seguranca/baseline-seguranca-v0.1.md)
-12. [Rules Engine Scope v0.1](./04-arquitetura/escopo-rules-engine-v0.1.md)
-13. [Contrato do Rules Engine v0.1](./04-arquitetura/contratos/rules-engine-v0.1.md)
-14. [Matriz de Testes da Fatia 01 v0.1](./03-dominio-regras/matriz-testes-fatia-01-v0.1.md)
-15. [Prova de Persistência v0.1](./04-arquitetura/provas/prova-persistencia-v0.1.md)
-16. [Resultado da Prova de Persistência v0.1](./04-arquitetura/provas/resultado-persistencia-v0.1.md)
-17. [ADR-0004 — Biblioteca de acesso a dados](./00-governanca/adr/0004-biblioteca-acesso-dados.md)
-18. [ADR-0005 — Identificadores UUIDv7](./00-governanca/adr/0005-identificadores-uuidv7.md)
-19. [ADR-0006 — Estratégia multiedição](./00-governanca/adr/0006-estrategia-multiedicao.md)
-20. [Escopo do Alpha Técnico v0.1](./05-planejamento/escopo-alpha-tecnica-v0.1.md)
-21. [Registro de Decisões](./00-governanca/registro-decisoes.md)
-22. [Roadmap de Engenharia v0.1](./05-planejamento/roadmap-engenharia-v0.1.md)
-23. [Engineering Foundation v0.1](./05-planejamento/engineering-foundation-v0.1.md)
-24. [Persistência PostgreSQL v0.1](./04-arquitetura/dados/persistencia-postgresql-v0.1.md)
-25. [Ambiente Local v0.1](./04-arquitetura/operacao/ambiente-local-v0.1.md)
-26. [Observabilidade Mínima v0.1](./04-arquitetura/operacao/observabilidade-minima-v0.1.md)
-27. [Resultado da Prova em Clone Limpo v0.1](./04-arquitetura/provas/resultado-clone-limpo-v0.1.md)
-28. [Plano de Implementação do Vertical Slice 01 v0.1](./05-planejamento/plano-implementacao-vertical-slice-01-v0.1.md)
+4. [Especificação Funcional da Ficha V5 v0.1](./02-design-experiencia/especificacao-funcional-ficha-v5-v0.1.md)
+5. [Estudo Visual da Ficha V5 v0.1](./02-design-experiencia/estudo-visual-ficha-v5-v0.1.md)
+6. [Inventário de Fontes v0.1](./03-dominio-regras/inventario-fontes-v0.1.md)
+7. [Linha Normativa v0.1](./03-dominio-regras/linha-normativa-v0.1.md)
+8. [Modelo de Domínio v0.1](./04-arquitetura/dominio/modelo-dominio-v0.1.md)
+9. [Opções Tecnológicas v0.1](./04-arquitetura/opcoes-tecnologicas-v0.1.md)
+10. [Pesquisa de Benchmarks de Plataformas de RPG v0.1](./04-arquitetura/pesquisa-benchmarks-plataformas-rpg-v0.1.md)
+11. [Architecture v0.1 — Arquitetura de Software](./04-arquitetura/arquitetura-software-v0.1.md)
+12. [Permissions & Visibility Matrix v0.1](./04-arquitetura/permissoes-visibilidade-v0.1.md)
+13. [Baseline de Segurança v0.1](./04-arquitetura/seguranca/baseline-seguranca-v0.1.md)
+14. [Rules Engine Scope v0.1](./04-arquitetura/escopo-rules-engine-v0.1.md)
+15. [Contrato do Rules Engine v0.1](./04-arquitetura/contratos/rules-engine-v0.1.md)
+16. [Matriz de Testes da Fatia 01 v0.1](./03-dominio-regras/matriz-testes-fatia-01-v0.1.md)
+17. [Prova de Persistência v0.1](./04-arquitetura/provas/prova-persistencia-v0.1.md)
+18. [Resultado da Prova de Persistência v0.1](./04-arquitetura/provas/resultado-persistencia-v0.1.md)
+19. [ADR-0004 — Biblioteca de acesso a dados](./00-governanca/adr/0004-biblioteca-acesso-dados.md)
+20. [ADR-0005 — Identificadores UUIDv7](./00-governanca/adr/0005-identificadores-uuidv7.md)
+21. [ADR-0006 — Estratégia multiedição](./00-governanca/adr/0006-estrategia-multiedicao.md)
+22. [Escopo do Alpha Técnico v0.1](./05-planejamento/escopo-alpha-tecnica-v0.1.md)
+23. [Registro de Decisões](./00-governanca/registro-decisoes.md)
+24. [Roadmap de Engenharia v0.1](./05-planejamento/roadmap-engenharia-v0.1.md)
+25. [Engineering Foundation v0.1](./05-planejamento/engineering-foundation-v0.1.md)
+26. [Persistência PostgreSQL v0.1](./04-arquitetura/dados/persistencia-postgresql-v0.1.md)
+27. [Ambiente Local v0.1](./04-arquitetura/operacao/ambiente-local-v0.1.md)
+28. [Observabilidade Mínima v0.1](./04-arquitetura/operacao/observabilidade-minima-v0.1.md)
+29. [Resultado da Prova em Clone Limpo v0.1](./04-arquitetura/provas/resultado-clone-limpo-v0.1.md)
+30. [Plano de Implementação do Vertical Slice 01 v0.1](./05-planejamento/plano-implementacao-vertical-slice-01-v0.1.md)
 
 ## Situação por etapa
 
 | Etapa | Estado | Resultado ou próximo gate |
 |---|---|---|
 | fundação de produto | concluída | visão e limites consolidados |
-| direção visual | em evolução controlada | calibração aprovada; sistema visual ainda em proposta |
+| direção visual | em evolução controlada | ficha V5 em especificação; sistema visual ainda em proposta |
 | corpus inicial | concluído | três fontes auditadas e linha normativa aprovada |
 | Modelo de Domínio v0.1 | aprovado | decisões registradas e versionadas |
 | arquitetura técnica | aprovada | Architecture v0.1 e seis ADRs aceitas |

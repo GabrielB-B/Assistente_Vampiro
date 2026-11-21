@@ -12,7 +12,7 @@ index 47108c943514a1d7e686c5eb18aad00a59963c83..24c3e17f957671a962a3ad254164d3ed
 - * Process a Next.js root directory glob.
 + * Resolve an explicit Next.js root directory without evaluating glob patterns.
 + *
-+ * The project intentionally rejects globs here because the previous parser is
++ * The project intentionally rejects globs here because the upstream parser is
 + * affected by CVE-2026-93687. A root directory can still be configured as a
 + * string or an array of concrete paths.
   */ var processRootDir = function(rootDir) {

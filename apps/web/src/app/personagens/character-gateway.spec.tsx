@@ -31,12 +31,19 @@ describe("CharacterGateway", () => {
   it("mantém avatares como seleção dominante e exibe apenas contexto essencial", () => {
     render(<CharacterGateway preview={preview} />);
 
+    expect(
+      screen.getByRole("link", { name: "Assistente Vampiro — início" }),
+    ).toBeVisible();
+    expect(screen.queryByText("Nocturna")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Seus personagens" })).toBeVisible();
     expect(
       screen.getByRole("button", { name: /Selecionar Noemi Vale/u }),
     ).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByText("Ecos sob a Chuva")).toBeVisible();
-    expect(screen.getByRole("button", { name: /Novo/u })).toBeVisible();
+    expect(screen.getByRole("link", { name: /Novo/u })).toHaveAttribute(
+      "href",
+      "/personagens/criar",
+    );
     expect(screen.queryByText("Fome")).not.toBeInTheDocument();
     expect(screen.queryByText("Humanidade")).not.toBeInTheDocument();
   });
@@ -71,13 +78,12 @@ describe("CharacterGateway", () => {
     expect(selene).toHaveAttribute("aria-pressed", "true");
   });
 
-  it("mantém a criação visível sem iniciar um fluxo fora do escopo", () => {
+  it("encaminha Novo para a escolha do modo de criação", () => {
     render(<CharacterGateway preview={preview} />);
 
-    fireEvent.click(screen.getByRole("button", { name: /Novo/u }));
-
-    expect(screen.getByRole("status")).toHaveTextContent(
-      "A criação de personagem será liberada em uma etapa futura",
+    expect(screen.getByRole("link", { name: /Novo/u })).toHaveAttribute(
+      "href",
+      "/personagens/criar",
     );
   });
 });

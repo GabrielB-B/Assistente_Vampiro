@@ -5,7 +5,7 @@ import { characterGatewayPreview } from "./character-gateway.preview";
 
 export const metadata: Metadata = {
   description: "Escolha a identidade com que você continuará pela noite.",
-  title: "Seus personagens · Nocturna",
+  title: "Seus personagens · Assistente Vampiro",
 };
 
 export default function CharacterGatewayPage() {

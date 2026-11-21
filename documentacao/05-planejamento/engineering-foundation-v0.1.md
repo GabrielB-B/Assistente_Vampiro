@@ -16,7 +16,7 @@ Criar uma fundação executável e reproduzível antes das funcionalidades do al
 | Node.js | 24.18.0 | linha LTS usada no ambiente aprovado |
 | pnpm | 12.10.1 | workspace e lockfile único de produção |
 | Turborepo | 2.11.7 | orquestração dos gates do monorepo |
-| TypeScript | 6.0.3 | versão mais nova dentro da faixa suportada pelo `typescript-eslint` 8.71.1 |
+| TypeScript | 6.0.3 | versão mais nova dentro da faixa suportada pelo `typescript-eslint` 8.73.0 |
 | Next.js | 16.4.0 | frontend definido pela ADR-0001 |
 | React | 19.3.0 | versão estável compatível com Next.js 16.4.0 |
 | NestJS | 12.1.2 | backend definido pela ADR-0001 |

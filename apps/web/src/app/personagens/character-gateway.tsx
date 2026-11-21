@@ -70,7 +70,6 @@ export function CharacterGateway({ preview }: CharacterGatewayProperties) {
     if (preview !== undefined) {
       return;
     }
-
     const controller = new AbortController();
     void listCharacters(controller.signal)
       .then((response) => {
@@ -127,6 +126,9 @@ export function CharacterGateway({ preview }: CharacterGatewayProperties) {
     if (selectedCharacter === undefined || isEntering) {
       return;
     }
+    if (selectedCharacter.chronicleId === null) {
+      return;
+    }
     if (preview !== undefined) {
       setNotice(
         `${selectedCharacter.name} está pronta. A tela “Boa noite” pertence ao próximo incremento.`,
@@ -156,9 +158,9 @@ export function CharacterGateway({ preview }: CharacterGatewayProperties) {
     <main className={styles.gateway}>
       <div aria-hidden="true" className={styles.atmosphere} />
       <header className={styles.header}>
-        <Link aria-label="Nocturna — início" className={styles.brand} href="/">
+        <Link aria-label="Assistente Vampiro — início" className={styles.brand} href="/">
           <AnkhMark />
-          <span>Nocturna</span>
+          <span>Assistente Vampiro</span>
         </Link>
 
         <nav aria-label="Navegação principal" className={styles.navigation}>
@@ -250,22 +252,17 @@ export function CharacterGateway({ preview }: CharacterGatewayProperties) {
                   );
                 })}
 
-                <button
+                <Link
                   aria-describedby="creation-status"
                   className={styles.createCharacter}
-                  onClick={() =>
-                    setNotice(
-                      "A criação de personagem será liberada em uma etapa futura.",
-                    )
-                  }
-                  type="button"
+                  href="/personagens/criar"
                 >
                   <span aria-hidden="true" className={styles.createCircle}>
                     <span />
                   </span>
                   <span className={styles.characterName}>Novo</span>
                   <span className={styles.characterClan}>Criar personagem</span>
-                </button>
+                </Link>
               </div>
             </div>
 

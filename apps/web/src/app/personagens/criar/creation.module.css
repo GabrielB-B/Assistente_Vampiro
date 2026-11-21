@@ -1,0 +1,3927 @@
+.creationShell {
+  --blood: #8f111d;
+  --blood-dark: #640911;
+  --ink: #1b1714;
+  --paper: #efe8da;
+  position: relative;
+  display: grid;
+  min-height: 100svh;
+  overflow: hidden;
+  padding: clamp(1.5rem, 5vh, 4rem) clamp(1rem, 5vw, 5rem);
+  background: #07090b url("/images/character-creation-background-v02.png") center / cover
+    no-repeat;
+  color: var(--ink);
+  isolation: isolate;
+  place-items: center;
+}
+
+.creationShell::before,
+.creationShell::after,
+.atmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.creationShell::before {
+  z-index: -2;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(2 5 9 / 12%),
+      rgb(2 5 9 / 60%) 24%,
+      rgb(1 3 6 / 78%) 50%,
+      rgb(2 5 9 / 58%) 78%,
+      rgb(2 5 9 / 18%)
+    ),
+    radial-gradient(ellipse at 50% 46%, rgb(1 3 5 / 46%) 0 34rem, transparent 72%);
+}
+
+.creationShell::after {
+  z-index: 3;
+  opacity: 0.1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+}
+
+.atmosphere {
+  z-index: -1;
+  box-shadow: inset 0 0 12rem 3rem rgb(0 0 0 / 76%);
+}
+
+.modeDocument {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 57rem);
+  padding: clamp(2.1rem, 4.5vw, 4.2rem) clamp(1.35rem, 5vw, 4rem)
+    clamp(1.7rem, 3vw, 2.5rem);
+  border: 1px solid rgb(123 21 29 / 76%);
+  outline: 1px solid rgb(117 86 64 / 34%);
+  outline-offset: 0.65rem;
+  background:
+    linear-gradient(92deg, rgb(98 59 36 / 4%), transparent 20% 76%, rgb(98 59 36 / 4%)),
+    repeating-linear-gradient(0deg, transparent 0 4px, rgb(92 57 36 / 1.4%) 5px),
+    var(--paper);
+  box-shadow:
+    0 2.5rem 6rem rgb(0 0 0 / 58%),
+    inset 0 0 5rem rgb(115 76 43 / 8%);
+}
+
+.modeDocument::before,
+.modeDocument::after {
+  position: absolute;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-color: var(--blood);
+  content: "";
+}
+
+.modeDocument::before {
+  top: 0.85rem;
+  left: 0.85rem;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+
+.modeDocument::after {
+  right: 0.85rem;
+  bottom: 0.85rem;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.documentMasthead {
+  text-align: center;
+}
+
+.documentMasthead > svg {
+  width: 1rem;
+  height: 2rem;
+  color: var(--blood);
+}
+
+.documentMasthead > div {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.3rem;
+  align-items: center;
+}
+
+.documentMasthead i {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--blood));
+}
+
+.documentMasthead i:last-child {
+  background: linear-gradient(90deg, var(--blood), transparent);
+}
+
+.documentMasthead h1 {
+  max-width: none;
+  margin: 0;
+  font-family: "Newsreader", "Iowan Old Style", "Baskerville", serif;
+  font-size: clamp(1.75rem, 4vw, 2.8rem);
+  font-weight: 520;
+  letter-spacing: 0.045em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.documentMasthead p {
+  margin: 0.7rem 0 0;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+}
+
+.modeIntroduction {
+  margin-top: clamp(2.4rem, 5vw, 4rem);
+  text-align: center;
+}
+
+.modeIntroduction h2 {
+  margin: 0;
+  color: var(--blood-dark);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: clamp(1.65rem, 3.4vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.modeIntroduction p {
+  margin: 0.55rem 0 0;
+  color: #6d6258;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.2rem;
+}
+
+.modeChoices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem;
+  margin-top: 2rem;
+}
+
+.modeChoices section {
+  display: grid;
+  min-height: 21rem;
+  padding: clamp(1.4rem, 3vw, 2rem);
+  border: 1px solid rgb(127 34 39 / 55%);
+  background: rgb(255 252 245 / 28%);
+  text-align: center;
+  grid-template-rows: 3.8rem auto 1fr auto;
+  justify-items: center;
+}
+
+.modeChoices h3 {
+  margin: 1rem 0 0;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.modeChoices p {
+  max-width: 18rem;
+  margin: 1.1rem auto;
+  color: #433a34;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.08rem;
+  line-height: 1.45;
+}
+
+.modeChoices button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.8rem 1.2rem;
+  border: 1px solid var(--blood-dark);
+  background: linear-gradient(90deg, var(--blood-dark), #9e1521);
+  color: #f8eee1;
+  cursor: pointer;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1rem;
+  transition: filter 150ms ease;
+}
+
+.modeChoices button:hover:not(:disabled) {
+  filter: brightness(1.12);
+}
+
+.modeChoices button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.modeChoices button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.modeChoices .secondaryAction {
+  border-color: #9e7a62;
+  background: transparent;
+  color: var(--ink);
+}
+
+.modeChoices b {
+  color: inherit;
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+.bookIcon,
+.sheetIcon {
+  position: relative;
+  display: block;
+  width: 3.3rem;
+  height: 3.3rem;
+  color: var(--blood);
+}
+
+.bookIcon::before,
+.bookIcon::after {
+  position: absolute;
+  top: 0.25rem;
+  width: 1.45rem;
+  height: 2.65rem;
+  border: 3px solid currentcolor;
+  content: "";
+}
+
+.bookIcon::before {
+  right: 50%;
+  border-radius: 0.1rem 0 0.6rem 0;
+  transform: skewY(8deg);
+}
+
+.bookIcon::after {
+  left: 50%;
+  border-radius: 0 0.1rem 0 0.6rem;
+  transform: skewY(-8deg);
+}
+
+.sheetIcon {
+  width: 2.6rem;
+  height: 3.2rem;
+  border: 3px solid currentcolor;
+  border-radius: 0.1rem;
+}
+
+.sheetIcon::before {
+  position: absolute;
+  right: 0.35rem;
+  bottom: 0.45rem;
+  width: 0.35rem;
+  height: 1.45rem;
+  background: currentcolor;
+  content: "";
+  transform: rotate(38deg);
+  transform-origin: bottom;
+}
+
+.sheetIcon::after {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.45rem;
+  width: 1rem;
+  height: 2px;
+  background: currentcolor;
+  box-shadow:
+    0 0.55rem 0 currentcolor,
+    0 1.1rem 0 currentcolor;
+  content: "";
+}
+
+.trustMessage {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.8rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgb(132 32 39 / 45%);
+}
+
+.trustMessage span {
+  display: grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--blood);
+  border-radius: 50%;
+  color: var(--blood);
+  font-family: serif;
+  font-weight: 700;
+  place-items: center;
+}
+
+.trustMessage p {
+  margin: 0;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.93rem;
+}
+
+.modeError {
+  min-height: 1.15rem;
+  margin: 0.8rem 0 -0.9rem;
+  color: var(--blood-dark);
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+@media (max-width: 44rem) {
+  .creationShell {
+    align-items: start;
+    overflow: auto;
+    padding: 1.35rem 0.85rem 2rem;
+    background-position: 65% center;
+  }
+
+  .modeDocument {
+    padding: 2rem 1rem 1.5rem;
+    outline-offset: 0.3rem;
+  }
+
+  .documentMasthead > div {
+    gap: 0.65rem;
+  }
+
+  .documentMasthead h1 {
+    font-size: 1.45rem;
+  }
+
+  .modeChoices {
+    grid-template-columns: 1fr;
+  }
+
+  .modeChoices section {
+    min-height: 18rem;
+  }
+
+  .trustMessage {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modeChoices button {
+    transition: none;
+  }
+}
+
+.guidedShell {
+  align-items: center;
+  padding: clamp(1rem, 3vh, 2.5rem) clamp(0.75rem, 3vw, 3rem);
+}
+
+.guidedDocument {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 83rem);
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid rgb(126 27 34 / 68%);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 4px, rgb(92 57 36 / 1.3%) 5px),
+    var(--paper);
+  box-shadow: 0 2rem 7rem rgb(0 0 0 / 62%);
+}
+
+.guidedMasthead {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr 8rem;
+  align-items: center;
+  padding: 1.45rem 2.2rem 1rem;
+  border-bottom: 1px solid rgb(124 50 44 / 30%);
+  text-align: center;
+}
+
+.guidedMasthead > svg {
+  width: 1rem;
+  height: 2.1rem;
+  color: var(--blood);
+}
+
+.guidedMasthead h1 {
+  max-width: none;
+  margin: 0;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  font-weight: 570;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.guidedMasthead p {
+  margin: 0.25rem 0 0;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.69rem;
+  letter-spacing: 0.21em;
+  text-transform: uppercase;
+}
+
+.guidedMasthead > p {
+  display: grid;
+  gap: 0.25rem;
+  justify-items: end;
+  color: #312925;
+  letter-spacing: 0.05em;
+}
+
+.guidedMasthead > p strong {
+  color: var(--blood);
+}
+
+.guidedMasthead > p span {
+  text-transform: none;
+}
+
+.mastheadContext {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: end;
+}
+
+.mastheadContext > p {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  color: #312925;
+  font-size: 0.67rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.mastheadContext > p strong {
+  color: var(--blood);
+}
+
+.mastheadContext > p span {
+  text-transform: none;
+}
+
+.characterCreationIdentity {
+  --character-accent: var(--blood-dark);
+
+  display: flex;
+  gap: 0.42rem;
+  align-items: center;
+  max-width: 9.5rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid color-mix(in srgb, var(--character-accent) 55%, #94766a);
+  color: #322723;
+  text-align: right;
+}
+
+.characterCreationIdentity img {
+  width: 1.8rem;
+  height: 1.8rem;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.characterCreationIdentity > span {
+  display: grid;
+  min-width: 0;
+  line-height: 1.05;
+}
+
+.characterCreationIdentity small {
+  overflow: hidden;
+  color: #5f5149;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.characterCreationIdentity i {
+  color: #77665d;
+  font-size: 0.54rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.characterCreationIdentity strong {
+  overflow: hidden;
+  color: var(--character-accent);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.78rem;
+  font-weight: 740;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.characterCreationIdentity[data-origin-kind="CAITIFF"],
+.characterCreationIdentity[data-origin-kind="THIN_BLOOD"] {
+  padding-left: 0.5rem;
+  border-left: 2px solid var(--blood-dark);
+}
+
+.stepTrack {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  padding: 0.75rem 2rem 1rem;
+  border-bottom: 1px solid rgb(124 50 44 / 30%);
+}
+
+.stepTrack span {
+  position: relative;
+  color: #655b54;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.74rem;
+  text-align: center;
+}
+
+.stepTrack i {
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin: 0.45rem auto 0;
+  border: 1px solid #7b6d64;
+  border-radius: 50%;
+  background: var(--paper);
+}
+
+.stepTrack span::after {
+  position: absolute;
+  right: -50%;
+  bottom: 0.27rem;
+  left: 50%;
+  z-index: -1;
+  height: 1px;
+  background: #a49990;
+  content: "";
+}
+
+.stepTrack span:last-child::after {
+  display: none;
+}
+
+.stepTrack .currentStep {
+  color: var(--blood);
+  font-weight: 700;
+}
+
+.stepTrack .currentStep i {
+  border-color: var(--blood);
+  background: var(--blood);
+  box-shadow: 0 0 0 3px rgb(143 17 29 / 10%);
+}
+
+.guidedGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 22rem);
+  min-width: 0;
+}
+
+.attributeStage {
+  min-width: 0;
+  padding: 1.5rem 2rem 1.25rem;
+}
+
+.conceptStage {
+  padding-bottom: 1.1rem;
+}
+
+.chronicleContext {
+  display: flex;
+  gap: 0.55rem;
+  align-items: baseline;
+  width: fit-content;
+  margin: 0.85rem auto 0;
+  color: #5f554e;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.82rem;
+}
+
+.chronicleContext span {
+  color: var(--blood-dark);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.conceptFields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.4rem;
+  margin-top: 1.25rem;
+}
+
+.conceptFields > label,
+.convictionPair label {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.conceptPrimaryField {
+  grid-column: 1 / -1;
+}
+
+.conceptFields input,
+.conceptFields textarea,
+.convictionPair input {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgb(100 70 54 / 48%);
+  border-radius: 0;
+  background: rgb(255 252 244 / 24%);
+  color: #211a17;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1rem;
+  line-height: 1.35;
+  outline: 0;
+}
+
+.conceptFields input,
+.convictionPair input {
+  min-height: 2.45rem;
+  padding: 0.4rem 0.35rem;
+}
+
+.conceptFields textarea {
+  min-height: 3.75rem;
+  padding: 0.55rem;
+  border: 1px solid rgb(100 70 54 / 42%);
+  resize: vertical;
+}
+
+.conceptFields input:focus-visible,
+.conceptFields textarea:focus-visible,
+.convictionPair input:focus-visible {
+  border-color: var(--blood);
+  box-shadow: 0 2px 0 rgb(143 17 29 / 18%);
+}
+
+.conceptFields [aria-invalid="true"],
+.convictionPair [aria-invalid="true"] {
+  border-color: rgb(143 17 29 / 64%);
+}
+
+.conceptLabel {
+  position: relative;
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  width: fit-content;
+  color: #403630;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.conceptLabel > button {
+  display: inline-grid;
+  width: 1.15rem;
+  height: 1.15rem;
+  padding: 0;
+  border: 1px solid rgb(115 50 53 / 46%);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: help;
+  font:
+    700 0.68rem/1 "Newsreader",
+    serif;
+  place-items: center;
+}
+
+.conceptLabel > button:hover,
+.conceptLabel > button:focus-visible {
+  border-color: var(--blood);
+  outline: 2px solid rgb(143 17 29 / 18%);
+  outline-offset: 2px;
+}
+
+.conceptLabel:hover .attributeTooltip,
+.conceptLabel:focus-within .attributeTooltip,
+.conceptLabel[data-open="true"] .attributeTooltip {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.convictionSection {
+  margin-top: 1.25rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgb(115 84 65 / 30%);
+}
+
+.convictionSection > header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.convictionSection h3 {
+  margin: 0;
+  color: var(--blood-dark);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.convictionSection > header > span {
+  color: #6c6058;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.convictionPairs {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 0.7rem;
+}
+
+.convictionPair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto;
+  gap: 0.65rem;
+  align-items: end;
+}
+
+.convictionPair > span {
+  padding-bottom: 0.65rem;
+  color: var(--blood-dark);
+  font-size: 0.85rem;
+}
+
+.convictionPair > button,
+.addPairButton {
+  border: 0;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+}
+
+.convictionPair > button {
+  width: 2rem;
+  height: 2.45rem;
+  font-size: 1.35rem;
+}
+
+.convictionPair > button:hover,
+.convictionPair > button:focus-visible,
+.addPairButton:hover,
+.addPairButton:focus-visible {
+  outline: 2px solid rgb(143 17 29 / 22%);
+  outline-offset: 2px;
+}
+
+.addPairButton {
+  margin-top: 0.75rem;
+  padding: 0.35rem 0;
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+
+.conceptChecklist li::before {
+  display: inline-block;
+  width: 1.1rem;
+  color: #756960;
+  content: "○";
+}
+
+.conceptChecklist li[data-complete="true"]::before {
+  color: var(--blood);
+  content: "✓";
+}
+
+.stageHeading {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  text-align: center;
+}
+
+.stageHeading::before,
+.stageHeading::after {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #9c8e84);
+  content: "";
+  grid-row: 2;
+}
+
+.stageHeading::after {
+  background: linear-gradient(90deg, #9c8e84, transparent);
+}
+
+.stageHeading p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #665b53;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.98rem;
+}
+
+.stageHeading h2 {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+  color: var(--blood-dark);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.72rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.attributeGroups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 1.5rem;
+}
+
+.attributeGroups > section {
+  padding: 0 1.15rem;
+  border-left: 1px solid rgb(114 84 66 / 35%);
+}
+
+.attributeGroups > section:first-child {
+  border-left: 0;
+}
+
+.attributeGroups h3 {
+  margin: 0 0 0.8rem;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.08rem;
+  font-style: italic;
+  text-align: center;
+}
+
+.attributeRow {
+  display: grid;
+  grid-template-columns: minmax(5.7rem, 1fr) auto;
+  gap: 0.55rem;
+  align-items: center;
+  min-height: 2.5rem;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.98rem;
+}
+
+.attributeLabel {
+  position: relative;
+  min-width: 0;
+}
+
+.attributeLabel > button {
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: 1.8rem;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px dotted rgb(100 53 53 / 52%);
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  cursor: help;
+  font: inherit;
+  text-align: left;
+}
+
+.attributeLabel > button:hover,
+.attributeLabel > button:focus-visible {
+  border-bottom-color: var(--blood);
+  color: var(--blood-dark);
+  outline: 0;
+}
+
+.attributeTooltip {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  z-index: 12;
+  width: min(15rem, 70vw);
+  padding: 0.65rem 0.75rem;
+  border: 1px solid rgb(119 49 51 / 58%);
+  background: #201b19;
+  box-shadow: 0 0.75rem 1.8rem rgb(0 0 0 / 28%);
+  color: #f1e8d9;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-0.2rem);
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease,
+    visibility 120ms ease;
+  visibility: hidden;
+}
+
+.attributeTooltip::before {
+  position: absolute;
+  top: -0.3rem;
+  left: 0.75rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-top: 1px solid rgb(119 49 51 / 58%);
+  border-left: 1px solid rgb(119 49 51 / 58%);
+  background: #201b19;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.attributeLabel:hover .attributeTooltip,
+.attributeLabel:focus-within .attributeTooltip,
+.attributeLabel[data-open="true"] .attributeTooltip {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.attributeGroups > section:nth-child(2) .attributeTooltip {
+  left: 50%;
+  transform: translate(-50%, -0.2rem);
+}
+
+.attributeGroups > section:nth-child(2) .attributeTooltip::before {
+  left: calc(50% - 0.275rem);
+}
+
+.attributeGroups > section:nth-child(2) .attributeLabel:hover .attributeTooltip,
+.attributeGroups > section:nth-child(2) .attributeLabel:focus-within .attributeTooltip,
+.attributeGroups
+  > section:nth-child(2)
+  .attributeLabel[data-open="true"]
+  .attributeTooltip {
+  transform: translate(-50%, 0);
+}
+
+.attributeGroups > section:last-child .attributeTooltip {
+  right: 0;
+  left: auto;
+}
+
+.attributeGroups > section:last-child .attributeTooltip::before {
+  right: 0.75rem;
+  left: auto;
+}
+
+.attributeRow > div {
+  display: flex;
+  gap: 0.22rem;
+}
+
+.attributeRow > div button {
+  width: 0.78rem;
+  height: 0.78rem;
+  padding: 0;
+  border: 1px solid #2c2420;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.attributeRow > div button[aria-pressed="true"] {
+  border-color: var(--blood-dark);
+  background: var(--blood);
+  box-shadow: inset 0 0 0 1.5px #d9b5aa;
+}
+
+.attributeRow > div button:hover:not(:disabled):not([aria-disabled="true"]),
+.attributeRow > div button:focus-visible {
+  outline: 2px solid rgb(143 17 29 / 28%);
+  outline-offset: 2px;
+}
+
+.attributeRow > div button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.attributeRow > div button[data-creation-locked="true"] {
+  border-style: dashed;
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.attributeBudget {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgb(111 77 57 / 35%);
+}
+
+.attributeBudget > div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.attributeBudget strong {
+  color: var(--blood-dark);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.2rem;
+}
+
+.attributeBudget span {
+  color: #695d55;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+}
+
+.rulePanel {
+  padding: 1.45rem 1.45rem 1.2rem;
+  border-left: 1px solid rgb(108 72 52 / 42%);
+  background: rgb(223 210 188 / 42%);
+}
+
+.rulePanel h2,
+.rulePanel h3 {
+  font-family: "Newsreader", "Iowan Old Style", serif;
+}
+
+.rulePanel h2 {
+  margin: 0;
+  font-size: 1.22rem;
+}
+
+.rulePanel h3 {
+  margin: 0;
+  font-size: 0.94rem;
+}
+
+.rulePanel p {
+  margin: 0;
+  color: #4d433c;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.86rem;
+  line-height: 1.42;
+}
+
+.rulePanel .ruleEyebrow {
+  color: var(--blood-dark);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.rulePanel dl {
+  margin: 0.5rem 0 0;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid rgb(132 32 39 / 30%);
+  background: rgb(246 239 225 / 50%);
+}
+
+.rulePanel dl div {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  gap: 0.4rem;
+}
+
+.rulePanel dt {
+  color: var(--blood);
+  font-weight: 800;
+}
+
+.rulePanel dd {
+  margin: 0;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.83rem;
+}
+
+.ruleBlock {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgb(115 84 65 / 25%);
+}
+
+.ruleBlock:first-of-type {
+  margin-top: 0.55rem;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.ruleBlock > p {
+  margin-top: 0.35rem;
+}
+
+.rulePanel ul {
+  display: grid;
+  gap: 0.28rem;
+  margin: 0.45rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rulePanel li {
+  color: #4d433c;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.83rem;
+  line-height: 1.35;
+}
+
+.rulePanel li strong {
+  color: #2e2622;
+  font-weight: 650;
+}
+
+.rulePanel small {
+  display: block;
+  margin-top: 0.85rem;
+  color: #756960;
+  font-size: 0.63rem;
+}
+
+.guidedActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.6rem;
+  border-top: 1px solid rgb(124 50 44 / 30%);
+}
+
+.guidedActions > div {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.guidedActions a,
+.guidedActions button {
+  padding: 0.68rem 0.9rem;
+  border: 1px solid #a9917e;
+  background: transparent;
+  color: #3c3029;
+  cursor: pointer;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.86rem;
+  text-decoration: none;
+}
+
+.guidedActions .continueButton {
+  border-color: var(--blood);
+  background: var(--blood);
+  color: #f8eee1;
+}
+
+.guidedActions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.guidedMessage {
+  position: absolute;
+  right: 1.6rem;
+  bottom: -1.55rem;
+  left: 1.6rem;
+  margin: 0;
+  color: #f5d5d7;
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+.guidedLoading {
+  display: grid;
+  width: min(100%, 28rem);
+  min-height: 16rem;
+  border: 1px solid rgb(143 17 29 / 60%);
+  background: rgb(9 11 12 / 82%);
+  color: #eee8dc;
+  place-items: center;
+  align-content: center;
+}
+
+.guidedLoading svg {
+  width: 1.5rem;
+  height: 3rem;
+  color: #bd2432;
+}
+
+.previewLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  padding: 1.2rem;
+  overflow: auto;
+  background: rgb(2 3 4 / 88%);
+  place-items: start center;
+}
+
+.previewDialog {
+  width: min(100%, 76rem);
+  background: #111;
+  box-shadow: 0 2rem 8rem #000;
+}
+
+.previewDialog > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  background: #e8dfd1;
+  color: #231c18;
+}
+
+.previewDialog h2 {
+  margin: 0;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.previewDialog header button {
+  border: 0;
+  background: transparent;
+  color: var(--blood);
+  cursor: pointer;
+  font-size: 1.6rem;
+}
+
+.previewDialog header small {
+  margin-left: 0.35rem;
+  color: #352a24;
+  font-size: 0.65rem;
+}
+
+.previewViewport {
+  max-height: calc(100svh - 6rem);
+  overflow: auto;
+}
+
+@media (max-width: 64rem) {
+  .guidedShell {
+    align-items: start;
+    overflow: auto;
+  }
+
+  .guidedGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .rulePanel {
+    border-top: 1px solid rgb(108 72 52 / 42%);
+    border-left: 0;
+  }
+
+  .stepTrack {
+    overflow-x: auto;
+    grid-template-columns: repeat(9, minmax(5.5rem, 1fr));
+  }
+}
+
+@media (max-width: 42rem) {
+  .guidedShell {
+    display: block;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    padding: 0.75rem 0.5rem 1.5rem;
+  }
+
+  .guidedDocument {
+    width: calc(100vw - 1rem);
+    overflow-x: hidden;
+  }
+
+  .guidedGrid,
+  .attributeStage,
+  .attributeGroups,
+  .attributeGroups > section {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .stepTrack {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .guidedMasthead {
+    grid-template-columns: 2rem 1fr;
+    padding: 1rem;
+  }
+
+  .guidedMasthead > div {
+    min-width: 0;
+  }
+
+  .guidedMasthead h1 {
+    font-size: 1.35rem;
+    letter-spacing: 0.025em;
+    line-height: 1;
+  }
+
+  .guidedMasthead p {
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+  }
+
+  .guidedMasthead > p {
+    display: none;
+  }
+
+  .mastheadContext {
+    grid-column: 1 / -1;
+    justify-self: end;
+    margin-top: 0.25rem;
+  }
+
+  .mastheadContext > p {
+    display: none;
+  }
+
+  .characterCreationIdentity {
+    max-width: min(12rem, 72vw);
+    padding-top: 0;
+    padding-left: 0.5rem;
+    border-top: 0;
+    border-left: 2px solid var(--character-accent);
+  }
+
+  .attributeStage {
+    padding: 1.2rem 0.8rem;
+  }
+
+  .attributeGroups {
+    grid-template-columns: 1fr;
+  }
+
+  .conceptFields {
+    grid-template-columns: 1fr;
+  }
+
+  .conceptPrimaryField {
+    grid-column: auto;
+  }
+
+  .convictionPair {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .convictionPair > span {
+    display: none;
+  }
+
+  .convictionPair label:nth-of-type(2) {
+    grid-column: 1;
+  }
+
+  .convictionPair > button {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+
+  .attributeGroups > section {
+    padding: 0.75rem 0.4rem;
+    border-top: 1px solid rgb(114 84 66 / 35%);
+    border-left: 0;
+  }
+
+  .attributeRow {
+    grid-template-columns: minmax(7rem, 1fr) auto;
+    min-height: 2.75rem;
+  }
+
+  .attributeLabel > button {
+    min-height: 2.5rem;
+  }
+
+  .attributeGroups > section:nth-child(2) .attributeTooltip,
+  .attributeGroups > section:last-child .attributeTooltip {
+    right: auto;
+    left: 0;
+    transform: translateY(-0.2rem);
+  }
+
+  .attributeGroups > section:nth-child(2) .attributeTooltip::before,
+  .attributeGroups > section:last-child .attributeTooltip::before {
+    right: auto;
+    left: 0.75rem;
+  }
+
+  .attributeGroups > section:nth-child(2) .attributeLabel:hover .attributeTooltip,
+  .attributeGroups > section:nth-child(2) .attributeLabel:focus-within .attributeTooltip,
+  .attributeGroups
+    > section:nth-child(2)
+    .attributeLabel[data-open="true"]
+    .attributeTooltip {
+    transform: translateY(0);
+  }
+
+  .attributeBudget {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .attributeBudget > div:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .guidedActions,
+  .guidedActions > div {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .attributeTooltip {
+    transition: none;
+  }
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.stepTrack span[data-complete="true"] {
+  color: #463a34;
+}
+
+.stepTrack span[data-complete="true"] i {
+  border-color: var(--blood);
+  background: var(--blood);
+}
+
+.stepTrack span[data-complete="true"] i::after {
+  display: block;
+  color: #f7ecdf;
+  content: "✓";
+  font: 700 0.48rem/0.5rem sans-serif;
+}
+
+.clanDocument {
+  width: min(100%, 91rem);
+}
+
+.clanLayout {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(35rem, 1.15fr) minmax(27rem, 0.85fr);
+  min-height: 34rem;
+}
+
+.clanSelection {
+  min-width: 0;
+  padding: 1.25rem 1.8rem 1.4rem;
+  border-right: 1px solid rgb(108 72 52 / 35%);
+}
+
+.clanSelection > header h2 {
+  width: fit-content;
+  margin: 0;
+  padding-right: 4rem;
+  border-bottom: 1px solid #2d2723;
+  color: #211b18;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 560;
+  letter-spacing: 0.03em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.clanSelection > header p {
+  margin: 0.7rem 0 1rem;
+  color: #4c423c;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1rem;
+}
+
+.clanGrid,
+.otherOriginsGrid {
+  display: grid;
+  padding: 0;
+  border: 0;
+}
+
+.clanGrid {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.otherOriginsGrid {
+  grid-template-columns: repeat(2, minmax(8rem, 10rem));
+  gap: 0.55rem;
+}
+
+.clanCard {
+  --clan-accent: #841a25;
+
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 7.25rem;
+  padding: 0.65rem 0.25rem 0.55rem;
+  border: 1px solid rgb(99 74 61 / 25%);
+  background: rgb(249 243 231 / 18%);
+  color: #302723;
+  cursor: pointer;
+  place-items: center;
+  align-content: center;
+  transition:
+    border-color 130ms ease,
+    box-shadow 130ms ease,
+    transform 130ms ease;
+}
+
+.clanCard:hover {
+  border-color: color-mix(in srgb, var(--clan-accent) 70%, #5f4439);
+  transform: translateY(-1px);
+}
+
+.clanCard:focus-within {
+  outline: 2px solid color-mix(in srgb, var(--clan-accent) 45%, transparent);
+  outline-offset: 2px;
+}
+
+.clanCard[data-selected="true"] {
+  border-color: var(--clan-accent);
+  background: color-mix(in srgb, var(--clan-accent) 7%, var(--paper));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--clan-accent) 38%, transparent),
+    0 0.35rem 0.8rem rgb(68 25 25 / 12%);
+}
+
+.clanCard input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.clanCardSymbol {
+  width: 3.55rem;
+  height: 3.55rem;
+  object-fit: contain;
+}
+
+.clanCard strong {
+  display: block;
+  max-width: 100%;
+  margin-top: 0.35rem;
+  overflow-wrap: anywhere;
+  color: color-mix(in srgb, var(--clan-accent) 70%, #211b18);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.82rem;
+  font-weight: 720;
+  line-height: 1.05;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.originWordmark {
+  display: grid;
+  min-height: 3.55rem;
+  color: var(--blood-dark);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.1rem;
+  font-weight: 760;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  place-items: center;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.otherOriginsHeading {
+  display: grid;
+  grid-template-columns: auto minmax(0, max-content) 1fr;
+  gap: 0.7rem;
+  align-items: center;
+  margin: 1rem 0 0.65rem;
+}
+
+.otherOriginsHeading span {
+  width: 2rem;
+  height: 1px;
+  background: rgb(102 72 56 / 45%);
+}
+
+.otherOriginsHeading span:last-child {
+  width: 100%;
+}
+
+.otherOriginsHeading h3 {
+  margin: 0;
+  color: var(--blood-dark);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.83rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.clanDetails {
+  --clan-accent: #841a25;
+  --clan-deep: #241b1a;
+
+  min-width: 0;
+  padding: 1.35rem 1.8rem 1.25rem;
+  background:
+    linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--clan-accent) 5%, transparent),
+      transparent 45%
+    ),
+    rgb(246 239 225 / 22%);
+}
+
+.clanDetails[data-origin-kind="CAITIFF"],
+.clanDetails[data-origin-kind="THIN_BLOOD"] {
+  background:
+    repeating-linear-gradient(112deg, transparent 0 17px, rgb(69 54 44 / 2.5%) 18px 19px),
+    rgb(246 239 225 / 36%);
+}
+
+.clanDetails[data-origin-kind="CAITIFF"] {
+  border-top: 3px double #4c4540;
+}
+
+.clanDetails[data-origin-kind="THIN_BLOOD"] {
+  border-top: 3px double #74545a;
+}
+
+.clanCard[data-origin-kind="CAITIFF"],
+.clanCard[data-origin-kind="THIN_BLOOD"] {
+  border-style: double;
+  border-width: 3px;
+  background: repeating-linear-gradient(
+    112deg,
+    rgb(249 243 231 / 24%) 0 12px,
+    rgb(87 62 50 / 5%) 13px 14px
+  );
+}
+
+.clanDetailsHeader {
+  display: flex;
+  gap: 1.1rem;
+  align-items: center;
+  min-height: 6.5rem;
+}
+
+.clanDetailsHeader img {
+  width: 6rem;
+  height: 6rem;
+  object-fit: contain;
+}
+
+.clanDetailsHeader span {
+  color: #77665d;
+  font-size: 0.73rem;
+  font-weight: 720;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.clanDetailsHeader h2 {
+  margin: 0.1rem 0 0;
+  color: var(--clan-accent);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: clamp(2.25rem, 4vw, 3.7rem);
+  font-weight: 570;
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+}
+
+.clanSummary {
+  margin: 0.75rem 0 0;
+  color: #302722;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1rem;
+  line-height: 1.48;
+}
+
+.clanSummary p {
+  margin: 0;
+}
+
+.clanSummary p + p {
+  margin-top: 0.48rem;
+}
+
+.clanDetailBlock,
+.clanSystemNotes {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgb(103 75 60 / 28%);
+}
+
+.clanDetailBlock h3,
+.clanSystemNotes h3,
+.baneCompulsionGrid h3 {
+  margin: 0;
+  color: var(--clan-accent);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.79rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.archetypeList,
+.disciplineList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.archetypeList li {
+  position: relative;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--clan-accent) 20%, #a89084);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--clan-accent) 7%, transparent);
+  color: #493c35;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.84rem;
+}
+
+.disciplineList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.disciplineList li {
+  position: relative;
+  min-width: 0;
+  padding-left: 0.8rem;
+  color: #342923;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.96rem;
+  font-weight: 650;
+}
+
+.disciplineList li::before {
+  position: absolute;
+  top: 0.48em;
+  left: 0;
+  width: 0.35rem;
+  height: 0.35rem;
+  border: 1px solid var(--clan-accent);
+  content: "";
+  transform: rotate(45deg);
+}
+
+.baneCompulsionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 0.95rem;
+}
+
+.baneCompulsionGrid section {
+  min-width: 0;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--clan-accent);
+}
+
+.baneCompulsionGrid strong {
+  display: block;
+  margin-top: 0.35rem;
+  color: #2d231f;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.82rem;
+}
+
+.baneCompulsionGrid p,
+.clanSystemNotes li {
+  margin: 0.2rem 0 0;
+  color: #52453d;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.9rem;
+  line-height: 1.42;
+}
+
+.clanSystemNotes ul {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0.45rem 0 0;
+  padding-left: 1rem;
+}
+
+.clanDetails > small {
+  display: block;
+  margin-top: 0.8rem;
+  color: #776a62;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+
+.contextTooltip {
+  position: relative;
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.contextTooltip > button {
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: help;
+  font: inherit;
+  text-align: left;
+}
+
+.archetypeList .contextTooltip > button {
+  padding: 0.35rem 0.65rem;
+}
+
+.contextTooltip > button:focus-visible {
+  border-radius: 0.2rem;
+  outline: 2px solid var(--clan-accent);
+  outline-offset: 2px;
+}
+
+.contextTooltip > [role="tooltip"] {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 50%;
+  z-index: 25;
+  display: none;
+  width: min(17rem, 72vw);
+  padding: 0.55rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--clan-accent) 45%, #6f5547);
+  background: #28211e;
+  box-shadow: 0 0.45rem 1.1rem rgb(0 0 0 / 30%);
+  color: #f4eadc;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.82rem;
+  font-weight: 430;
+  line-height: 1.35;
+  pointer-events: none;
+  text-transform: none;
+  transform: translateX(-50%);
+}
+
+.contextTooltip:hover > [role="tooltip"],
+.contextTooltip:focus-within > [role="tooltip"],
+.contextTooltip[data-open="true"] > [role="tooltip"] {
+  display: block;
+}
+
+.originMechanics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem 1rem;
+}
+
+.originMechanics h3 {
+  grid-column: 1 / -1;
+}
+
+.originMechanics div {
+  padding-left: 0.7rem;
+  border-left: 2px solid var(--clan-accent);
+}
+
+.originMechanics strong {
+  color: #2d231f;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.92rem;
+}
+
+.originMechanics p {
+  margin: 0.24rem 0 0;
+  color: #52453d;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.learnClanButton {
+  display: inline-flex;
+  gap: 1.6rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.9rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--clan-accent) 65%, #8d6e5c);
+  border-radius: 0.35rem;
+  background: rgb(250 245 235 / 40%);
+  color: var(--clan-accent);
+  cursor: pointer;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.92rem;
+  font-weight: 680;
+}
+
+.learnClanButton:hover,
+.learnClanButton:focus-visible {
+  background: color-mix(in srgb, var(--clan-accent) 7%, var(--paper));
+}
+
+.clanLoreBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 75;
+  display: grid;
+  padding: 1.5rem;
+  background: rgb(1 3 5 / 72%);
+  place-items: center;
+}
+
+.clanLoreDialog {
+  position: relative;
+  width: min(43rem, 100%);
+  max-height: min(47rem, calc(100vh - 3rem));
+  overflow: auto;
+  padding: 2.1rem 2.5rem;
+  border: 1px solid #925257;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 4px, rgb(92 57 36 / 1.7%) 5px), #f0e7d7;
+  box-shadow: 0 2rem 6rem rgb(0 0 0 / 55%);
+  color: #302621;
+}
+
+.clanLoreDialog > button {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font-size: 1.7rem;
+}
+
+.clanLoreDialog > p:first-of-type {
+  margin: 0;
+  color: var(--blood-dark);
+  font-size: 0.75rem;
+  font-weight: 740;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.clanLoreDialog h2 {
+  margin: 0.25rem 0 1rem;
+  color: var(--blood-dark);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 2.45rem;
+  font-weight: 570;
+}
+
+.clanLoreDialog p:not(:first-of-type) {
+  margin: 0.75rem 0 0;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.clanLoreDialog small {
+  display: block;
+  margin-top: 1.2rem;
+  color: #6e6058;
+  font-size: 0.74rem;
+}
+
+.clanHelpTab {
+  position: absolute;
+  top: 50%;
+  right: -2.15rem;
+  display: grid;
+  width: 2.15rem;
+  height: 4rem;
+  border: 1px solid rgb(120 82 65 / 45%);
+  border-left: 0;
+  border-radius: 0 0.8rem 0.8rem 0;
+  background: #e8decd;
+  box-shadow: 0.5rem 0.3rem 1rem rgb(0 0 0 / 20%);
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    700 1rem/1 "Newsreader",
+    serif;
+  place-items: center;
+  transform: translateY(-50%);
+}
+
+.clanHelpBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgb(1 3 5 / 58%);
+}
+
+.clanHelpDrawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(26rem, 92vw);
+  height: 100%;
+  padding: 2.2rem 2rem;
+  border-left: 1px solid #8b2a30;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 4px, rgb(92 57 36 / 1.5%) 5px), #eee4d3;
+  box-shadow: -2rem 0 5rem rgb(0 0 0 / 45%);
+  color: #2d2420;
+}
+
+.clanHelpDrawer > button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font-size: 1.6rem;
+}
+
+.clanHelpDrawer > p:first-of-type {
+  margin: 0;
+  color: var(--blood-dark);
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.clanHelpDrawer h2 {
+  margin: 0.55rem 0 1rem;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.7rem;
+}
+
+.clanHelpDrawer p:not(:first-of-type) {
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.clanHelpDrawer small {
+  display: block;
+  margin-top: 1.5rem;
+  color: #756960;
+}
+
+@media (max-width: 74rem) {
+  .clanLayout {
+    grid-template-columns: minmax(31rem, 1.05fr) minmax(23rem, 0.95fr);
+  }
+
+  .clanGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 64rem) {
+  .clanLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .clanSelection {
+    border-right: 0;
+  }
+
+  .clanDetails {
+    border-top: 1px solid rgb(108 72 52 / 35%);
+  }
+
+  .clanGrid {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .clanHelpTab {
+    position: fixed;
+    top: auto;
+    right: 0;
+    bottom: 5rem;
+    border-left: 1px solid rgb(120 82 65 / 45%);
+    transform: none;
+  }
+}
+
+@media (max-width: 42rem) {
+  .clanSelection,
+  .clanDetails {
+    padding: 1.1rem 0.8rem;
+  }
+
+  .clanGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .clanCard {
+    min-height: 6.75rem;
+  }
+
+  .otherOriginsGrid,
+  .disciplineList,
+  .baneCompulsionGrid,
+  .originMechanics {
+    grid-template-columns: 1fr;
+  }
+
+  .clanLoreDialog {
+    padding: 1.7rem 1.15rem;
+  }
+
+  .clanDetailsHeader h2 {
+    font-size: 2.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clanCard {
+    transition: none;
+  }
+}
+
+.skillsDocument {
+  width: min(100%, 83rem);
+}
+
+.skillsDocument .guidedMasthead {
+  grid-template-columns: 4rem minmax(0, 1fr) minmax(11rem, 13rem) 8rem;
+  padding-block: 1rem 0.8rem;
+}
+
+.skillsDocument .guidedMasthead > svg {
+  width: 1.75rem;
+  height: 3rem;
+  margin-left: 0.2rem;
+}
+
+.skillsDocument .characterCreationIdentity {
+  justify-self: center;
+  gap: 0.7rem;
+  width: max-content;
+  max-width: 13rem;
+  padding: 0;
+  border: 0;
+  text-align: left;
+}
+
+.skillsDocument .characterCreationIdentity img {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+
+.skillsDocument .characterCreationIdentity > span {
+  gap: 0.08rem;
+}
+
+.skillsDocument .characterCreationIdentity small {
+  color: #3f342f;
+  font-size: 0.76rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.skillsDocument .characterCreationIdentity i {
+  display: none;
+}
+
+.skillsDocument .characterCreationIdentity strong {
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.skillsDocument .guidedMasthead > p {
+  justify-self: end;
+}
+
+.skillsLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 17.25rem;
+}
+
+.skillsStage {
+  min-width: 0;
+  padding: 0.9rem 1.5rem 0.85rem;
+}
+
+.methodSelector {
+  display: grid;
+  grid-template-columns: auto repeat(3, minmax(9rem, 1fr));
+  gap: 0.55rem;
+  align-items: stretch;
+  margin: 0.75rem 0 0.85rem;
+  padding: 0;
+  border: 0;
+}
+
+.methodSelector legend {
+  align-self: center;
+  color: var(--blood-dark);
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.78rem;
+  font-weight: 720;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.methodSelector[data-detailed="true"] {
+  grid-template-columns: auto 1fr;
+}
+
+.methodSelector label {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+  padding: 0.43rem 0.55rem;
+  border: 1px solid transparent;
+  border-radius: 0.35rem;
+  color: #322923;
+  cursor: pointer;
+  transition:
+    border-color 140ms ease,
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.methodSelector label:hover {
+  border-color: rgb(108 72 52 / 28%);
+  background: rgb(255 250 240 / 42%);
+  color: #211a17;
+}
+
+.methodSelector label:focus-within {
+  outline: 2px solid color-mix(in srgb, var(--blood) 70%, white);
+  outline-offset: 2px;
+}
+
+.methodSelector label[data-selected="true"] {
+  border-color: rgb(143 17 29 / 18%);
+  background: rgb(143 17 29 / 7%);
+  color: var(--blood-dark);
+}
+
+.methodSelector label[data-busy="true"] {
+  cursor: wait;
+  opacity: 0.64;
+}
+
+.methodSelector input {
+  display: grid;
+  place-content: center;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.1rem;
+  appearance: none;
+  border: 1px solid #65574f;
+  border-radius: 50%;
+  background: transparent;
+  accent-color: var(--blood);
+}
+
+.methodSelector input::before {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--blood);
+  content: "";
+  transform: scale(0);
+}
+
+.methodSelector input:checked {
+  border-color: var(--blood);
+}
+
+.methodSelector input:checked::before {
+  transform: scale(1);
+}
+
+.methodSelector span,
+.selectedMethod {
+  display: grid;
+}
+
+.methodSelector strong,
+.selectedMethod strong {
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.95rem;
+}
+
+.methodSelector small,
+.selectedMethod span {
+  margin-top: 0.12rem;
+  color: #675950;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 0.78rem;
+}
+
+.methodModeSwitch {
+  grid-column: 2 / -1;
+  justify-self: start;
+  padding: 0.15rem 0;
+  border: 0;
+  border-bottom: 1px dotted rgb(143 17 29 / 45%);
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    650 0.75rem/1.25 "Newsreader",
+    "Iowan Old Style",
+    serif;
+  text-align: left;
+}
+
+.methodModeSwitch span {
+  color: #675950;
+  font-weight: 400;
+}
+
+.methodModeSwitch:hover,
+.methodModeSwitch:focus-visible {
+  color: var(--blood);
+  outline: 2px solid rgb(143 17 29 / 26%);
+  outline-offset: 3px;
+}
+
+.detailedMethodOptions {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 0.7rem;
+  align-items: center;
+}
+
+.detailedMethodOptions > p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #675950;
+  font:
+    0.78rem "Newsreader",
+    "Iowan Old Style",
+    serif;
+}
+
+.detailedMethodOptions > div {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.detailedMethodOptions .methodModeSwitch {
+  grid-column: auto;
+}
+
+.skillColumns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+}
+
+.skillColumns > section {
+  min-width: 0;
+  padding: 0 1rem;
+  border-left: 1px solid rgb(91 69 56 / 28%);
+}
+
+.skillColumns > section:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.skillColumns > section:last-child {
+  padding-right: 0;
+}
+
+.skillColumns h3 {
+  margin: 0 0 0.55rem;
+  color: #302723;
+  font-family: "Newsreader", "Iowan Old Style", serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 550;
+  text-align: center;
+}
+
+.skillRow {
+  position: relative;
+  border-bottom: 1px dotted rgb(91 69 56 / 20%);
+}
+
+.skillRow[data-expanded="true"] {
+  margin-inline: -0.25rem;
+  padding-inline: 0.25rem;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(143 17 29 / 34%);
+  background: rgb(255 250 240 / 28%);
+}
+
+.skillRow[data-free-eligible="true"] {
+  background: transparent;
+}
+
+.skillLine {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 1.35rem;
+  gap: 0.38rem;
+  align-items: start;
+  min-height: 2rem;
+  padding-block: 0.28rem;
+}
+
+.skillRating {
+  display: flex;
+  gap: 0.22rem;
+  padding-top: 0.12rem;
+}
+
+.skillRating > button {
+  width: 0.72rem;
+  height: 0.72rem;
+  padding: 0;
+  border: 1px solid #55483f;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.skillRating > button[aria-pressed="true"] {
+  border-color: var(--blood-dark);
+  background: var(--blood);
+  box-shadow: inset 0 0 0 2px #efe3d2;
+}
+
+.skillRating > button:hover:not(:disabled):not([aria-disabled="true"]),
+.skillRating > button:focus-visible {
+  outline: 2px solid rgb(143 17 29 / 28%);
+  outline-offset: 2px;
+}
+
+.skillRating > button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.skillRating > button[data-creation-locked="true"] {
+  border-style: dashed;
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.skillLabel {
+  position: relative;
+  min-width: 0;
+}
+
+.skillLabel > button {
+  display: grid;
+  gap: 0.08rem;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #322923;
+  cursor: pointer;
+  font:
+    0.88rem "Newsreader",
+    "Iowan Old Style",
+    serif;
+  text-align: left;
+}
+
+.skillLabel > button > small {
+  color: #765b50;
+  font:
+    500 0.68rem/1.15 "Newsreader",
+    serif;
+  letter-spacing: 0.02em;
+}
+
+.skillLabel > button:hover,
+.skillLabel > button:focus-visible {
+  color: var(--blood-dark);
+  text-decoration: underline dotted rgb(143 17 29 / 48%);
+  text-underline-offset: 0.2rem;
+}
+
+.skillLabel > [role="tooltip"] {
+  position: absolute;
+  bottom: calc(100% + 0.45rem);
+  left: 0;
+  z-index: 30;
+  display: none;
+  width: min(17rem, 70vw);
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #9b6d5d;
+  background: #2a221e;
+  box-shadow: 0 0.6rem 1.4rem rgb(0 0 0 / 30%);
+  color: #f4eadc;
+  font:
+    0.8rem/1.35 "Newsreader",
+    serif;
+}
+
+.skillLabel > [role="tooltip"] strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: #fff5e7;
+  font-size: 0.85rem;
+}
+
+.skillLabel:hover > [role="tooltip"],
+.skillLabel:focus-within > [role="tooltip"],
+.skillLabel[data-open="true"] > [role="tooltip"] {
+  display: block;
+}
+
+.specialtyAction {
+  position: relative;
+  display: flex;
+  gap: 0.1rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.specialtyAction > button {
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #76645b;
+  cursor: pointer;
+  font:
+    1rem/1 "Newsreader",
+    serif;
+  opacity: 0.32;
+}
+
+.skillRow:hover .specialtyAction > button,
+.specialtyAction > button:focus-visible,
+.specialtyAction > button[data-pending="true"],
+.skillRow[data-free-eligible="true"] .specialtyAction > button {
+  color: var(--blood-dark);
+  opacity: 1;
+}
+
+.skillRow[data-free-eligible="true"] .specialtyAction > button {
+  outline: 1px solid rgb(143 17 29 / 55%);
+  outline-offset: 1px;
+  background: rgb(143 17 29 / 7%);
+}
+
+.specialtyAction > button:focus-visible {
+  outline: 2px solid rgb(143 17 29 / 45%);
+  outline-offset: 2px;
+}
+
+.specialtyAction > button:disabled,
+.specialtyAction > button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.14;
+}
+
+.specialtyAction > button[aria-disabled="true"]:focus-visible {
+  opacity: 0.72;
+}
+
+.specialtyAction > [role="tooltip"] {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.3rem);
+  z-index: 30;
+  display: none;
+  width: max-content;
+  max-width: 13rem;
+  padding: 0.38rem 0.5rem;
+  border: 1px solid #9b6d5d;
+  background: #2a221e;
+  color: #f4eadc;
+  font:
+    0.72rem/1.25 "Newsreader",
+    serif;
+}
+
+.specialtyAction:focus-within > [role="tooltip"],
+.specialtyAction:hover > [role="tooltip"] {
+  display: block;
+}
+
+.specialtyAction > i {
+  position: absolute;
+  top: -0.18rem;
+  right: -0.22rem;
+  display: grid;
+  place-items: center;
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 50%;
+  background: var(--blood-dark);
+  color: #f6ead8;
+  font:
+    700 0.55rem/1 "Newsreader",
+    serif;
+}
+
+.specialtyEditor {
+  display: grid;
+  gap: 0.38rem;
+  margin-left: 0.5rem;
+  padding: 0.45rem 0.25rem 0.5rem 0.55rem;
+  border-top: 1px solid rgb(143 17 29 / 18%);
+  border-left: 1px solid rgb(143 17 29 / 35%);
+}
+
+.specialtyChip,
+.specialtyAdd {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.specialtyChip > label,
+.specialtyAdd > label {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: 0.12rem;
+}
+
+.specialtyChip > label > span,
+.specialtyAdd > label > span {
+  color: #6c554c;
+  font:
+    650 0.61rem "Newsreader",
+    serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.specialtyChip input,
+.specialtyAdd input {
+  min-width: 0;
+  flex: 1;
+  padding: 0.25rem 0.35rem;
+  border: 0;
+  border-bottom: 1px solid #a78072;
+  background: rgb(255 250 240 / 62%);
+  color: #322923;
+  font:
+    0.72rem "Newsreader",
+    serif;
+}
+
+.specialtyChip input:focus,
+.specialtyAdd input:focus {
+  border-bottom-color: var(--blood-dark);
+  outline: 0;
+  box-shadow: 0 1px 0 rgb(143 17 29 / 38%);
+}
+
+.specialtyChip button,
+.specialtyAdd button {
+  padding: 0.2rem 0.3rem;
+  border: 0;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    0.73rem "Newsreader",
+    serif;
+}
+
+.specialtyChip > div,
+.specialtyAdd > div {
+  display: flex;
+  gap: 0.45rem;
+  justify-content: flex-end;
+}
+
+.specialtyChip .specialtyRemove {
+  margin-right: auto;
+  color: #765b50;
+  font-size: 0.68rem;
+  text-decoration: underline dotted rgb(118 91 80 / 55%);
+  text-underline-offset: 0.18rem;
+}
+
+.specialtyError {
+  margin: 0.15rem 0 0;
+  color: var(--blood-dark);
+  font:
+    600 0.68rem/1.3 "Newsreader",
+    serif;
+}
+
+.specialtyAdd {
+  padding: 0;
+}
+
+.addSpecialtyButton {
+  width: 100%;
+  padding: 0.35rem 0.45rem;
+  border: 0;
+  border-bottom: 1px dotted rgb(143 17 29 / 38%);
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    720 0.76rem "Newsreader",
+    serif;
+  text-align: left;
+}
+
+.addSpecialtyButton:hover,
+.addSpecialtyButton:focus-visible {
+  background: rgb(143 17 29 / 7%);
+  outline: 1px solid rgb(143 17 29 / 30%);
+  outline-offset: 2px;
+}
+
+.specialtyEditor > small {
+  color: #766860;
+  font-size: 0.68rem;
+}
+
+.skillsRulePanel {
+  padding: 1rem 1.15rem;
+  border-left: 1px solid rgb(108 72 52 / 38%);
+  background: rgb(236 225 207 / 36%);
+  color: #342a25;
+}
+
+.skillsRulePanel > section {
+  margin-top: 0.65rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgb(119 76 58 / 28%);
+}
+
+.skillsRulePanel > .firstRuleSection {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.selectedMethod h3 {
+  margin-bottom: 0.42rem;
+}
+
+.skillsRulePanel h3 {
+  margin: 0;
+  color: var(--blood-dark);
+  font:
+    720 0.82rem "Newsreader",
+    serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.skillsRulePanel p,
+.skillsRulePanel li,
+.skillsRulePanel dd {
+  color: #56483f;
+  font:
+    0.82rem/1.35 "Newsreader",
+    serif;
+}
+
+.skillsRulePanel dl {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0.55rem 0;
+}
+
+.skillsRulePanel dl div {
+  text-align: center;
+}
+
+.skillsRulePanel dt {
+  color: var(--blood);
+  font:
+    1.7rem "Newsreader",
+    serif;
+}
+
+.skillsRulePanel dd {
+  margin: 0;
+}
+
+.skillsRulePanel ul {
+  margin: 0.65rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.distributionRemaining {
+  display: grid;
+  gap: 0.38rem;
+}
+
+.distributionRemaining li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.05rem 0.65rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px dotted rgb(91 69 56 / 25%);
+}
+
+.distributionRemaining li strong {
+  color: var(--blood-dark);
+  font-weight: 720;
+}
+
+.distributionRemaining li[data-complete="true"] strong {
+  color: #526044;
+}
+
+.ruleWarning {
+  padding-left: 0.55rem;
+  border-left: 2px solid var(--blood);
+  color: #702b2d !important;
+}
+
+.specialtySummary {
+  display: grid;
+  gap: 0.32rem;
+  margin-top: 0.55rem;
+}
+
+.specialtySummary p {
+  margin: 0;
+}
+
+.specialtySummary button {
+  width: 100%;
+  padding: 0.3rem 0;
+  border: 0;
+  border-bottom: 1px dotted rgb(143 17 29 / 35%);
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    700 0.82rem/1.3 "Newsreader",
+    serif;
+  text-align: left;
+}
+
+.specialtySummary button:hover,
+.specialtySummary button:focus-visible {
+  background: rgb(143 17 29 / 6%);
+  outline: 1px solid rgb(143 17 29 / 30%);
+  outline-offset: 2px;
+}
+
+.specialtySummary button:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+.completionSummary p {
+  margin-bottom: 0;
+}
+
+.freeSpecialtyInstruction {
+  padding: 0.35rem 0.45rem;
+  border-left: 2px solid rgb(143 17 29 / 48%);
+  background: rgb(143 17 29 / 5%);
+  color: #5b302e !important;
+  font-weight: 650 !important;
+}
+
+@media (max-width: 64rem) {
+  .skillsLayout {
+    grid-template-columns: 1fr;
+  }
+  .skillsRulePanel {
+    border-top: 1px solid rgb(108 72 52 / 38%);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 48rem) {
+  .skillsDocument .guidedMasthead {
+    grid-template-columns: 2rem 1fr;
+  }
+
+  .skillsDocument .guidedMasthead > svg {
+    width: 1.35rem;
+    height: 2.35rem;
+    margin-left: 0;
+  }
+
+  .skillsDocument .characterCreationIdentity,
+  .skillsDocument .guidedMasthead > p {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  .skillsDocument .characterCreationIdentity img {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .skillsStage {
+    padding: 1rem 0.75rem;
+  }
+  .methodSelector {
+    grid-template-columns: 1fr;
+  }
+  .methodSelector legend,
+  .methodSelector[data-detailed="true"],
+  .methodSelector {
+    grid-template-columns: 1fr;
+  }
+  .methodModeSwitch,
+  .detailedMethodOptions,
+  .detailedMethodOptions .methodModeSwitch {
+    grid-column: auto;
+  }
+  .detailedMethodOptions,
+  .detailedMethodOptions > div {
+    display: grid;
+  }
+  .skillColumns {
+    grid-template-columns: 1fr;
+  }
+  .skillColumns > section,
+  .skillColumns > section:first-child,
+  .skillColumns > section:last-child {
+    padding: 0.75rem 0;
+    border-top: 1px solid rgb(91 69 56 / 28%);
+    border-left: 0;
+  }
+  .skillLabel > button {
+    min-height: 2.4rem;
+  }
+  .specialtyAction > button {
+    width: 2.25rem;
+    height: 2.25rem;
+    opacity: 0.72;
+  }
+  .skillLine > div > button {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* Disciplinas preserva a mesma folha editorial das etapas aprovadas. */
+.disciplinesDocument {
+  width: min(100%, 83rem);
+}
+
+.disciplinesDocument .guidedMasthead {
+  grid-template-columns: 4rem minmax(0, 1fr) minmax(11rem, 13rem) 8rem;
+  padding-block: 1rem 0.8rem;
+}
+
+.disciplinesDocument .guidedMasthead > svg {
+  width: 1.75rem;
+  height: 3rem;
+  margin-left: 0.2rem;
+}
+
+.disciplinesDocument .characterCreationIdentity {
+  justify-self: center;
+  gap: 0.7rem;
+  width: max-content;
+  max-width: 13rem;
+  padding: 0;
+  border: 0;
+  text-align: left;
+}
+
+.disciplinesDocument .characterCreationIdentity img {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+
+.disciplinesDocument .characterCreationIdentity > span {
+  gap: 0.08rem;
+}
+
+.disciplinesDocument .characterCreationIdentity small {
+  color: #3f342f;
+  font-size: 0.76rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.disciplinesDocument .characterCreationIdentity i {
+  display: none;
+}
+
+.disciplinesDocument .characterCreationIdentity strong {
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.disciplinesDocument .guidedMasthead > p {
+  justify-self: end;
+}
+
+.disciplinesLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20rem;
+  min-height: 34rem;
+}
+
+.disciplinesStage {
+  min-width: 0;
+  padding: 0.9rem 1.55rem 1.1rem;
+}
+
+.disciplineSelector {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 0.8rem 0 1rem;
+  padding: 0;
+  border: 0;
+}
+
+.disciplineSelector legend {
+  grid-column: 1 / -1;
+  margin-bottom: 0.35rem;
+  color: var(--blood-dark);
+  font:
+    720 0.82rem "Newsreader",
+    serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.disciplineSelectorIntro {
+  grid-column: 1 / -1;
+  margin: -0.2rem 0 0.25rem;
+  color: #675950;
+  font:
+    0.86rem/1.35 "Newsreader",
+    serif;
+}
+
+.disciplineSelector label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.75rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid rgb(108 72 52 / 30%);
+  background: rgb(255 250 240 / 15%);
+  color: #322923;
+  cursor: pointer;
+  font:
+    700 1.12rem "Newsreader",
+    serif;
+  text-align: center;
+}
+
+.disciplineSelector input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.disciplineSelector label:hover,
+.disciplineSelector label:focus-within {
+  border-color: rgb(143 17 29 / 55%);
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 2px rgb(143 17 29 / 12%);
+}
+
+.disciplineSelector label[data-selected="true"] {
+  border-color: var(--blood);
+  background: rgb(143 17 29 / 7%);
+  color: var(--blood-dark);
+  box-shadow: inset 0 -2px 0 rgb(143 17 29 / 45%);
+}
+
+.disciplineSelector label[data-selected="true"] strong {
+  letter-spacing: 0.035em;
+}
+
+.disciplineSelector:has(> label:nth-of-type(4)) {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.thinBloodNotice {
+  grid-column: 1 / -1;
+  max-width: 45rem;
+  margin: 0.4rem auto;
+  padding: 1.2rem 1.4rem;
+  border-block: 1px solid rgb(108 72 52 / 30%);
+  color: #4d4038;
+  font:
+    1rem/1.55 "Newsreader",
+    serif;
+  text-align: center;
+}
+
+.disciplineChoiceArea {
+  border-top: 1px solid rgb(108 72 52 / 24%);
+}
+
+.disciplineRating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 0.35rem;
+  border-bottom: 1px solid rgb(108 72 52 / 24%);
+}
+
+.disciplineRating h3,
+.disciplineEmptyState h3,
+.acquiredPowers h3,
+.pendingPowers h3 {
+  margin: 0 0 0.35rem;
+  color: var(--blood-dark);
+  font:
+    720 0.88rem "Newsreader",
+    serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.disciplineRatingHeading {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+  min-width: 21rem;
+}
+
+.disciplineRating .disciplineRatingHeading > button {
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0.1rem 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--blood-dark);
+  font:
+    700 0.75rem "Newsreader",
+    serif;
+}
+
+.disciplineRating .disciplineRatingHeading > button:disabled {
+  cursor: default;
+  opacity: 0.38;
+}
+
+.disciplineDots {
+  display: flex;
+  align-items: center;
+  min-height: 1.8rem;
+}
+
+.disciplineRating button {
+  position: relative;
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-right: 0.55rem;
+  border: 1.5px solid #4c4039;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.disciplineRating button:focus-visible {
+  outline: 2px solid var(--blood);
+  outline-offset: 3px;
+}
+
+.disciplineRating button[aria-pressed="true"] {
+  border-color: var(--blood);
+  background: var(--blood);
+  box-shadow: inset 0 0 0 3px #f4ead8;
+}
+
+.disciplineRating button[data-state="unavailable"] {
+  border-style: dashed;
+  cursor: not-allowed;
+  opacity: 0.68;
+}
+
+.disciplineRating button[data-state="unavailable"]::after {
+  position: absolute;
+  top: 50%;
+  left: 14%;
+  width: 72%;
+  border-top: 1px solid currentColor;
+  content: "";
+  transform: rotate(-42deg);
+}
+
+.disciplineRating em {
+  padding-left: 1.4rem;
+  border-left: 1px solid rgb(108 72 52 / 32%);
+  color: #4b3e37;
+  font:
+    italic 0.95rem "Newsreader",
+    serif;
+}
+
+.acquiredPowers,
+.pendingPowers {
+  padding: 0.95rem 0.35rem 0;
+}
+
+.disciplineContextError {
+  margin: 0.65rem 0.35rem 0;
+  padding: 0.55rem 0.7rem;
+  border-left: 2px solid var(--blood);
+  background: rgb(143 17 29 / 6%);
+  color: var(--blood-dark);
+  font:
+    0.84rem/1.4 "Newsreader",
+    serif;
+}
+
+.disciplineAdjustment {
+  margin: 0.75rem 0.35rem 0;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgb(143 17 29 / 38%);
+  border-left: 3px solid var(--blood);
+  background: rgb(143 17 29 / 6%);
+}
+
+.disciplineAdjustment header {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.disciplineAdjustment h3,
+.disciplineAdjustment p {
+  margin: 0;
+}
+
+.disciplineAdjustment h3 {
+  color: var(--blood-dark);
+  font:
+    720 0.84rem "Newsreader",
+    serif;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.disciplineAdjustment p {
+  margin-top: 0.2rem;
+  color: #51443d;
+  font:
+    0.85rem/1.4 "Newsreader",
+    serif;
+}
+
+.disciplineAdjustment button {
+  flex: 0 0 auto;
+  border: 0;
+  border-bottom: 1px solid currentcolor;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    700 0.78rem "Newsreader",
+    serif;
+}
+
+.disciplineEmptyState {
+  margin: 0.95rem 0.35rem 0;
+  padding: 1rem 0 0.35rem;
+  border-top: 1px solid rgb(108 72 52 / 20%);
+}
+
+.disciplineEmptyState p {
+  max-width: 38rem;
+  margin: 0;
+  color: #6a5a50;
+  font:
+    0.9rem/1.45 "Newsreader",
+    serif;
+}
+
+.acquiredPowers header,
+.pendingPowers header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.acquiredPowers header span,
+.pendingPowers header p,
+.acquiredPowers > p {
+  color: #6a5a50;
+  font:
+    0.82rem/1.4 "Newsreader",
+    serif;
+}
+
+.powerLevelGroup {
+  margin-top: 0.7rem;
+}
+
+.powerLevelGroup h4 {
+  margin: 0 0 0.35rem;
+  color: #51443d;
+  font:
+    italic 700 0.83rem "Newsreader",
+    serif;
+}
+
+.acquiredPowerRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 0.65rem;
+  align-items: center;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgb(108 72 52 / 20%);
+}
+
+.acquiredPowerRow > span {
+  color: #6a5a50;
+  font:
+    700 0.68rem "Newsreader",
+    serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.acquiredPowerRow[data-incompatible="true"] {
+  background: rgb(143 17 29 / 5%);
+}
+
+.acquiredPowerRow small {
+  margin-top: 0.12rem;
+  color: var(--blood);
+  font:
+    700 0.72rem/1.3 "Newsreader",
+    serif;
+}
+
+.acquiredPowers p,
+.acquiredPowers small {
+  display: block;
+  margin: 0;
+}
+
+.acquiredPowers button,
+.pendingPowers button {
+  border: 0;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    700 0.8rem "Newsreader",
+    serif;
+}
+
+.acquiredPowers button:focus-visible,
+.pendingPowers button:focus-visible,
+.disciplineEditorialPanel > button:focus-visible {
+  outline: 2px solid var(--blood);
+  outline-offset: 3px;
+}
+
+.pendingPowers {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid rgb(108 72 52 / 24%);
+}
+
+.pendingPowerGuidance {
+  margin: -0.1rem 0 0;
+  color: #51443d;
+  font:
+    0.86rem/1.4 "Newsreader",
+    serif;
+}
+
+.availablePowersTitle {
+  margin: 0.55rem 0 0;
+  color: var(--blood-dark);
+  font:
+    720 0.8rem "Newsreader",
+    serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.availablePowerLevels {
+  display: flex;
+  gap: 0.2rem;
+  align-items: stretch;
+  margin-top: 0.2rem;
+  border-bottom: 1px solid rgb(108 72 52 / 28%);
+}
+
+.availablePowerLevels button {
+  min-width: 6.4rem;
+  padding: 0.45rem 0.75rem 0.5rem;
+  border-bottom: 2px solid transparent;
+  color: #66564d;
+  text-align: left;
+}
+
+.availablePowerLevels button:hover:not(:disabled) {
+  background: rgb(143 17 29 / 4%);
+  color: var(--blood-dark);
+}
+
+.availablePowerLevels button[aria-pressed="true"] {
+  border-bottom-color: var(--blood);
+  background: rgb(143 17 29 / 6%);
+  color: var(--blood-dark);
+}
+
+.availablePowerLevels button > span {
+  font:
+    700 0.86rem "Newsreader",
+    serif;
+}
+
+.availablePowerLevels button > small {
+  margin-top: 0.08rem;
+  color: inherit;
+  font:
+    0.7rem/1.2 "Newsreader",
+    serif;
+}
+
+.visiblePowerLevel {
+  margin-top: 0.45rem;
+}
+
+.availablePowerLevelHeading {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.availablePowerLevelHeading h4 {
+  margin: 0;
+}
+
+.availablePowerLevelHeading > span {
+  color: #6a5a50;
+  font:
+    0.75rem/1.3 "Newsreader",
+    serif;
+}
+
+.pendingPowerOptions {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.pendingPowers label {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.7rem;
+  align-items: center;
+  padding: 0.65rem 0.7rem;
+  border: 1px solid rgb(108 72 52 / 25%);
+  cursor: pointer;
+}
+
+.pendingPowers label:focus-within,
+.pendingPowers label:hover {
+  border-color: rgb(143 17 29 / 50%);
+  background: rgb(143 17 29 / 4%);
+}
+
+.pendingPowers input {
+  accent-color: var(--blood);
+}
+
+.pendingPowers span,
+.pendingPowers small {
+  display: block;
+}
+
+.pendingPowers small {
+  margin-top: 0.18rem;
+  color: #675950;
+  font:
+    0.78rem/1.3 "Newsreader",
+    serif;
+}
+
+.lockedPowerPreview {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgb(108 72 52 / 22%);
+}
+
+.lockedPowerPreview > header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.lockedPowerPreview > header span,
+.lockedPowerPreview article > span {
+  color: #75665c;
+  font:
+    700 0.67rem/1.2 "Newsreader",
+    serif;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.lockedPowerPreview > p {
+  max-width: 47rem;
+  margin: 0.15rem 0 0.65rem;
+  color: #675950;
+  font:
+    0.8rem/1.4 "Newsreader",
+    serif;
+}
+
+.lockedPowerPreview article {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.7rem;
+  align-items: center;
+  padding: 0.65rem 0.7rem;
+  border: 1px dashed rgb(108 72 52 / 34%);
+  background: rgb(91 73 62 / 3%);
+}
+
+.lockedPowerPreview article > div {
+  min-width: 0;
+}
+
+.lockedPowerPreview article button:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.disciplineEditorialPanel {
+  padding: 1.25rem 1.35rem;
+  border-left: 1px solid rgb(108 72 52 / 38%);
+  background: rgb(236 225 207 / 32%);
+}
+
+.disciplineEditorialPanel > span,
+.disciplineEditorialPanel h3 {
+  color: var(--blood-dark);
+  font:
+    720 0.79rem "Newsreader",
+    serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.disciplineEditorialPanel h2 {
+  margin: 0.28rem 0 0.65rem;
+  color: var(--blood-dark);
+  font:
+    700 1.55rem "Newsreader",
+    serif;
+  text-transform: uppercase;
+}
+
+.disciplineEditorialPanel p,
+.disciplineEditorialPanel li {
+  color: #443730;
+  font:
+    0.92rem/1.48 "Newsreader",
+    serif;
+}
+
+.disciplineEditorialPanel h3 {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgb(108 72 52 / 28%);
+}
+
+.disciplineEditorialPanel ul {
+  padding-left: 1.1rem;
+}
+
+.disciplineProgress {
+  margin-top: 0.9rem;
+}
+
+.disciplineProgress h3 {
+  margin-bottom: 0.35rem;
+}
+
+.disciplineProgressRule {
+  margin: 0 0 0.5rem;
+  color: #675950;
+  font:
+    0.78rem/1.35 "Newsreader",
+    serif;
+}
+
+.disciplineProgressRating {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0;
+  padding: 0.28rem 0;
+  border-bottom: 1px dotted rgb(108 72 52 / 28%);
+}
+
+.disciplineProgressEmpty {
+  margin: 0;
+  padding: 0.28rem 0;
+}
+
+.disciplineProgress strong {
+  color: var(--blood-dark);
+  font-size: 1rem;
+}
+
+.disciplineProgressStatus {
+  display: block;
+  margin-top: 0.55rem;
+  color: var(--blood-dark);
+  font:
+    700 0.76rem "Newsreader",
+    serif;
+}
+
+.disciplineEditorialPanel > button {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.65rem 0.7rem;
+  border: 1px solid rgb(108 72 52 / 50%);
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font:
+    700 0.9rem "Newsreader",
+    serif;
+}
+
+.disciplineDetailLayer {
+  position: fixed;
+  z-index: 80;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background: rgb(8 10 14 / 76%);
+}
+
+.disciplineDetailDialog {
+  width: min(54rem, 100%);
+  max-height: 88vh;
+  overflow: auto;
+  padding: 1.4rem 1.6rem 1.8rem;
+  border: 1px solid #7b302f;
+  background: #f3eadb;
+  box-shadow: 0 1.5rem 5rem rgb(0 0 0 / 55%);
+  color: #2d2521;
+  scrollbar-color: rgb(120 41 46 / 58%) transparent;
+}
+
+.disciplineDetailDialog > header {
+  position: sticky;
+  z-index: 2;
+  top: -1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgb(108 72 52 / 28%);
+  color: var(--blood-dark);
+  font:
+    720 0.78rem "Newsreader",
+    serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  background: #f3eadb;
+}
+
+.disciplineDetailDialog > header button {
+  border: 0;
+  background: transparent;
+  color: var(--blood-dark);
+  cursor: pointer;
+  font-size: 1.8rem;
+}
+
+.disciplineDetailDialog h2 {
+  margin-bottom: 0.45rem;
+  color: var(--blood-dark);
+  font:
+    700 2rem "Newsreader",
+    serif;
+}
+
+.detailLead {
+  max-width: 45rem;
+  font:
+    1rem/1.55 "Newsreader",
+    serif;
+}
+
+.powerDescription .detailLead + .detailLead {
+  margin-top: 0.7rem;
+}
+
+.disciplineGeneralRules,
+.powerDescription {
+  margin-top: 1rem;
+  padding: 0.8rem 0;
+  border-block: 1px solid rgb(108 72 52 / 24%);
+}
+
+.disciplineGeneralRules h3,
+.powerDescription h3,
+.powerSectionTitle {
+  margin: 0 0 0.35rem;
+  color: var(--blood-dark);
+  font:
+    700 0.78rem "Newsreader",
+    serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.disciplineGeneralRules p,
+.powerDescription p {
+  margin: 0;
+}
+
+.powerDetailEyebrow {
+  margin: 1.1rem 0 0;
+  color: var(--blood-dark);
+  font:
+    700 0.78rem "Newsreader",
+    serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.powerOriginalName {
+  margin: -0.2rem 0 0;
+  color: #77655a;
+  font:
+    italic 0.86rem "Newsreader",
+    serif;
+}
+
+.powerSectionTitle {
+  margin-top: 1.15rem;
+}
+
+.powerLevels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem 1.4rem;
+  margin-top: 1rem;
+}
+
+.powerLevels section {
+  border-top: 1px solid rgb(108 72 52 / 30%);
+}
+
+.powerLevels h3 {
+  color: var(--blood-dark);
+  font:
+    700 0.9rem "Newsreader",
+    serif;
+  text-transform: uppercase;
+}
+
+.powerLevels p {
+  margin-top: 0.2rem;
+  color: #5b4b42;
+  font:
+    0.82rem/1.4 "Newsreader",
+    serif;
+}
+
+.powerLevels small {
+  display: block;
+  margin-top: 0.15rem;
+  color: #7c6b60;
+  font:
+    0.7rem/1.35 "Newsreader",
+    serif;
+}
+
+.powerMechanics {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: 0;
+  margin-top: 0.35rem;
+  border-top: 1px solid rgb(108 72 52 / 30%);
+}
+
+.powerMechanics dt,
+.powerMechanics dd {
+  margin: 0;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgb(108 72 52 / 20%);
+  font:
+    0.88rem/1.4 "Newsreader",
+    serif;
+}
+
+.powerMechanics dt {
+  color: var(--blood-dark);
+  font-weight: 700;
+}
+
+.powerMechanics dd p {
+  margin: 0;
+}
+
+.powerMechanics dd p + p {
+  margin-top: 0.6rem;
+}
+
+@media (max-width: 64rem) {
+  .disciplinesLayout {
+    grid-template-columns: 1fr;
+  }
+  .disciplineEditorialPanel {
+    border-top: 1px solid rgb(108 72 52 / 38%);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 48rem) {
+  .disciplinesDocument .guidedMasthead {
+    grid-template-columns: 2rem 1fr;
+  }
+  .disciplinesDocument .characterCreationIdentity,
+  .disciplinesDocument .guidedMasthead > p {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+  .disciplineSelector,
+  .disciplineSelector:has(> label:nth-of-type(4)) {
+    grid-template-columns: 1fr;
+  }
+  .disciplineRating {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .disciplineRating em {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .disciplineRatingHeading {
+    min-width: 0;
+  }
+  .availablePowerLevels {
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+  .availablePowerLevels button {
+    flex: 1 0 6.4rem;
+  }
+  .powerLevels {
+    grid-template-columns: 1fr;
+  }
+  .disciplineDetailLayer {
+    padding: 0.5rem;
+  }
+  .disciplineDetailDialog {
+    max-height: calc(100dvh - 1rem);
+    padding: 1rem 1rem 1.4rem;
+  }
+  .disciplineDetailDialog > header {
+    top: -1rem;
+  }
+  .powerMechanics {
+    grid-template-columns: 1fr;
+  }
+  .powerMechanics dt {
+    padding-bottom: 0.08rem;
+    border-bottom: 0;
+  }
+  .powerMechanics dd {
+    padding-top: 0.15rem;
+  }
+}

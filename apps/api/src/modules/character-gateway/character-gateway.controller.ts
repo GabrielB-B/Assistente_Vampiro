@@ -46,8 +46,9 @@ const uuidPattern =
 @Controller("player/characters")
 export class CharacterGatewayController {
   constructor(
-    private readonly gateway: CharacterGatewayService,
+    @Inject(CharacterGatewayService) private readonly gateway: CharacterGatewayService,
     @Inject(IDENTITY_PROVIDER) private readonly identities: IdentityProvider,
+    @Inject(ActiveCharacterCookie)
     private readonly activeCharacterCookie: ActiveCharacterCookie,
   ) {}
 
