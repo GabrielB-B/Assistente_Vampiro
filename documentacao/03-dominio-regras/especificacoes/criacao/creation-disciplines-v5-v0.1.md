@@ -23,6 +23,8 @@ Para `CLAN_VAMPIRE`, o jogador escolhe duas das três Disciplinas do Clã: uma r
 
 Toda Disciplina usa escala estrutural 0–5. A criação normal não pode gravar uma quarta Disciplina de Clã, rating acima de 2, mais de duas Disciplinas ativas ou uma distribuição diferente de 2/1 ao concluir.
 
+Durante `CREATION_STEP`, rascunhos incompletos continuam permitidos somente quando ainda podem alcançar 2/1. Um prefixo que já excedeu o orçamento de 3 pontos — por exemplo, 2/2 — é mecanicamente inalcançável e deve ser recusado pelo Rules Engine antes da persistência. A interface impede a escolha quando possível e explica como reorganizar estados antigos que já tenham sido gravados.
+
 ## 3. Relação rating ↔ Poder
 
 As fontes confirmam um Poder conhecido por ponto de Disciplina. Ao adquirir um novo ponto, escolhe-se um Poder do novo nível ou de nível inferior. Nunca se escolhe Poder acima do rating. Um personagem com rating 2 pode conhecer um Poder de nível 1 e um de nível 2, ou dois de nível 1.

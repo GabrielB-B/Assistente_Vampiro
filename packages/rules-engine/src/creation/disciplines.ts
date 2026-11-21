@@ -3852,9 +3852,15 @@ export function evaluateCreationDisciplines(
   const activeRatings = [...ratings.values()]
     .filter((value) => value > 0)
     .sort((a, b) => b - a);
+  const requiredRatingTotal = policy.requiredRatings.reduce(
+    (total, rating) => total + rating,
+    0,
+  );
   if (
     policy.hasIntrinsicDisciplines &&
-    (activeRatings.length > 2 || activeRatings.some((value) => value > 2))
+    (activeRatings.length > 2 ||
+      activeRatings.some((value) => value > 2) ||
+      activeRatings.reduce((total, rating) => total + rating, 0) > requiredRatingTotal)
   )
     violations.push({
       code: "CREATION_DISCIPLINE_DISTRIBUTION_EXCEEDED",

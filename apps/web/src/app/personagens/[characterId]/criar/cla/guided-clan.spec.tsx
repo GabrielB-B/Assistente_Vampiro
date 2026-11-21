@@ -215,6 +215,10 @@ describe("GuidedClan", () => {
     expect(screen.queryByRole("tooltip")).toBeNull();
 
     const discipline = await screen.findByRole("button", { name: /Presença/ });
+    expect(discipline.closest("li")?.querySelector("img")).toHaveAttribute(
+      "src",
+      "/assets/wod/disciplines/presence.svg",
+    );
     expect(screen.queryByRole("dialog", { name: "Toreador" })).toBeNull();
     fireEvent.focus(discipline);
     expect(screen.getByRole("tooltip")).toHaveTextContent(/magnetismo e emoção/i);

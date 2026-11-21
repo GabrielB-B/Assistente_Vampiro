@@ -22,6 +22,7 @@ import {
 import { CLAN_VISUALS } from "../../../criar/clan-visuals";
 import { loadCreationClan, updateCreationClan } from "../../../criar/creation-client";
 import styles from "../../../criar/creation.module.css";
+import { DisciplineSymbol } from "../../../criar/discipline-symbol";
 
 const steps = [
   ["concept", "Conceito"],
@@ -132,6 +133,7 @@ function DisciplineList({
           const discipline = DISCIPLINE_PRESENTATIONS[disciplineId];
           return (
             <li key={disciplineId}>
+              <DisciplineSymbol id={disciplineId} />
               <ContextTooltip
                 description={discipline.descriptionPtBr}
                 label={discipline.namePtBr}

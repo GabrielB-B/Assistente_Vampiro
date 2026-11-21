@@ -333,6 +333,11 @@ describe("GuidedDisciplines", () => {
     const { container } = render(<GuidedDisciplines characterId="character-one" />);
 
     expect(await screen.findByRole("radio", { name: "Auspícios" })).toBeChecked();
+    expect(
+      within(screen.getByRole("group", { name: "Disciplinas do Clã" })).getAllByRole(
+        "radio",
+      ),
+    ).toHaveLength(3);
     expect(container.querySelectorAll('button[aria-pressed="true"]')).toHaveLength(0);
     expect(screen.getByText(/Defina 1 ou 2 pontos/)).toBeVisible();
     expect(screen.getByRole("img", { name: "Símbolo do Clã Toreador" })).toBeVisible();
@@ -348,11 +353,67 @@ describe("GuidedDisciplines", () => {
 
     expect(client.update).not.toHaveBeenCalled();
     expect(screen.getByRole("heading", { name: "Celeridade" })).toBeVisible();
+    expect(screen.getByRole("complementary").querySelector("header img")).toHaveAttribute(
+      "src",
+      "/assets/wod/disciplines/celerity.svg",
+    );
+    expect(
+      screen.getByRole("heading", { name: "Nível de Celeridade" }).querySelector("img"),
+    ).toBeNull();
+    expect(
+      screen
+        .getByRole("radio", { name: "Celeridade" })
+        .closest("label")
+        ?.querySelector("img"),
+    ).toHaveAttribute("src", "/assets/wod/disciplines/celerity.svg");
     expect(
       screen.getByText(
         "Celeridade altera a relação do vampiro com movimento, reação e tempo físico.",
       ),
     ).toBeVisible();
+  });
+
+  it("mantém a seleção de Disciplina de um Caitiff sem atribuir símbolo de Clã", async () => {
+    const step = makeStep();
+    client.load.mockResolvedValue({
+      ...step,
+      creationContext: {
+        ...context,
+        origin: { kind: "CAITIFF", clanId: null, id: "origin:caitiff" },
+      },
+      policy: { ...step.policy, family: "CAITIFF" },
+    });
+    render(<GuidedDisciplines characterId="character-one" />);
+    fireEvent.click(await screen.findByRole("radio", { name: "Presença" }));
+    expect(screen.getByRole("complementary").querySelector("header img")).toHaveAttribute(
+      "src",
+      "/assets/wod/disciplines/presence.svg",
+    );
+    expect(
+      screen
+        .getByRole("region", { name: /Identidade em construção: Caitiff/ })
+        .querySelector("img"),
+    ).toBeNull();
+    expect(client.update).not.toHaveBeenCalled();
+  });
+
+  it("preserva a origem Sangue-Ralo sem símbolos de Clã nem Disciplinas intrínsecas", async () => {
+    const step = makeStep();
+    client.load.mockResolvedValue({
+      ...step,
+      catalog: [],
+      disciplines: [],
+      creationContext: {
+        ...context,
+        origin: { kind: "THIN_BLOOD", clanId: null, id: "origin:thin-blood" },
+      },
+      policy: { ...step.policy, family: "THIN_BLOOD", requiredRatings: [] },
+    });
+    const { container } = render(<GuidedDisciplines characterId="character-one" />);
+    expect(
+      await screen.findByText(/não começa com Disciplinas intrínsecas/),
+    ).toBeVisible();
+    expect(container.querySelector("img")).toBeNull();
   });
 
   it("envia a distribuição e revela os Poderes devolvidos pela API", async () => {
@@ -604,6 +665,65 @@ describe("GuidedDisciplines", () => {
     expect(within(available).queryByText("Beijo Indelével")).toBeNull();
   });
 
+  it("impede um quarto ponto e explica como reorganizar a distribuição", async () => {
+    const current = makeStep({ pending: true, presenceRating: 1 });
+    current.disciplines = [
+      { disciplineId: "discipline:auspex", rating: 2, structuralMaximum: 5 },
+      { disciplineId: "discipline:celerity", rating: 0, structuralMaximum: 5 },
+      { disciplineId: "discipline:presence", rating: 1, structuralMaximum: 5 },
+    ];
+    client.load.mockResolvedValue(current);
+    render(<GuidedDisciplines characterId="character-one" />);
+
+    fireEvent.click(await screen.findByRole("radio", { name: "Presença" }));
+    fireEvent.click(screen.getByRole("button", { name: "Definir Presença em 2" }));
+
+    expect(client.update).not.toHaveBeenCalled();
+    expect(
+      screen.getByText(
+        "Não foi possível adicionar outro ponto: a distribuição já usa os 3 pontos permitidos. Para aumentar Presença, primeiro reduza uma das outras Disciplinas.",
+      ),
+    ).toBeVisible();
+    expect(screen.getByText("Distribuição correta")).toBeVisible();
+  });
+
+  it("orienta a correção de uma distribuição 2/2 já persistida", async () => {
+    const invalid = makeStep();
+    invalid.disciplines = [
+      { disciplineId: "discipline:auspex", rating: 2, structuralMaximum: 5 },
+      { disciplineId: "discipline:celerity", rating: 0, structuralMaximum: 5 },
+      { disciplineId: "discipline:presence", rating: 2, structuralMaximum: 5 },
+    ];
+    client.load.mockResolvedValue(invalid);
+    render(<GuidedDisciplines characterId="character-one" />);
+
+    expect(await screen.findByText("Revise a distribuição")).toBeVisible();
+    expect(
+      screen.getByText(
+        "Há 1 ponto a mais. Retire 1 de Auspícios ou Presença para formar 2/1.",
+      ),
+    ).toBeVisible();
+    expect(screen.getByRole("button", { name: "Continuar →" })).toBeDisabled();
+  });
+
+  it("confirma claramente quando a etapa está concluída", async () => {
+    const complete = makeStep({ acquired: true, presenceRating: 1 });
+    complete.disciplines = [
+      { disciplineId: "discipline:auspex", rating: 2, structuralMaximum: 5 },
+      { disciplineId: "discipline:celerity", rating: 0, structuralMaximum: 5 },
+      { disciplineId: "discipline:presence", rating: 1, structuralMaximum: 5 },
+    ];
+    complete.evaluation.complete = true;
+    client.load.mockResolvedValue(complete);
+    render(<GuidedDisciplines characterId="character-one" />);
+
+    expect(await screen.findByText("Etapa concluída")).toBeVisible();
+    expect(
+      screen.getByText("2 em Auspícios e 1 em Presença. Você já pode continuar."),
+    ).toBeVisible();
+    expect(screen.getByRole("button", { name: "Continuar →" })).toBeEnabled();
+  });
+
   it("abre os detalhes completos sem criar uma mutação", async () => {
     client.load.mockResolvedValue(makeStep({ pending: true, presenceRating: 1 }));
     render(<GuidedDisciplines characterId="character-one" />);
@@ -614,6 +734,10 @@ describe("GuidedDisciplines", () => {
 
     expect(screen.getByRole("dialog")).toBeVisible();
     expect(screen.getByRole("heading", { name: "Fascínio" })).toBeVisible();
+    expect(screen.getByRole("dialog").querySelector("img")).toHaveAttribute(
+      "src",
+      "/assets/wod/disciplines/presence.svg",
+    );
     expect(screen.queryByText("Parada de dados")).toBeNull();
     expect(client.update).not.toHaveBeenCalled();
   });
@@ -652,6 +776,10 @@ describe("GuidedDisciplines", () => {
 
     const dialog = screen.getByRole("dialog");
     expect(within(dialog).getByRole("heading", { name: "Auspícios" })).toBeVisible();
+    expect(dialog.querySelector("img")).toHaveAttribute(
+      "src",
+      "/assets/wod/disciplines/auspex.svg",
+    );
     for (const level of [1, 2, 3, 4, 5])
       expect(
         within(dialog).getByRole("heading", { name: `Nível ${level}` }),

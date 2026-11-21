@@ -22,6 +22,8 @@ import {
   updateCreationDisciplines,
 } from "../../../criar/creation-client";
 import styles from "../../../criar/creation.module.css";
+import { DisciplineIdentityHeader } from "../../../criar/discipline-identity-header";
+import { DisciplineSymbol } from "../../../criar/discipline-symbol";
 
 const creationSteps = [
   ["concept", "Conceito"],
@@ -45,6 +47,125 @@ interface RatingAdjustment {
   readonly minimumRequiredRemovals: number;
   readonly removedPowerIds: readonly DisciplinePowerId[];
   readonly targetRating: number;
+}
+
+interface DisciplineDistributionFeedback {
+  readonly detail: string;
+  readonly state: "complete" | "error" | "pending" | "ready";
+  readonly title: string;
+}
+
+function joinDisciplineNames(names: readonly string[]) {
+  if (names.length <= 1) return names[0] ?? "outra Disciplina";
+  return `${names.slice(0, -1).join(", ")} ou ${names.at(-1)}`;
+}
+
+function disciplineDistributionFeedback(
+  activeRatings: readonly {
+    readonly disciplineId: CreationDisciplineId;
+    readonly name: string;
+    readonly rating: number;
+  }[],
+  requiredRatings: readonly number[],
+  pendingPowerCount: number,
+  complete: boolean,
+  hasViolations: boolean,
+  adjustmentPending: boolean,
+): DisciplineDistributionFeedback {
+  if (adjustmentPending)
+    return {
+      detail: "Conclua a remoção dos Poderes incompatíveis antes de continuar.",
+      state: "error",
+      title: "Ajuste pendente",
+    };
+
+  const requiredTotal = requiredRatings.reduce((total, rating) => total + rating, 0);
+  const distributedTotal = activeRatings.reduce(
+    (total, discipline) => total + discipline.rating,
+    0,
+  );
+  const activeNames = activeRatings.map((discipline) => discipline.name);
+
+  if (distributedTotal > requiredTotal) {
+    const excess = distributedTotal - requiredTotal;
+    return {
+      detail: `Há ${excess} ${excess === 1 ? "ponto a mais" : "pontos a mais"}. Retire ${excess} de ${joinDisciplineNames(activeNames)} para formar ${requiredRatings.join("/")}.`,
+      state: "error",
+      title: "Revise a distribuição",
+    };
+  }
+
+  if (activeRatings.length > requiredRatings.length)
+    return {
+      detail: `Use somente ${requiredRatings.length} Disciplinas e deixe os valores em ${requiredRatings.join(" e ")}.`,
+      state: "error",
+      title: "Há Disciplinas demais",
+    };
+
+  const currentRatings = activeRatings.map((discipline) => discipline.rating);
+  const distributionReady =
+    currentRatings.length === requiredRatings.length &&
+    currentRatings.every((rating, index) => rating === requiredRatings[index]);
+
+  if (distributionReady) {
+    const summary = activeRatings
+      .map((discipline) => `${discipline.rating} em ${discipline.name}`)
+      .join(" e ");
+    if (complete)
+      return {
+        detail: `${summary}. Você já pode continuar.`,
+        state: "complete",
+        title: "Etapa concluída",
+      };
+    if (pendingPowerCount > 0)
+      return {
+        detail: `${summary}. Escolha ${pendingPowerCount === 1 ? "o Poder pendente" : `os ${pendingPowerCount} Poderes pendentes`} para concluir.`,
+        state: "ready",
+        title: "Distribuição correta",
+      };
+    if (hasViolations)
+      return {
+        detail: `${summary}. Revise a escolha de Poder indicada na área principal.`,
+        state: "error",
+        title: "A distribuição está correta",
+      };
+    return {
+      detail: `${summary}. Conclua as escolhas restantes indicadas na área principal.`,
+      state: "ready",
+      title: "Distribuição correta",
+    };
+  }
+
+  if (distributedTotal === 0)
+    return {
+      detail: `Coloque ${requiredRatings[0]} pontos em uma Disciplina e ${requiredRatings[1]} ponto em outra.`,
+      state: "pending",
+      title: `Distribua ${requiredTotal} pontos`,
+    };
+
+  if (activeRatings.length === 1 && activeRatings[0]?.rating === requiredRatings[0])
+    return {
+      detail: `Coloque ${requiredRatings[1]} ponto em outra Disciplina.`,
+      state: "pending",
+      title: `Falta ${requiredTotal - distributedTotal} ponto`,
+    };
+
+  if (
+    activeRatings.length === requiredRatings.length &&
+    activeRatings.every((discipline) => discipline.rating === requiredRatings[1])
+  )
+    return {
+      detail: "Acrescente 1 ponto a uma das duas Disciplinas para formar 2/1.",
+      state: "pending",
+      title: "Uma Disciplina precisa chegar a 2",
+    };
+
+  const remaining = Math.max(0, requiredTotal - distributedTotal);
+  return {
+    detail: `Complete a formação ${requiredRatings.join("/")} usando duas Disciplinas.`,
+    state: "pending",
+    title: `Faltam ${remaining} ${remaining === 1 ? "ponto" : "pontos"}`,
+  };
 }
 
 function formatSourceReference(ref: {
@@ -189,7 +310,10 @@ function DetailDialog({
         </header>
         {power === undefined ? (
           <>
-            <h2 id="discipline-detail-title">{discipline!.namePtBr}</h2>
+            <h2 className={styles.disciplineTitle} id="discipline-detail-title">
+              <DisciplineSymbol id={discipline!.id} />
+              {discipline!.namePtBr}
+            </h2>
             <p className={styles.detailLead}>{discipline!.descriptionPtBr}</p>
             <section className={styles.disciplineGeneralRules}>
               <h3>Regras gerais</h3>
@@ -222,11 +346,12 @@ function DetailDialog({
         ) : (
           <>
             <p className={styles.powerDetailEyebrow}>Poder</p>
-            <h2 id="discipline-detail-title">{power.namePtBr}</h2>
-            <p className={styles.powerOriginalName}>{power.nameOriginal}</p>
-            <p className={styles.powerDetailEyebrow}>
+            <p className={`${styles.powerDetailEyebrow} ${styles.disciplineTitle}`}>
+              <DisciplineSymbol id={power.disciplineId} />
               {powerDiscipline?.namePtBr ?? power.disciplineId} · Nível {power.level}
             </p>
+            <h2 id="discipline-detail-title">{power.namePtBr}</h2>
+            <p className={styles.powerOriginalName}>{power.nameOriginal}</p>
             <section className={styles.powerDescription}>
               <h3>Descrição</h3>
               {selectedPresentation!.descriptionPtBr.split("\n\n").map((paragraph) => (
@@ -519,10 +644,25 @@ export function GuidedDisciplines({ characterId }: { readonly characterId: strin
       );
       return;
     }
-    setDisciplineError("");
     const disciplines = step.disciplines.map((item) =>
       item.disciplineId === selectedId ? { ...item, rating: nextRating } : item,
     );
+    const requiredTotal = step.policy.requiredRatings.reduce(
+      (total, rating) => total + rating,
+      0,
+    );
+    const proposedTotal = disciplines.reduce((total, item) => total + item.rating, 0);
+    if (
+      nextRating > (selectedState?.rating ?? 0) &&
+      requiredTotal > 0 &&
+      proposedTotal > requiredTotal
+    ) {
+      setDisciplineError(
+        `Não foi possível adicionar outro ponto: a distribuição já usa os ${requiredTotal} pontos permitidos. Para aumentar ${selected?.namePtBr ?? selectedId}, primeiro reduza uma das outras Disciplinas.`,
+      );
+      return;
+    }
+    setDisciplineError("");
     if (nextRating < (selectedState?.rating ?? 0) && selectedPowers.length > 0) {
       const proposal = await previewChanges(
         disciplines,
@@ -641,8 +781,22 @@ export function GuidedDisciplines({ characterId }: { readonly characterId: strin
   const isThinBlood = step.policy.family === "THIN_BLOOD";
   const activeRatings = step.disciplines
     .filter((item) => item.rating > 0)
-    .sort((a, b) => b.rating - a.rating);
+    .map((item) => ({
+      ...item,
+      name:
+        step.catalog.find((candidate) => candidate.id === item.disciplineId)?.namePtBr ??
+        item.disciplineId,
+    }))
+    .sort((a, b) => b.rating - a.rating || a.name.localeCompare(b.name, "pt-BR"));
   const pendingPowerCount = step.evaluation.pendingPowerChoices.length;
+  const distributionFeedback = disciplineDistributionFeedback(
+    activeRatings,
+    step.policy.requiredRatings,
+    pendingPowerCount,
+    step.evaluation.complete,
+    step.evaluation.violations.length > 0,
+    ratingAdjustment !== null,
+  );
   return (
     <main className={`${styles.creationShell} ${styles.guidedShell}`}>
       <article
@@ -685,7 +839,11 @@ export function GuidedDisciplines({ characterId }: { readonly characterId: strin
               </p>
               <h2 id="disciplines-title">Disciplinas</h2>
             </header>
-            <fieldset className={styles.disciplineSelector} disabled={pending}>
+            <fieldset
+              className={styles.disciplineSelector}
+              data-family={step.policy.family}
+              disabled={pending}
+            >
               <legend>
                 {step.policy.family === "CLAN"
                   ? "Disciplinas do Clã"
@@ -717,6 +875,7 @@ export function GuidedDisciplines({ characterId }: { readonly characterId: strin
                         }}
                         type="radio"
                       />
+                      <DisciplineSymbol id={item.id} />
                       <strong>{item.namePtBr}</strong>
                     </label>
                   ))}
@@ -765,11 +924,14 @@ export function GuidedDisciplines({ characterId }: { readonly characterId: strin
                   </div>
                   <em>Nível atual: {selectedState?.rating ?? 0}</em>
                 </section>
-                {disciplineError === "" ? null : (
-                  <p aria-live="polite" className={styles.disciplineContextError}>
-                    {disciplineError}
-                  </p>
-                )}
+                <p
+                  aria-atomic="true"
+                  className={styles.disciplineContextError}
+                  id="discipline-context-feedback"
+                  role="status"
+                >
+                  {disciplineError}
+                </p>
                 {ratingAdjustment === null ? null : (
                   <section
                     aria-label="Ajuste necessário"
@@ -974,8 +1136,10 @@ export function GuidedDisciplines({ characterId }: { readonly characterId: strin
               </>
             ) : selected === undefined ? null : (
               <>
-                <span>Disciplina</span>
-                <h2>{selected.namePtBr}</h2>
+                <DisciplineIdentityHeader
+                  disciplineId={selected.id}
+                  name={selected.namePtBr}
+                />
                 <p>{selected.descriptionPtBr}</p>
                 <section
                   aria-label="Sua distribuição"
@@ -996,24 +1160,21 @@ export function GuidedDisciplines({ characterId }: { readonly characterId: strin
                         className={styles.disciplineProgressRating}
                         key={item.disciplineId}
                       >
-                        <span>
-                          {step.catalog.find(
-                            (candidate) => candidate.id === item.disciplineId,
-                          )?.namePtBr ?? item.disciplineId}
-                        </span>
+                        <span>{item.name}</span>
                         <strong>{item.rating}</strong>
                       </p>
                     ))
                   )}
-                  <small className={styles.disciplineProgressStatus}>
-                    {ratingAdjustment !== null
-                      ? "Ajuste pendente"
-                      : step.evaluation.complete
-                        ? "Distribuição concluída"
-                        : pendingPowerCount > 0
-                          ? `${pendingPowerCount} ${pendingPowerCount === 1 ? "Poder pendente" : "Poderes pendentes"} no total`
-                          : "Distribuição incompleta"}
-                  </small>
+                  <div
+                    aria-atomic="true"
+                    className={styles.disciplineProgressFeedback}
+                    data-state={distributionFeedback.state}
+                    id="discipline-progress-feedback"
+                    role="status"
+                  >
+                    <strong>{distributionFeedback.title}</strong>
+                    <p>{distributionFeedback.detail}</p>
+                  </div>
                 </section>
                 <button
                   onClick={(event) =>
@@ -1048,6 +1209,7 @@ export function GuidedDisciplines({ characterId }: { readonly characterId: strin
               Preencher diretamente
             </Link>
             <button
+              aria-describedby="discipline-progress-feedback"
               className={styles.continueButton}
               disabled={!step.evaluation.complete}
               onClick={() =>
