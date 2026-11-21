@@ -604,6 +604,65 @@ describe("GuidedDisciplines", () => {
     expect(within(available).queryByText("Beijo Indelével")).toBeNull();
   });
 
+  it("impede um quarto ponto e explica como reorganizar a distribuição", async () => {
+    const current = makeStep({ pending: true, presenceRating: 1 });
+    current.disciplines = [
+      { disciplineId: "discipline:auspex", rating: 2, structuralMaximum: 5 },
+      { disciplineId: "discipline:celerity", rating: 0, structuralMaximum: 5 },
+      { disciplineId: "discipline:presence", rating: 1, structuralMaximum: 5 },
+    ];
+    client.load.mockResolvedValue(current);
+    render(<GuidedDisciplines characterId="character-one" />);
+
+    fireEvent.click(await screen.findByRole("radio", { name: "Presença" }));
+    fireEvent.click(screen.getByRole("button", { name: "Definir Presença em 2" }));
+
+    expect(client.update).not.toHaveBeenCalled();
+    expect(
+      screen.getByText(
+        "Não foi possível adicionar outro ponto: a distribuição já usa os 3 pontos permitidos. Para aumentar Presença, primeiro reduza uma das outras Disciplinas.",
+      ),
+    ).toBeVisible();
+    expect(screen.getByText("Distribuição correta")).toBeVisible();
+  });
+
+  it("orienta a correção de uma distribuição 2/2 já persistida", async () => {
+    const invalid = makeStep();
+    invalid.disciplines = [
+      { disciplineId: "discipline:auspex", rating: 2, structuralMaximum: 5 },
+      { disciplineId: "discipline:celerity", rating: 0, structuralMaximum: 5 },
+      { disciplineId: "discipline:presence", rating: 2, structuralMaximum: 5 },
+    ];
+    client.load.mockResolvedValue(invalid);
+    render(<GuidedDisciplines characterId="character-one" />);
+
+    expect(await screen.findByText("Revise a distribuição")).toBeVisible();
+    expect(
+      screen.getByText(
+        "Há 1 ponto a mais. Retire 1 de Auspícios ou Presença para formar 2/1.",
+      ),
+    ).toBeVisible();
+    expect(screen.getByRole("button", { name: "Continuar →" })).toBeDisabled();
+  });
+
+  it("confirma claramente quando a etapa está concluída", async () => {
+    const complete = makeStep({ acquired: true, presenceRating: 1 });
+    complete.disciplines = [
+      { disciplineId: "discipline:auspex", rating: 2, structuralMaximum: 5 },
+      { disciplineId: "discipline:celerity", rating: 0, structuralMaximum: 5 },
+      { disciplineId: "discipline:presence", rating: 1, structuralMaximum: 5 },
+    ];
+    complete.evaluation.complete = true;
+    client.load.mockResolvedValue(complete);
+    render(<GuidedDisciplines characterId="character-one" />);
+
+    expect(await screen.findByText("Etapa concluída")).toBeVisible();
+    expect(
+      screen.getByText("2 em Auspícios e 1 em Presença. Você já pode continuar."),
+    ).toBeVisible();
+    expect(screen.getByRole("button", { name: "Continuar →" })).toBeEnabled();
+  });
+
   it("abre os detalhes completos sem criar uma mutação", async () => {
     client.load.mockResolvedValue(makeStep({ pending: true, presenceRating: 1 }));
     render(<GuidedDisciplines characterId="character-one" />);

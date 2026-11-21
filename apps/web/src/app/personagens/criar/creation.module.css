@@ -3243,6 +3243,11 @@
 }
 
 .disciplineContextError {
+  min-height: 0;
+  margin: 0;
+}
+
+.disciplineContextError:not(:empty) {
   margin: 0.65rem 0.35rem 0;
   padding: 0.55rem 0.7rem;
   border-left: 2px solid var(--blood);
@@ -3657,13 +3662,50 @@
   font-size: 1rem;
 }
 
-.disciplineProgressStatus {
+.disciplineProgressFeedback {
+  margin-top: 0.72rem;
+  padding: 0.62rem 0.7rem;
+  border-left: 2px solid rgb(108 72 52 / 58%);
+  background: rgb(244 234 216 / 42%);
+}
+
+.disciplineProgressFeedback strong {
   display: block;
-  margin-top: 0.55rem;
-  color: var(--blood-dark);
+  color: #53463e;
   font:
-    700 0.76rem "Newsreader",
+    720 0.78rem "Newsreader",
     serif;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.disciplineProgressFeedback p {
+  margin: 0.22rem 0 0;
+  color: #55473f;
+  font:
+    0.8rem/1.38 "Newsreader",
+    serif;
+}
+
+.disciplineProgressFeedback[data-state="error"] {
+  border-left-color: var(--blood);
+  background: rgb(145 18 30 / 7%);
+}
+
+.disciplineProgressFeedback[data-state="error"] strong {
+  color: var(--blood-dark);
+}
+
+.disciplineProgressFeedback[data-state="ready"],
+.disciplineProgressFeedback[data-state="complete"] {
+  border: 1px solid rgb(121 19 29 / 38%);
+  border-left: 3px solid var(--blood);
+  background: rgb(145 18 30 / 8%);
+}
+
+.disciplineProgressFeedback[data-state="ready"] strong,
+.disciplineProgressFeedback[data-state="complete"] strong {
+  color: var(--blood-dark);
 }
 
 .disciplineEditorialPanel > button {

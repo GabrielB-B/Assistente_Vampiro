@@ -615,6 +615,27 @@ describe("Disciplinas na criação V5", () => {
     });
   });
 
+  it("rejeita o prefixo 2/2 por exceder o orçamento inicial 2/1", () => {
+    const policy = resolveCreationDisciplinePolicy("clan:toreador");
+    const evaluation = evaluateCreationDisciplines(
+      {
+        disciplines: [
+          { disciplineId: "discipline:auspex", rating: 2, structuralMaximum: 5 },
+          { disciplineId: "discipline:celerity", rating: 0, structuralMaximum: 5 },
+          { disciplineId: "discipline:presence", rating: 2, structuralMaximum: 5 },
+        ],
+        powers: [],
+      },
+      policy,
+    );
+
+    expect(evaluation.complete).toBe(false);
+    expect(evaluation.violations).toContainEqual({
+      code: "CREATION_DISCIPLINE_DISTRIBUTION_EXCEEDED",
+      path: ["disciplines"],
+    });
+  });
+
   it("rejeita Poder acima do rating e duplicidade", () => {
     const policy = resolveCreationDisciplinePolicy("clan:toreador");
     const evaluation = evaluateCreationDisciplines(
