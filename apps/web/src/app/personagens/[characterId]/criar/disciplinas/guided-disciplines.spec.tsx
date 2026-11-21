@@ -333,6 +333,11 @@ describe("GuidedDisciplines", () => {
     const { container } = render(<GuidedDisciplines characterId="character-one" />);
 
     expect(await screen.findByRole("radio", { name: "Auspícios" })).toBeChecked();
+    expect(
+      within(screen.getByRole("group", { name: "Disciplinas do Clã" })).getAllByRole(
+        "radio",
+      ),
+    ).toHaveLength(3);
     expect(container.querySelectorAll('button[aria-pressed="true"]')).toHaveLength(0);
     expect(screen.getByText(/Defina 1 ou 2 pontos/)).toBeVisible();
     expect(screen.getByRole("img", { name: "Símbolo do Clã Toreador" })).toBeVisible();
@@ -348,11 +353,67 @@ describe("GuidedDisciplines", () => {
 
     expect(client.update).not.toHaveBeenCalled();
     expect(screen.getByRole("heading", { name: "Celeridade" })).toBeVisible();
+    expect(screen.getByRole("complementary").querySelector("header img")).toHaveAttribute(
+      "src",
+      "/assets/wod/disciplines/celerity.svg",
+    );
+    expect(
+      screen.getByRole("heading", { name: "Nível de Celeridade" }).querySelector("img"),
+    ).toBeNull();
+    expect(
+      screen
+        .getByRole("radio", { name: "Celeridade" })
+        .closest("label")
+        ?.querySelector("img"),
+    ).toHaveAttribute("src", "/assets/wod/disciplines/celerity.svg");
     expect(
       screen.getByText(
         "Celeridade altera a relação do vampiro com movimento, reação e tempo físico.",
       ),
     ).toBeVisible();
+  });
+
+  it("mantém a seleção de Disciplina de um Caitiff sem atribuir símbolo de Clã", async () => {
+    const step = makeStep();
+    client.load.mockResolvedValue({
+      ...step,
+      creationContext: {
+        ...context,
+        origin: { kind: "CAITIFF", clanId: null, id: "origin:caitiff" },
+      },
+      policy: { ...step.policy, family: "CAITIFF" },
+    });
+    render(<GuidedDisciplines characterId="character-one" />);
+    fireEvent.click(await screen.findByRole("radio", { name: "Presença" }));
+    expect(screen.getByRole("complementary").querySelector("header img")).toHaveAttribute(
+      "src",
+      "/assets/wod/disciplines/presence.svg",
+    );
+    expect(
+      screen
+        .getByRole("region", { name: /Identidade em construção: Caitiff/ })
+        .querySelector("img"),
+    ).toBeNull();
+    expect(client.update).not.toHaveBeenCalled();
+  });
+
+  it("preserva a origem Sangue-Ralo sem símbolos de Clã nem Disciplinas intrínsecas", async () => {
+    const step = makeStep();
+    client.load.mockResolvedValue({
+      ...step,
+      catalog: [],
+      disciplines: [],
+      creationContext: {
+        ...context,
+        origin: { kind: "THIN_BLOOD", clanId: null, id: "origin:thin-blood" },
+      },
+      policy: { ...step.policy, family: "THIN_BLOOD", requiredRatings: [] },
+    });
+    const { container } = render(<GuidedDisciplines characterId="character-one" />);
+    expect(
+      await screen.findByText(/não começa com Disciplinas intrínsecas/),
+    ).toBeVisible();
+    expect(container.querySelector("img")).toBeNull();
   });
 
   it("envia a distribuição e revela os Poderes devolvidos pela API", async () => {
@@ -673,6 +734,10 @@ describe("GuidedDisciplines", () => {
 
     expect(screen.getByRole("dialog")).toBeVisible();
     expect(screen.getByRole("heading", { name: "Fascínio" })).toBeVisible();
+    expect(screen.getByRole("dialog").querySelector("img")).toHaveAttribute(
+      "src",
+      "/assets/wod/disciplines/presence.svg",
+    );
     expect(screen.queryByText("Parada de dados")).toBeNull();
     expect(client.update).not.toHaveBeenCalled();
   });
@@ -711,6 +776,10 @@ describe("GuidedDisciplines", () => {
 
     const dialog = screen.getByRole("dialog");
     expect(within(dialog).getByRole("heading", { name: "Auspícios" })).toBeVisible();
+    expect(dialog.querySelector("img")).toHaveAttribute(
+      "src",
+      "/assets/wod/disciplines/auspex.svg",
+    );
     for (const level of [1, 2, 3, 4, 5])
       expect(
         within(dialog).getByRole("heading", { name: `Nível ${level}` }),

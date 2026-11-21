@@ -1765,24 +1765,35 @@
 }
 
 .disciplineList li {
-  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   min-width: 0;
-  padding-left: 0.8rem;
   color: #342923;
   font-family: "Newsreader", "Iowan Old Style", serif;
   font-size: 0.96rem;
   font-weight: 650;
 }
 
-.disciplineList li::before {
-  position: absolute;
-  top: 0.48em;
-  left: 0;
-  width: 0.35rem;
-  height: 0.35rem;
-  border: 1px solid var(--clan-accent);
-  content: "";
-  transform: rotate(45deg);
+.disciplineSymbol {
+  width: var(--discipline-symbol-size, 1.5rem);
+  height: var(--discipline-symbol-size, 1.5rem);
+  object-fit: contain;
+  flex: none;
+  mix-blend-mode: multiply;
+}
+
+.disciplineTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.disciplineDetailDialog h2.disciplineTitle {
+  --discipline-symbol-size: 3rem;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: center;
 }
 
 .baneCompulsionGrid {
@@ -3045,7 +3056,8 @@
 .disciplineSelector {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.65rem;
+  gap: 0.75rem;
+  min-inline-size: 0;
   margin: 0.8rem 0 1rem;
   padding: 0;
   border: 0;
@@ -3072,20 +3084,37 @@
 }
 
 .disciplineSelector label {
+  --discipline-symbol-size: 4rem;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 3.75rem;
-  padding: 0.7rem 0.9rem;
-  border: 1px solid rgb(108 72 52 / 30%);
-  background: rgb(255 250 240 / 15%);
-  color: #322923;
+  display: grid;
+  grid-template-rows: var(--discipline-symbol-size) auto;
+  place-items: center;
+  align-content: center;
+  gap: 0.5rem;
+  min-height: 8.65rem;
+  padding: 0.8rem;
+  border: 1px solid #bfae97;
+  border-radius: 0.28rem;
+  background: rgb(255 250 240 / 23%);
+  color: var(--ink);
   cursor: pointer;
   font:
-    700 1.12rem "Newsreader",
+    700 clamp(1.12rem, 1.6vw, 1.45rem)/1.08 "Newsreader",
     serif;
+  letter-spacing: 0.025em;
   text-align: center;
+  text-transform: uppercase;
+}
+
+.disciplineSelector img {
+  opacity: 0.84;
+}
+
+.disciplineSelector img[src$="/oblivion.svg"],
+.disciplineSelector img[src$="/blood-sorcery.svg"] {
+  /* Estes dois originais têm mais margem dentro da mesma prancheta. */
+  width: calc(var(--discipline-symbol-size) * 1.07);
+  height: calc(var(--discipline-symbol-size) * 1.07);
 }
 
 .disciplineSelector input {
@@ -3095,26 +3124,38 @@
   opacity: 0;
 }
 
-.disciplineSelector label:hover,
-.disciplineSelector label:focus-within {
-  border-color: rgb(143 17 29 / 55%);
-  outline: 2px solid transparent;
-  box-shadow: 0 0 0 2px rgb(143 17 29 / 12%);
+.disciplineSelector label:hover {
+  border-color: #956967;
+  color: var(--blood-dark);
+}
+
+.disciplineSelector label:has(input:focus-visible) {
+  outline: 2px solid var(--blood-dark);
+  outline-offset: 3px;
 }
 
 .disciplineSelector label[data-selected="true"] {
-  border-color: var(--blood);
-  background: rgb(143 17 29 / 7%);
+  border: 2px solid var(--blood-dark);
+  border-radius: 0.7rem;
+  corner-shape: scoop;
+  background: rgb(143 17 29 / 6%);
   color: var(--blood-dark);
-  box-shadow: inset 0 -2px 0 rgb(143 17 29 / 45%);
 }
 
-.disciplineSelector label[data-selected="true"] strong {
-  letter-spacing: 0.035em;
+.disciplineSelector label:is([data-selected="true"], :hover, :focus-within) img {
+  opacity: 1;
 }
 
-.disciplineSelector:has(> label:nth-of-type(4)) {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+.disciplineSelector[data-family="CAITIFF"] {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr));
+}
+
+.disciplineSelector[data-family="CAITIFF"] label {
+  --discipline-symbol-size: 2.45rem;
+  min-height: 5.25rem;
+  gap: 0.4rem;
+  padding: 0.65rem;
+  font-size: 1rem;
 }
 
 .thinBloodNotice {
@@ -3608,6 +3649,59 @@
   text-transform: uppercase;
 }
 
+.disciplinePanelHeading {
+  --discipline-symbol-size: clamp(4.45rem, 6vw, 4.9rem);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  margin: -1rem -1.1rem 1.05rem;
+  padding: 0.55rem 0.65rem 1.2rem;
+  color: #f6ebd7;
+  text-align: center;
+}
+
+.disciplinePanelHeading::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  background:
+    radial-gradient(ellipse at 16% 25%, rgb(234 209 175 / 6%), transparent 64%),
+    radial-gradient(ellipse at 66% 95%, rgb(234 209 175 / 4%), transparent 58%),
+    linear-gradient(106deg, #621123, #671527 51%, #5b0e20);
+  /* Keep the field solid above the thin, irregular ink edge. */
+  mask-image: linear-gradient(#000, #000), url("/images/discipline-ink-edge.svg");
+  mask-position: top, bottom;
+  mask-repeat: no-repeat;
+  mask-size:
+    100% calc(100% - 17px),
+    100% 18px;
+}
+
+.disciplinePanelHeading img {
+  mix-blend-mode: normal;
+  filter: sepia(0.24) brightness(0.97);
+}
+
+.disciplinePanelHeading img[src$="/oblivion.svg"],
+.disciplinePanelHeading img[src$="/blood-sorcery.svg"] {
+  width: calc(var(--discipline-symbol-size) * 1.05);
+  height: calc(var(--discipline-symbol-size) * 1.05);
+}
+
+.disciplinePanelHeading h2 {
+  max-width: 100%;
+  margin: 0;
+  color: inherit;
+  font-size: clamp(1.375rem, 2vw, 1.5rem);
+  line-height: 1.12;
+  letter-spacing: 0.025em;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
 .disciplineEditorialPanel p,
 .disciplineEditorialPanel li {
   color: #443730;
@@ -3920,10 +4014,6 @@
     grid-column: 1 / -1;
     justify-self: center;
   }
-  .disciplineSelector,
-  .disciplineSelector:has(> label:nth-of-type(4)) {
-    grid-template-columns: 1fr;
-  }
   .disciplineRating {
     align-items: flex-start;
     flex-direction: column;
@@ -3935,6 +4025,9 @@
   }
   .disciplineRatingHeading {
     min-width: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 0.25rem;
   }
   .availablePowerLevels {
     overflow-x: auto;
@@ -3965,5 +4058,24 @@
   }
   .powerMechanics dd {
     padding-top: 0.15rem;
+  }
+}
+
+@media (max-width: 34rem) {
+  .disciplineSelector {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+  }
+
+  .disciplineSelector label {
+    --discipline-symbol-size: 2.75rem;
+    gap: 0.3rem;
+    min-height: 5.3rem;
+    padding: 0.5rem;
+    font-size: 1.05rem;
+  }
+
+  .disciplineSelector[data-family="CAITIFF"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

@@ -22,6 +22,8 @@ import {
   updateCreationDisciplines,
 } from "../../../criar/creation-client";
 import styles from "../../../criar/creation.module.css";
+import { DisciplineIdentityHeader } from "../../../criar/discipline-identity-header";
+import { DisciplineSymbol } from "../../../criar/discipline-symbol";
 
 const creationSteps = [
   ["concept", "Conceito"],
@@ -308,7 +310,10 @@ function DetailDialog({
         </header>
         {power === undefined ? (
           <>
-            <h2 id="discipline-detail-title">{discipline!.namePtBr}</h2>
+            <h2 className={styles.disciplineTitle} id="discipline-detail-title">
+              <DisciplineSymbol id={discipline!.id} />
+              {discipline!.namePtBr}
+            </h2>
             <p className={styles.detailLead}>{discipline!.descriptionPtBr}</p>
             <section className={styles.disciplineGeneralRules}>
               <h3>Regras gerais</h3>
@@ -341,11 +346,12 @@ function DetailDialog({
         ) : (
           <>
             <p className={styles.powerDetailEyebrow}>Poder</p>
-            <h2 id="discipline-detail-title">{power.namePtBr}</h2>
-            <p className={styles.powerOriginalName}>{power.nameOriginal}</p>
-            <p className={styles.powerDetailEyebrow}>
+            <p className={`${styles.powerDetailEyebrow} ${styles.disciplineTitle}`}>
+              <DisciplineSymbol id={power.disciplineId} />
               {powerDiscipline?.namePtBr ?? power.disciplineId} · Nível {power.level}
             </p>
+            <h2 id="discipline-detail-title">{power.namePtBr}</h2>
+            <p className={styles.powerOriginalName}>{power.nameOriginal}</p>
             <section className={styles.powerDescription}>
               <h3>Descrição</h3>
               {selectedPresentation!.descriptionPtBr.split("\n\n").map((paragraph) => (
@@ -833,7 +839,11 @@ export function GuidedDisciplines({ characterId }: { readonly characterId: strin
               </p>
               <h2 id="disciplines-title">Disciplinas</h2>
             </header>
-            <fieldset className={styles.disciplineSelector} disabled={pending}>
+            <fieldset
+              className={styles.disciplineSelector}
+              data-family={step.policy.family}
+              disabled={pending}
+            >
               <legend>
                 {step.policy.family === "CLAN"
                   ? "Disciplinas do Clã"
@@ -865,6 +875,7 @@ export function GuidedDisciplines({ characterId }: { readonly characterId: strin
                         }}
                         type="radio"
                       />
+                      <DisciplineSymbol id={item.id} />
                       <strong>{item.namePtBr}</strong>
                     </label>
                   ))}
@@ -1125,8 +1136,10 @@ export function GuidedDisciplines({ characterId }: { readonly characterId: strin
               </>
             ) : selected === undefined ? null : (
               <>
-                <span>Disciplina</span>
-                <h2>{selected.namePtBr}</h2>
+                <DisciplineIdentityHeader
+                  disciplineId={selected.id}
+                  name={selected.namePtBr}
+                />
                 <p>{selected.descriptionPtBr}</p>
                 <section
                   aria-label="Sua distribuição"

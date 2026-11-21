@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="11.246" height="11.259" viewBox="0 0 11.246 11.259">
+<defs>
+<clipPath id="clip_1">
+<path transform="matrix(1,0,0,-1,0,11.259)" d="M0 11.259H11.246V0H0Z"/>
+</clipPath>
+</defs>
+<g inkscape:groupmode="layer" inkscape:label="Capa 1">
+<path transform="matrix(1,0,0,-1,5.6322,0)" d="M0 0-5.632-5.633-.031-11.259 5.613-5.605Z" fill="#ffffff"/>
+<path transform="matrix(1,0,0,-1,5.6302,1.1029997)" d="M0 0 4.531-4.532 .002-9.06-4.528-4.53Z" fill="#76031a"/>
+<g clip-path="url(#clip_1)">
+<path transform="matrix(1,0,0,-1,7.4662,5.0931999)" d="M0 0-1.302-1.302-2.854 1.322-1.853 3.272C-1.223 2.208-.575 1.109 0 0" fill="#ffffff"/>
+<path transform="matrix(1,0,0,-1,6.0599,7.0371)" d="M0 0C.71 .612 1.382 1.303 2.066 1.959 2.278 1.826 2.852 .9 3.048 .899L-.488-2.635-4.419 1.297-2.144 3.537 0 0" fill="#ffffff"/>
+</g>
+</g>
+</svg>
